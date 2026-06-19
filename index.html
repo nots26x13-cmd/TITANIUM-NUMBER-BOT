@@ -1,0 +1,2100 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="neon-dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title id="pageTitleText">Titanium Unified App</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    
+    <style>
+        /* Eye-Protected Default (Soft Light) */
+        :root[data-theme="soft-light"] {
+            --brand-navy: #0F172A; 
+            --brand-cyan: #0D9488; 
+            --bg-main: #F8FAFC; 
+            --bg-card: #FFFFFF;
+            --text-dark: #0F172A; 
+            --text-muted: #64748B;
+            --border-light: #E2E8F0; 
+            --glass-bg: rgba(255, 255, 255, 0.95);
+            --cyan-light: rgba(13, 148, 136, 0.1);
+            --bg-success: #ECFDF5; --text-success: #059669; --border-success: #A7F3D0;
+            --bg-danger: #FEF2F2; --text-danger: #DC2626; --border-danger: #FECACA;
+            --bg-warning: #FFFBEB; --text-warning: #D97706; --border-warning: #FDE68A;
+            --btn-grad-1: #0B3A64; --btn-grad-2: #11B6B9;
+            --shadow-glow: none;
+        }
+
+        /* Dark Theme */
+        :root[data-theme="dark"] {
+            --brand-navy: #60A5FA; 
+            --brand-cyan: #2DD4BF; 
+            --bg-main: #020617; 
+            --bg-card: #0F172A;
+            --text-dark: #F8FAFC; 
+            --text-muted: #94A3B8;
+            --border-light: #1E293B; 
+            --glass-bg: rgba(15, 23, 42, 0.95);
+            --cyan-light: rgba(45, 212, 191, 0.15);
+            --bg-success: rgba(16, 185, 129, 0.15); --text-success: #34D399; --border-success: rgba(52, 211, 153, 0.3);
+            --bg-danger: rgba(239, 68, 68, 0.15); --text-danger: #F87171; --border-danger: rgba(248, 113, 113, 0.3);
+            --bg-warning: rgba(245, 158, 11, 0.15); --text-warning: #FBBF24; --border-warning: rgba(251, 191, 36, 0.3);
+            --btn-grad-1: #1E3A8A; --btn-grad-2: #0D9488;
+            --shadow-glow: none;
+        }
+
+        /* Neon Purple Theme */
+        :root[data-theme="neon-purple"] {
+            --brand-navy: #D8B4FE; 
+            --brand-cyan: #F472B6; 
+            --bg-main: #090014; 
+            --bg-card: #1A0B2E;
+            --text-dark: #FDF4FF; 
+            --text-muted: #D8B4FE;
+            --border-light: #3B0764; 
+            --glass-bg: rgba(26, 11, 46, 0.95);
+            --cyan-light: rgba(244, 114, 182, 0.15);
+            --bg-success: rgba(45, 212, 191, 0.15); --text-success: #2DD4BF; --border-success: rgba(45, 212, 191, 0.3);
+            --bg-danger: rgba(251, 113, 133, 0.15); --text-danger: #FB7185; --border-danger: rgba(251, 113, 133, 0.3);
+            --bg-warning: rgba(251, 191, 36, 0.15); --text-warning: #FBBF24; --border-warning: rgba(251, 191, 36, 0.3);
+            --btn-grad-1: #4C1D95; --btn-grad-2: #D946EF;
+            --shadow-glow: none;
+        }
+
+        /* Gray Theme */
+        :root[data-theme="gray"] {
+            --brand-navy: #F4F4F5; 
+            --brand-cyan: #38BDF8; 
+            --bg-main: #18181B; 
+            --bg-card: #27272A;
+            --text-dark: #FAFAFA; 
+            --text-muted: #A1A1AA;
+            --border-light: #3F3F46; 
+            --glass-bg: rgba(39, 39, 42, 0.95);
+            --cyan-light: rgba(56, 189, 248, 0.15);
+            --bg-success: rgba(52, 211, 153, 0.15); --text-success: #34D399; --border-success: rgba(52, 211, 153, 0.3);
+            --bg-danger: rgba(248, 113, 113, 0.15); --text-danger: #F87171; --border-danger: rgba(248, 113, 113, 0.3);
+            --bg-warning: rgba(251, 191, 36, 0.15); --text-warning: #FBBF24; --border-warning: rgba(251, 191, 36, 0.3);
+            --btn-grad-1: #3F3F46; --btn-grad-2: #71717A;
+            --shadow-glow: none;
+        }
+
+        /* NEONE DARK (Requested Premium Neon Dark Theme) */
+        :root[data-theme="neon-dark"] {
+            --brand-navy: #00FFCC; /* Glowing Cyber Mint */
+            --brand-cyan: #FF007F; /* Glowing Hot Neon Pink */
+            --bg-main: #020205; /* Black Abyss */
+            --bg-card: #0A0A14; /* Deep Tech Slate */
+            --text-dark: #FFFFFF; 
+            --text-muted: #9EAFCE;
+            --border-light: #1A1A30; /* Tech Borders */
+            --glass-bg: rgba(10, 10, 20, 0.95);
+            --cyan-light: rgba(255, 0, 127, 0.15);
+            --bg-success: rgba(57, 255, 20, 0.12); --text-success: #39FF14; --border-success: rgba(57, 255, 20, 0.4);
+            --bg-danger: rgba(255, 7, 58, 0.12); --text-danger: #FF073A; --border-danger: rgba(255, 7, 58, 0.4);
+            --bg-warning: rgba(255, 223, 0, 0.12); --text-warning: #FFDF00; --border-warning: rgba(255, 223, 0, 0.4);
+            --btn-grad-1: #20003B; --btn-grad-2: #FF007F;
+            --shadow-glow: 0 0 15px rgba(255, 0, 127, 0.35);
+        }
+
+        body { font-family: 'Inter', sans-serif; background-color: var(--bg-main); color: var(--text-dark); -webkit-tap-highlight-color: transparent; transition: background-color 0.3s ease, color 0.3s ease; }
+        ::-webkit-scrollbar { width: 4px; height: 4px; } ::-webkit-scrollbar-track { background: transparent; } ::-webkit-scrollbar-thumb { background: var(--text-muted); border-radius: 4px; opacity: 0.5; }
+
+        .glass-header { background: var(--glass-bg); backdrop-filter: blur(8px); border-bottom: 1px solid var(--border-light); transition: all 0.3s ease; }
+        .nav-bar { background: var(--glass-bg); backdrop-filter: blur(10px); border-top: 1px solid var(--border-light); padding-bottom: env(safe-area-inset-bottom); transition: all 0.3s ease; }
+        .card { background: var(--bg-card); border: 1px solid var(--border-light); border-radius: 16px; box-shadow: 0 4px 20px rgba(0,0,0,0.03); transition: all 0.3s ease; word-wrap: break-word; overflow-wrap: break-word; }
+        
+        [data-theme="neon-dark"] .card {
+            box-shadow: 0 4px 25px rgba(0, 255, 204, 0.02);
+        }
+
+        .input-field, .adm-mini-input { background-color: var(--bg-main); border: 1px solid var(--border-light); color: var(--text-dark); border-radius: 12px; transition: all 0.2s ease; width: 100%; }
+        .adm-mini-input { padding: 12px; font-size: 12px; font-weight: 600; }
+        .input-field:focus, .adm-mini-input:focus { outline: none; border-color: var(--brand-cyan); box-shadow: 0 0 0 3px var(--cyan-light); background-color: var(--bg-card); }
+
+        .text-main { color: var(--text-dark); } .text-muted { color: var(--text-muted); } .bg-main { background-color: var(--bg-main); } .bg-card { background-color: var(--bg-card); } .border-main { border-color: var(--border-light); }
+        .badge-success { background: var(--bg-success); color: var(--text-success); border: 1px solid var(--border-success); }
+        .badge-danger { background: var(--bg-danger); color: var(--text-danger); border: 1px solid var(--border-danger); }
+        .badge-warning { background: var(--bg-warning); color: var(--text-warning); border: 1px solid var(--border-warning); }
+        .text-success { color: var(--text-success); } .text-danger { color: var(--text-danger); }
+
+        .btn-primary, .vpn-grad-card { background: linear-gradient(135deg, var(--btn-grad-1), var(--btn-grad-2)); color: white !important; font-weight: 700; border-radius: 12px; box-shadow: var(--shadow-glow); transition: all 0.15s ease; border: none; }
+        .btn-primary:active:not(:disabled) { transform: scale(0.98); box-shadow: none; }
+        .btn-primary:disabled { opacity: 0.7; cursor: not-allowed; transform: none; }
+        
+        .nav-item { color: var(--text-muted); transition: all 0.2s ease; } .nav-item.active { color: var(--brand-cyan); } .nav-item.active svg { stroke: var(--brand-cyan); fill: var(--cyan-light); }
+        .console-row { background: var(--bg-card); border: 1px solid var(--border-light); border-left: 3px solid var(--brand-cyan); border-radius: 10px; margin-bottom: 8px; padding: 10px 12px; word-wrap: break-word; }
+        .admin-tab { padding: 8px 16px; font-size: 11px; font-weight: 800; color: var(--text-muted); border-bottom: 2px solid transparent; white-space: nowrap; flex-shrink: 0; transition: all 0.2s; }
+        .admin-tab.active { color: var(--brand-cyan); border-bottom-color: var(--brand-cyan); }
+
+        .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.6); backdrop-filter: blur(4px); z-index: 6000; display: none; align-items: flex-end; justify-content: center; }
+        .sheet { background: var(--bg-card); width: 100%; max-width: 450px; border-radius: 24px 24px 0 0; padding: 24px; animation: slideUp 0.3s cubic-bezier(0.4, 0, 0.2, 1); max-height: 85vh; overflow-y: auto; color: var(--text-dark); word-wrap: break-word; }
+        @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
+
+        .pay-card { background: var(--bg-card); border: 1px solid var(--border-light); border-radius: 16px; padding: 14px 10px; display: flex; flex-direction: column; align-items: center; gap: 8px; font-size: 11px; font-weight: 800; text-transform: uppercase; transition: all .2s ease; word-wrap: break-word; text-align: center; }
+        .pay-card:active, .pay-card.active { border-color: var(--brand-cyan); background: var(--cyan-light); }
+        .pay-logo-wrap img { width: 46px; height: 46px; border-radius: 12px; object-fit: cover; }
+        
+        .switch { position: relative; display: inline-block; width: 34px; height: 20px; flex-shrink: 0; } .switch input { opacity: 0; width: 0; height: 0; }
+        .slider { position: absolute; cursor: pointer; inset: 0; background-color: var(--border-light); transition: .4s; border-radius: 34px; }
+        .slider:before { position: absolute; content: ""; height: 14px; width: 14px; left: 3px; bottom: 3px; background-color: white; transition: .4s; border-radius: 50%; }
+        input:checked + .slider { background-color: var(--text-success); } input:checked + .slider:before { transform: translateX(14px); }
+        .file-upload-wrapper { position: relative; overflow: hidden; display: inline-block; width: 100%; }
+        .file-upload-wrapper input[type=file] { font-size: 100px; position: absolute; left: 0; top: 0; opacity: 0; cursor: pointer; height: 100%; }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col antialiased">
+
+    <div id="appLoadingScreen" class="fixed inset-0 z-[99999] flex flex-col items-center justify-center bg-[var(--bg-main)] transition-opacity duration-500">
+        <div class="relative flex flex-col items-center">
+            <div class="absolute inset-0 bg-[var(--brand-cyan)] blur-[60px] opacity-20 rounded-full w-32 h-32 -z-10"></div>
+            <img id="loaderLogo" src="" alt="App Logo" class="w-24 h-24 rounded-2xl shadow-2xl mb-6 object-cover border-2 border-[var(--border-light)] bg-[var(--bg-card)] hidden">
+            <div id="loaderLogoFallback" class="w-24 h-24 rounded-2xl shadow-2xl mb-6 flex items-center justify-center text-4xl font-black text-white bg-gradient-to-br from-[var(--btn-grad-1)] to-[var(--btn-grad-2)]">T</div>
+            <h1 id="loaderAppName" class="text-3xl font-black text-[var(--brand-navy)] tracking-tight mb-2">Titanium</h1>
+            <div class="flex gap-1.5 mt-4">
+                <div class="w-2 h-2 rounded-full bg-[var(--brand-cyan)] animate-bounce" style="animation-delay: -0.3s"></div>
+                <div class="w-2 h-2 rounded-full bg-[var(--brand-cyan)] animate-bounce" style="animation-delay: -0.15s"></div>
+                <div class="w-2 h-2 rounded-full bg-[var(--brand-cyan)] animate-bounce"></div>
+            </div>
+        </div>
+    </div>
+
+    <div id="banScreen" class="fixed inset-0 bg-[var(--bg-main)] z-[9999] hidden flex-col items-center justify-center p-6 text-center">
+        <div class="w-20 h-20 rounded-full flex items-center justify-center mb-6 shadow-lg badge-danger border-none">
+            <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636"></path></svg>
+        </div>
+        <h1 class="text-3xl font-black text-danger mb-3 tracking-tight">YOU ARE BANNED</h1>
+        <p class="text-muted font-medium max-w-xs">Your access has been revoked.</p>
+    </div>
+
+    <div id="broadcastModal" class="fixed inset-0 bg-black/60 z-[90] hidden flex-col items-center justify-center p-4 backdrop-blur-sm">
+        <div class="bg-card border-main border rounded-2xl w-full max-w-sm overflow-hidden shadow-2xl">
+            <div class="vpn-grad-card p-4 flex items-center gap-2">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z"></path></svg>
+                <h3 class="font-black text-lg">Announcement</h3>
+            </div>
+            <div class="p-6 text-main whitespace-pre-wrap break-words font-medium leading-relaxed" id="broadcastMessageText"></div>
+            <div class="p-4 bg-main border-t border-main">
+                <button onclick="closeBroadcast()" class="w-full btn-primary py-3.5">Got it!</button>
+            </div>
+        </div>
+    </div>
+
+    <header class="glass-header fixed top-0 w-full z-40 px-4 py-3 flex justify-between items-center shadow-sm">
+        <div class="flex items-center gap-2">
+            <img id="headerLogo" src="" alt="App Logo" class="w-8 h-8 rounded-lg object-cover shadow-sm hidden">
+            <div id="headerLogoFallback" class="w-8 h-8 rounded-lg vpn-grad-card flex items-center justify-center font-black text-lg shadow-md border-none">T</div>
+            <h1 id="headerAppName" class="text-lg font-black tracking-tight" style="color: var(--brand-navy);">Titanium</h1>
+        </div>
+        <div class="flex items-center gap-3">
+            <button onclick="toggleTheme()" class="w-8 h-8 rounded-full bg-main border-main border text-muted flex items-center justify-center hover:opacity-80 transition shadow-sm" title="Switch Theme">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
+            </button>
+            <div class="flex flex-col items-end">
+                <span class="text-[9px] text-muted font-bold uppercase tracking-widest">Balance</span>
+                <span id="headerBalance" class="text-sm font-black text-success">৳0.00</span>
+            </div>
+            <img id="headerPfp" src="" class="w-9 h-9 rounded-full border-2 border-main shadow-sm object-cover bg-main">
+        </div>
+    </header>
+
+    <main id="mainContainer" class="pt-20 pb-24 px-4 max-w-2xl mx-auto w-full flex-grow relative">
+        
+        <!-- DASHBOARD VIEW -->
+        <div id="dashboardView" class="view-section space-y-4">
+            <div onclick="switchView('vpnStore')" class="vpn-grad-card card p-0 overflow-hidden cursor-pointer group hover:shadow-lg transition-all relative border-none mb-2">
+                <div class="absolute inset-0 bg-white/5 group-hover:bg-white/10 transition-colors"></div>
+                <div class="p-4 flex justify-between items-center relative z-10">
+                    <div class="flex items-center gap-4 min-w-0">
+                        <div class="bg-white/20 p-2.5 rounded-xl text-white text-2xl shadow-inner flex-shrink-0"><i class="fa-solid fa-shield-halved"></i></div>
+                        <div class="flex flex-col min-w-0 text-white">
+                            <span class="font-black text-lg tracking-wide drop-shadow-md truncate text-white">Buy Titanium VPN</span>
+                            <span class="text-white/80 text-[10px] font-bold uppercase tracking-widest truncate">Premium High-Speed Servers</span>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-2 flex-shrink-0">
+                        <span class="animate-pulse bg-red-500 text-white text-[9px] font-black px-2.5 py-1 rounded uppercase tracking-widest shadow-[0_0_12px_rgba(239,68,68,0.6)]">New</span>
+                        <svg class="w-5 h-5 text-white/80 group-hover:translate-x-1.5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-3 gap-2 mb-2">
+                <div class="card p-3 text-center border-t-2" style="border-top-color: var(--brand-cyan);">
+                    <p class="text-[9px] text-muted font-bold uppercase tracking-wider truncate">Today OTP</p>
+                    <p class="text-xl font-black mt-1 text-main truncate" style="color: var(--brand-navy)" id="dashTodayOtp">0</p>
+                </div>
+                <div class="card p-3 text-center border-t-2" style="border-top-color: var(--text-success);">
+                    <p class="text-[9px] text-muted font-bold uppercase tracking-wider truncate">Today Earn</p>
+                    <p class="text-xl font-black mt-1 text-success truncate" id="dashTodayEarn">৳0.00</p>
+                </div>
+                <div class="card p-3 text-center border-t-2" style="border-top-color: var(--text-muted);">
+                    <p class="text-[9px] text-muted font-bold uppercase tracking-wider truncate">Yest. Earn</p>
+                    <p class="text-xl font-black mt-1 text-main truncate" id="dashYestEarn">৳0.00</p>
+                </div>
+            </div>
+
+            <div class="card overflow-hidden bg-main border-main">
+                <div class="px-5 py-4">
+                    <div class="flex items-center gap-3 mb-2">
+                        <div class="bg-main border border-main p-2 rounded-lg flex-shrink-0 shadow-sm">
+                            <svg class="w-5 h-5" style="color: var(--brand-cyan)" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+                        </div>
+                        <h3 class="font-black text-main text-lg truncate" style="color: var(--brand-navy)">Refer Friends</h3>
+                    </div>
+                    <p class="text-xs font-bold text-muted mb-4 break-words">You receive commission for each OTP your friend successfully receives!</p>
+                    <div class="flex gap-2">
+                        <input type="text" id="referralLinkInput" readonly class="w-full bg-card border-main border rounded-lg px-3 py-2 text-xs font-mono text-main focus:outline-none shadow-inner truncate">
+                        <button onclick="copyReferralLink()" class="btn-primary px-4 rounded-lg text-xs font-bold shadow flex-shrink-0">Copy</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-2 gap-3">
+                <div class="card p-4 text-center border-t-4" style="border-top-color: var(--brand-navy);">
+                    <p class="text-[10px] text-muted font-bold uppercase tracking-wider truncate">Total Referrals</p>
+                    <p class="text-3xl font-black mt-1 text-main truncate" style="color: var(--brand-navy)" id="dashReferralCount">0</p>
+                </div>
+                <div class="card p-4 text-center border-t-4" style="border-top-color: var(--text-success);">
+                    <p class="text-[10px] text-muted font-bold uppercase tracking-wider truncate">Ref Earnings</p>
+                    <p class="text-2xl font-black mt-2 text-success truncate" id="dashReferralEarnings">৳0.00</p>
+                </div>
+            </div>
+
+            <div id="dashLinksCard" class="card overflow-hidden mt-4 hidden">
+                <div class="bg-main border-b border-main px-4 py-3 flex justify-between items-center">
+                    <h3 class="font-bold text-main text-sm flex items-center gap-2 truncate" style="color: var(--brand-navy)">
+                        <svg class="w-4 h-4" style="color: var(--brand-cyan)" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"></path></svg>
+                        Important Links
+                    </h3>
+                </div>
+                <div class="p-4 grid grid-cols-2 gap-3" id="dashLinksContainer"></div>
+            </div>
+        </div>
+
+        <!-- GET NUMBER VIEW -->
+        <div id="getnumberView" class="view-section hidden space-y-4">
+            <div class="card p-5 border-t-4" style="border-top-color: var(--brand-cyan);">
+                <label class="block text-[10px] font-black text-muted uppercase tracking-widest mb-2 break-words"><i class="fa-solid fa-magnifying-glass mr-1"></i> Find Best Range</label>
+                <div class="flex gap-2">
+                    <input type="text" id="serviceNameInput" placeholder="e.g. Instagram, WhatsApp" class="w-full p-3 input-field font-bold text-sm">
+                    <button onclick="suggestBestRange()" class="bg-[var(--cyan-light)] text-[var(--brand-cyan)] border border-[var(--brand-cyan)] px-4 rounded-xl font-black uppercase tracking-wider text-[10px] shadow-sm flex-shrink-0 hover:opacity-80 transition-opacity">Find</button>
+                </div>
+            </div>
+
+            <div class="card p-5 mt-4">
+                <label class="block text-[10px] font-black text-muted uppercase tracking-widest mb-2 break-words">Target Range</label>
+                <div class="flex flex-col gap-3">
+                    <div class="relative">
+                        <span class="absolute inset-y-0 left-0 flex items-center pl-4 text-muted font-bold">#</span>
+                        <input type="text" id="rangeInput" placeholder="e.g. 2290195" class="w-full pl-8 pr-4 py-3.5 input-field font-mono text-lg font-bold transition-all">
+                    </div>
+                    <button id="btnGetNum" onclick="requestNumber()" class="btn-primary w-full py-4 flex justify-center items-center shadow-md">
+                        <span id="btnGetNumText" class="flex items-center gap-2 text-sm uppercase tracking-wider font-black truncate">Allocate Number</span>
+                        <svg id="btnGetNumLoader" class="hidden animate-spin ml-2 h-5 w-5 text-white flex-shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
+                    </button>
+                </div>
+            </div>
+
+            <div onclick="switchView('fetchOtp')" class="card p-4 mt-4 border border-[var(--brand-cyan)] bg-[var(--cyan-light)] cursor-pointer hover:opacity-80 transition-opacity flex justify-between items-center shadow-sm">
+                <div class="flex items-center gap-3">
+                    <div class="bg-[var(--brand-cyan)] p-2.5 rounded-lg text-white shadow-sm flex items-center justify-center"><i class="fa-solid fa-radar text-lg"></i></div>
+                    <div>
+                        <h3 class="font-black text-main text-sm" style="color: var(--brand-navy)">Fetch All OTP</h3>
+                        <p class="text-[9px] font-bold text-muted uppercase mt-0.5 tracking-wider">Find lost codes for any number</p>
+                    </div>
+                </div>
+                <div class="bg-card border border-[var(--brand-cyan)] text-[var(--brand-cyan)] rounded-full w-8 h-8 flex items-center justify-center shadow-sm"><i class="fa-solid fa-chevron-right text-xs"></i></div>
+            </div>
+
+            <div class="flex justify-between items-center px-1 mt-4">
+                <h3 class="font-bold text-main text-sm truncate" style="color: var(--brand-navy)">Number Activity</h3>
+                <div class="flex gap-2">
+                    <button onclick="clearNumberHistory()" class="text-[9px] font-black tracking-widest bg-danger/10 border border-danger/20 text-danger px-3 py-1.5 rounded-lg shadow-sm hover:opacity-80 transition-colors uppercase">
+                        Clear All
+                    </button>
+                    <button onclick="animateRefresh(this); renderActiveNumbers()" class="text-[9px] font-black tracking-widest bg-card border border-main text-main px-3 py-1.5 rounded-lg shadow-sm hover:opacity-80 flex items-center gap-1.5 transition-colors uppercase">
+                        <svg class="w-3 h-3 refresh-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
+                        Refresh
+                    </button>
+                </div>
+            </div>
+
+            <div class="card overflow-hidden mt-2">
+                <div class="flex border-b border-main overflow-x-auto scrollbar-hide">
+                    <button class="number-tab active flex-1 py-3 text-xs font-bold uppercase tracking-wider border-b-2 transition-colors border-[var(--brand-navy)] text-[var(--brand-navy)] whitespace-nowrap px-3" id="tab-num-all" onclick="filterNumberList('ALL')">ALL</button>
+                    <button class="number-tab flex-1 py-3 text-xs font-bold uppercase tracking-wider border-b-2 transition-colors border-transparent text-muted whitespace-nowrap px-3" id="tab-num-success" onclick="filterNumberList('SUCCESS')">SUCCESS</button>
+                    <button class="number-tab flex-1 py-3 text-xs font-bold uppercase tracking-wider border-b-2 transition-colors border-transparent text-muted whitespace-nowrap px-3" id="tab-num-pending" onclick="filterNumberList('PENDING')">PENDING</button>
+                    <button class="number-tab flex-1 py-3 text-xs font-bold uppercase tracking-wider border-b-2 transition-colors border-transparent text-muted whitespace-nowrap px-3" id="tab-num-failed" onclick="filterNumberList('FAILED')">FAILED</button>
+                </div>
+                <div id="activeNumbersList" class="divide-y divide-main max-h-[55vh] overflow-y-auto pb-4">
+                    <div class="p-8 text-center text-sm text-muted font-semibold break-words">No history available.</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- FETCH OTP VIEW -->
+        <div id="fetchOtpView" class="view-section hidden space-y-4">
+            <div class="flex items-center gap-3 mb-2 px-1">
+                <button onclick="switchView('getnumber')" class="bg-main border border-main text-main p-2 rounded-xl hover:opacity-80 transition-colors shadow-sm flex-shrink-0">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M15 19l-7-7 7-7"></path></svg>
+                </button>
+                <h2 class="text-xl font-black text-main truncate" style="color: var(--brand-navy)">Fetch All OTP</h2>
+            </div>
+            
+            <div class="card p-5 border-t-4" style="border-top-color: var(--brand-cyan);">
+                <p class="text-xs font-bold text-muted mb-4 leading-relaxed break-words">Enter a full phone number to fetch all recent OTPs received for it across our servers. System will scan live data for 30 seconds.</p>
+                <div class="flex flex-col gap-3">
+                    <input type="text" id="manualOtpNumber" placeholder="Enter Full Number (e.g. 88017...)" class="w-full p-3.5 input-field font-mono text-sm font-bold">
+                    <button id="btnFetchManualOtp" onclick="fetchManualOtp()" class="btn-primary w-full py-3.5 flex justify-center items-center shadow-md text-sm uppercase tracking-wider font-bold">
+                        Fetch OTP
+                    </button>
+                    <div id="manualOtpResult" class="empty:hidden flex flex-col gap-2 mt-2"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- CONSOLE VIEW -->
+        <div id="consoleView" class="view-section hidden space-y-3">
+            <div class="flex gap-2 w-full mb-2">
+                <div class="relative flex-grow min-w-0">
+                    <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-muted">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                    </span>
+                    <input type="text" id="consoleSearch" placeholder="Search range or message..." oninput="debounceFilterConsole()" class="w-full pl-10 pr-4 py-3 text-sm input-field font-medium shadow-sm">
+                </div>
+                <button onclick="animateRefresh(this); loadConsoleData()" class="bg-card border border-main text-main px-4 py-3 rounded-xl shadow-sm hover:opacity-80 flex-shrink-0 flex items-center justify-center transition-colors">
+                    <svg class="w-5 h-5 refresh-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
+                </button>
+            </div>
+
+            <div id="consoleList" class="space-y-2 max-h-[70vh] overflow-y-auto pb-32 pr-1">
+                <div class="text-center text-sm text-muted py-10 card font-medium break-words">Fetching live data...</div>
+            </div>
+        </div>
+
+        <!-- WITHDRAW VIEW -->
+        <div id="withdrawView" class="view-section hidden space-y-4">
+            <h2 class="text-xl font-black text-main mb-2 px-1 truncate" style="color: var(--brand-navy)">Withdraw Wallet</h2>
+            
+            <div id="withdrawDisabledAlert" class="hidden badge-danger px-4 py-3 rounded-xl text-sm font-bold flex items-center gap-2">
+                <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
+                <span class="break-words">Withdrawals disabled.</span>
+            </div>
+
+            <div class="card p-5" id="withdrawFormBox">
+                <div class="space-y-4">
+                    <div>
+                        <label class="block text-[10px] font-bold text-muted uppercase tracking-wider mb-1 break-words">Select Method</label>
+                        <select id="withdrawMethodSelect" class="w-full input-field p-3.5 text-sm font-bold">
+                            <option value="">Select a method...</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-[10px] font-bold text-muted uppercase tracking-wider mb-1 break-words">Payment Number</label>
+                        <input type="text" id="withdrawNumberInput" placeholder="e.g. 017XXXXXXXX" class="w-full input-field p-3.5 text-sm font-bold">
+                    </div>
+                    <div>
+                        <div class="flex justify-between items-end mb-1">
+                            <label class="block text-[10px] font-bold text-muted uppercase tracking-wider truncate">Amount (৳) <span id="minWithdrawLabel" class="text-[var(--brand-cyan)] ml-1"></span></label>
+                            <button onclick="useMaxWithdraw()" class="text-[9px] bg-main text-main border-main border px-2 py-1 rounded font-bold uppercase tracking-wider flex-shrink-0 shadow-sm hover:opacity-80">Use Max</button>
+                        </div>
+                        <input type="number" id="withdrawAmountInput" placeholder="0.00" class="w-full input-field p-3.5 text-lg font-black font-mono">
+                    </div>
+                    <button onclick="submitWithdraw()" id="btnWithdrawSubmit" class="w-full btn-primary py-3.5 shadow-md mt-2 truncate">Submit Request</button>
+                </div>
+            </div>
+
+            <div class="card overflow-hidden mt-4">
+                <div class="bg-main border-b border-main px-4 py-3">
+                    <h3 class="font-bold text-main text-sm truncate" style="color: var(--brand-navy)">Withdrawal History</h3>
+                </div>
+                <div id="userWithdrawList" class="divide-y divide-main max-h-[300px] overflow-y-auto">
+                    <p class="text-center text-sm text-muted py-6 font-medium break-words">No previous requests.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- PROFILE VIEW -->
+        <div id="profileView" class="view-section hidden space-y-4">
+            <h2 class="text-xl font-black text-main mb-2 px-1 truncate" style="color: var(--brand-navy)">Profile</h2>
+            <div class="card p-6 text-center flex flex-col items-center">
+                <div class="relative">
+                    <img id="profPfp2" src="" class="w-20 h-20 rounded-full border-4 border-[var(--border-light)] shadow-md mb-3 object-cover bg-main">
+                    <div class="absolute bottom-4 right-0 w-4 h-4 bg-[var(--text-success)] border-2 border-main rounded-full"></div>
+                </div>
+                <h2 id="profName2" class="text-xl font-black text-main break-words w-full px-2" style="color: var(--brand-navy)">Name</h2>
+                <p class="text-muted text-sm font-medium mt-1 truncate max-w-full px-2">@<span id="profUsername2">username</span></p>
+                <div class="mt-2 bg-main text-main px-3 py-1 rounded-md text-xs font-mono font-semibold border border-main truncate max-w-full shadow-sm">UID: <span id="profUid2">...</span></div>
+                
+                <div class="w-full grid grid-cols-2 gap-3 mt-6">
+                    <div class="bg-main border border-main rounded-xl p-3 text-left overflow-hidden">
+                        <p class="text-[10px] text-muted font-bold uppercase tracking-wider truncate">Status</p>
+                        <p class="text-sm font-black mt-1 text-main truncate" id="profStatus">Active</p>
+                    </div>
+                    <div class="bg-main border border-main rounded-xl p-3 text-left overflow-hidden">
+                        <p class="text-[10px] text-muted font-bold uppercase tracking-wider truncate">Rate per OTP</p>
+                        <p class="text-sm font-black mt-1 text-[var(--brand-cyan)] truncate">৳<span id="profRate">0.15</span></p>
+                    </div>
+                </div>
+
+                <button id="adminMenuBtn" onclick="switchView('admin')" class="hidden mt-6 w-full border border-[var(--brand-navy)] text-[var(--brand-navy)] bg-main py-3 rounded-xl font-black flex justify-center items-center gap-2 hover:bg-[var(--brand-navy)] hover:text-white transition truncate px-2 shadow-sm">
+                    <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                    Manage Admin Panel
+                </button>
+            </div>
+        </div>
+
+        <!-- VPN STORE VIEW -->
+        <div id="vpnStoreView" class="view-section hidden space-y-4">
+            <div class="flex items-center gap-3 mb-2 px-1">
+                <button onclick="switchView('dashboard')" class="bg-main border border-main text-main p-2 rounded-xl hover:opacity-80 transition-colors shadow-sm flex-shrink-0">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M15 19l-7-7 7-7"></path></svg>
+                </button>
+                <h2 class="text-xl font-black text-main truncate" style="color: var(--brand-navy)">VPN Store</h2>
+            </div>
+            <div id="vpn-list" class="space-y-3"></div>
+        </div>
+
+        <!-- VPN ORDERS VIEW -->
+        <div id="vpnOrdersView" class="view-section hidden space-y-4">
+            <h2 class="text-xl font-black text-main mb-2 px-1 truncate" style="color: var(--brand-navy)">VPN Orders</h2>
+            <div id="user-orders" class="space-y-3"></div>
+        </div>
+
+        <!-- ADMIN PANEL VIEW -->
+        <div id="adminView" class="view-section hidden space-y-4">
+            <h2 class="font-black text-xl text-main px-1 truncate" style="color: var(--brand-navy)">Admin Panel</h2>
+            
+            <div class="flex overflow-x-auto pb-2 border-b border-main scrollbar-hide mb-2 snap-x snap-mandatory">
+                <button class="admin-tab active snap-start" id="tab-stats" onclick="switchAdminTab('stats')">Dashboard</button>
+                <button class="admin-tab snap-start" id="tab-api" onclick="switchAdminTab('api')">API & Set</button>
+                <button class="admin-tab snap-start" id="tab-withdrawals" onclick="switchAdminTab('withdrawals')">Withdraw</button>
+                <button class="admin-tab snap-start" id="tab-users" onclick="switchAdminTab('users')">Users</button>
+                <button class="admin-tab snap-start" id="tab-broadcast" onclick="switchAdminTab('broadcast')">Broadcast</button>
+                <button class="admin-tab snap-start" id="tab-links" onclick="switchAdminTab('links')">Links</button>
+                <button class="admin-tab snap-start text-[var(--brand-cyan)]" id="tab-vpnOrders" onclick="switchAdminTab('vpnOrders')">VPN Orders</button>
+                <button class="admin-tab snap-start text-[var(--brand-cyan)]" id="tab-vpnStock" onclick="switchAdminTab('vpnStock')">VPN Stock</button>
+                <button class="admin-tab snap-start text-[var(--brand-cyan)]" id="tab-vpnBrands" onclick="switchAdminTab('vpnBrands')">VPN Brands</button>
+            </div>
+
+            <!-- Admin Tab: Stats -->
+            <div id="adminTabStats" class="admin-content-section space-y-4">
+                <div class="grid grid-cols-2 gap-3">
+                    <div class="card p-4 text-center border-t-4" style="border-top-color: var(--brand-navy);">
+                        <p class="text-[10px] font-bold text-muted uppercase tracking-wider truncate">STEX (Today)</p>
+                        <p class="text-3xl font-black text-main mt-1 truncate" style="color: var(--brand-navy)" id="adminStexToday">0</p>
+                    </div>
+                    <div class="card p-4 text-center border-t-4" style="border-top-color: var(--brand-cyan);">
+                        <p class="text-[10px] font-bold text-muted uppercase tracking-wider truncate">VOLTX (Today)</p>
+                        <p class="text-3xl font-black text-main mt-1 truncate" style="color: var(--brand-navy)" id="adminVoltxToday">0</p>
+                    </div>
+                    <div class="card p-4 text-center border-t-4 col-span-2" style="border-top-color: var(--text-success);">
+                        <p class="text-[10px] font-bold text-muted uppercase tracking-wider truncate">Sys OTP (Total)</p>
+                        <p class="text-3xl font-black text-main mt-1 truncate" style="color: var(--brand-navy)" id="adminSysTotal">0</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Admin Tab: API & Branding -->
+            <div id="adminTabApi" class="admin-content-section hidden space-y-4">
+                <div class="card p-5 space-y-4 border-t-4 mt-2" style="border-top-color: var(--text-warning);">
+                    <h3 class="font-black text-sm text-main uppercase tracking-widest border-b border-main pb-2 truncate" style="color: var(--brand-navy)">App Branding</h3>
+                    <div>
+                        <label class="text-[10px] font-bold text-muted uppercase tracking-wider break-words">App Name</label>
+                        <input type="text" id="adminAppName" placeholder="e.g. Titanium" class="w-full input-field p-3 text-sm mt-1 font-bold">
+                    </div>
+                    <div>
+                        <label class="text-[10px] font-bold text-muted uppercase tracking-wider break-words">App Logo (Icon)</label>
+                        <div class="flex items-center gap-2 mt-1">
+                            <div class="file-upload-wrapper bg-main border border-main rounded-xl p-2.5 flex-1 cursor-pointer hover:opacity-80 transition relative">
+                                <span class="text-xs text-muted font-bold block text-center truncate" id="adminAppLogoFileLabel"><i class="fa-solid fa-image mr-1"></i> Upload Image</span>
+                                <input type="file" id="adminAppLogoFile" accept="image/*" onchange="handleLogoSelection('adminAppLogoFile', 'adminAppLogoFileLabel')">
+                            </div>
+                            <span class="text-xs font-bold text-muted">OR</span>
+                            <input type="text" id="adminAppLogoUrl" placeholder="Image URL" class="adm-mini-input flex-1">
+                        </div>
+                        <button onclick="removeAppLogo()" class="text-[10px] text-danger font-bold mt-2 hover:underline">Remove Custom Logo</button>
+                    </div>
+                </div>
+
+                <div class="card p-5 space-y-4 border-t-4" style="border-top-color: var(--brand-navy);">
+                    <h3 class="font-black text-sm text-main uppercase tracking-widest border-b border-main pb-2 truncate" style="color: var(--brand-navy)">API Settings</h3>
+                    <div class="flex gap-4 flex-wrap">
+                        <label class="flex items-center gap-2 text-sm font-bold text-main min-w-0">
+                            <input type="checkbox" id="adminEnableStex" class="w-4 h-4 text-[var(--brand-navy)] flex-shrink-0"> <span class="truncate">Enable STEX</span>
+                        </label>
+                        <label class="flex items-center gap-2 text-sm font-bold text-main min-w-0">
+                            <input type="checkbox" id="adminEnableVoltx" class="w-4 h-4 text-[var(--brand-cyan)] flex-shrink-0"> <span class="truncate">Enable VOLTX</span>
+                        </label>
+                    </div>
+                    <div>
+                        <label class="text-[10px] font-bold text-muted uppercase tracking-wider break-words">STEX API Key</label>
+                        <input type="password" id="adminStexKey" class="w-full input-field p-3 font-mono text-sm mt-1">
+                    </div>
+                    <div>
+                        <label class="text-[10px] font-bold text-muted uppercase tracking-wider break-words">VOLTX API Key</label>
+                        <input type="password" id="adminVoltxKey" class="w-full input-field p-3 font-mono text-sm mt-1">
+                    </div>
+                    <div>
+                        <label class="text-[10px] font-bold text-muted uppercase tracking-wider break-words">Telegram Bot Username (Without @)</label>
+                        <input type="text" id="adminBotUsername" placeholder="e.g. TitaniumNumberBot" class="w-full input-field p-3 font-mono text-sm mt-1 font-bold">
+                    </div>
+                    <div>
+                        <label class="text-[10px] font-bold text-muted uppercase tracking-wider break-words">Telegram Bot Token (For DMs)</label>
+                        <input type="password" id="adminBotToken" placeholder="e.g. 123456:ABC-DEF..." class="w-full input-field p-3 font-mono text-sm mt-1">
+                    </div>
+                    <div>
+                        <label class="text-[10px] font-bold text-muted uppercase tracking-wider break-words">Welcome Message (New users)</label>
+                        <textarea id="adminWelcomeMsg" placeholder="Welcome to Titanium OTP!..." class="w-full input-field p-3 text-sm mt-1 h-20"></textarea>
+                    </div>
+                    <div class="grid grid-cols-2 gap-3">
+                        <div>
+                            <label class="text-[10px] font-bold text-muted uppercase tracking-wider break-words">Ref Commission (৳)</label>
+                            <input type="number" step="0.01" id="adminRefComm" placeholder="0.05" class="w-full input-field p-3 font-mono text-sm mt-1">
+                        </div>
+                        <div>
+                            <label class="text-[10px] font-bold text-muted uppercase tracking-wider break-words">Min Withdraw (৳)</label>
+                            <input type="number" id="adminMinWithdraw" placeholder="10" class="w-full input-field p-3 font-mono text-sm mt-1">
+                        </div>
+                    </div>
+                    <button id="btnSaveApiSet" onclick="saveAdminApi()" class="w-full btn-primary py-3.5 shadow-md truncate">Save Settings & Branding</button>
+                </div>
+            </div>
+
+            <!-- Admin Tab: Withdrawals -->
+            <div id="adminTabWithdrawals" class="admin-content-section hidden space-y-4">
+                <div class="card p-5 border-l-4" style="border-left-color: var(--brand-cyan);">
+                    <div class="flex justify-between items-center mb-3 gap-2">
+                        <span class="text-sm font-bold text-main truncate" style="color: var(--brand-navy)">Global Withdraw Status</span>
+                        <label class="relative inline-flex items-center cursor-pointer flex-shrink-0">
+                            <input type="checkbox" id="adminWithdrawToggle" onchange="toggleGlobalWithdraw()" class="sr-only peer">
+                            <div class="w-11 h-6 bg-main peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-main after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-[var(--text-success)]"></div>
+                        </label>
+                    </div>
+                    <div class="border-t border-main pt-3 mt-3">
+                        <label class="text-[10px] font-bold text-muted uppercase tracking-wider break-words">Add Method</label>
+                        <div class="flex gap-2 mt-1">
+                            <input type="text" id="adminNewMethodInput" placeholder="e.g. bKash" class="w-full input-field p-2 text-sm font-bold min-w-0">
+                            <button onclick="addWithdrawMethod()" class="btn-primary px-4 rounded-lg text-sm font-bold shadow flex-shrink-0">+</button>
+                        </div>
+                    </div>
+                    <div class="mt-3">
+                        <label class="text-[10px] font-bold text-muted uppercase tracking-wider break-words">Active Methods</label>
+                        <div id="adminMethodList" class="flex flex-wrap gap-2 mt-1"></div>
+                    </div>
+                </div>
+                <div class="card overflow-hidden">
+                    <div class="bg-main border-b border-main px-4 py-3">
+                        <h3 class="font-bold text-sm text-main uppercase tracking-widest truncate" style="color: var(--brand-navy)">Pending Requests</h3>
+                    </div>
+                    <div id="adminPendingWithdrawList" class="divide-y divide-main max-h-[300px] overflow-y-auto">
+                        <div class="p-4 text-center text-sm text-muted font-medium break-words">No pending requests.</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Admin Tab: Users -->
+            <div id="adminTabUsers" class="admin-content-section hidden space-y-4">
+                <div class="card p-4 text-center border-t-4" style="border-top-color: var(--brand-navy);">
+                    <p class="text-[10px] font-bold text-muted uppercase tracking-wider truncate">Total Users</p>
+                    <p class="text-3xl font-black text-main mt-1 truncate" style="color: var(--brand-navy)" id="adminTotalUsersCount">0</p>
+                </div>
+                <div class="card p-0 overflow-hidden">
+                    <div class="bg-main border-b border-main p-4 flex justify-between items-center gap-2">
+                        <input type="text" id="adminUserSearch" placeholder="Search by name or UID..." onkeyup="filterAdminUsers()" class="w-full input-field p-2 text-xs min-w-0">
+                        <button onclick="animateRefresh(this); loadAdminUsers()" class="text-xs font-bold bg-card border border-main text-main px-3 py-2 rounded-lg shadow-sm hover:opacity-80 flex-shrink-0 flex items-center gap-1.5 transition-colors">
+                            <svg class="w-3.5 h-3.5 refresh-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
+                            Refresh
+                        </button>
+                    </div>
+                    <div id="adminUserList" class="divide-y divide-main max-h-[450px] overflow-y-auto p-2 pb-24"></div>
+                </div>
+            </div>
+
+            <!-- Admin Tab: Broadcast & Links -->
+            <div id="adminTabBroadcast" class="admin-content-section hidden space-y-4">
+                <div class="card p-5 space-y-3 border-t-4" style="border-top-color: var(--brand-navy);">
+                    <label class="text-[10px] font-bold text-muted uppercase tracking-wider break-words">Send Global Announcement</label>
+                    <textarea id="adminBroadcastMessage" placeholder="Type your announcement here... Users will see this next time they open the app." class="w-full input-field p-3 text-sm h-32 font-medium leading-relaxed"></textarea>
+                    <label class="flex items-start gap-2 mt-2 mb-2 cursor-pointer">
+                        <input type="checkbox" id="adminSendTgDm" class="w-4 h-4 bg-main border-main rounded focus:ring-[var(--brand-navy)] mt-0.5 flex-shrink-0">
+                        <span class="text-xs font-bold text-main break-words">Also send direct message in Telegram Bot</span>
+                    </label>
+                    <button id="broadcastBtnElement" onclick="sendBroadcast()" class="w-full btn-primary py-3 shadow-md flex items-center justify-center gap-2 truncate">
+                        <svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path></svg>
+                        Send Broadcast
+                    </button>
+                </div>
+            </div>
+            <div id="adminTabLinks" class="admin-content-section hidden space-y-4">
+                <div class="card p-5 border-l-4" style="border-left-color: var(--brand-cyan);">
+                    <label class="text-[10px] font-bold text-muted uppercase tracking-wider break-words">Add New Link</label>
+                    <div class="space-y-3 mt-2">
+                        <input type="text" id="adminLinkName" placeholder="Card Title (e.g., Telegram Group)" class="w-full input-field p-3 text-sm font-bold">
+                        <input type="url" id="adminLinkUrl" placeholder="URL (e.g., https://t.me/...)" class="w-full input-field p-3 text-sm">
+                        <button onclick="addCustomLink()" class="w-full btn-primary py-3 rounded-lg text-sm font-bold shadow-md truncate">Add Link</button>
+                    </div>
+                </div>
+                <div class="card overflow-hidden">
+                    <div class="bg-main border-b border-main px-4 py-3">
+                        <h3 class="font-bold text-main text-sm uppercase tracking-widest truncate" style="color: var(--brand-navy)">Manage Links</h3>
+                    </div>
+                    <div id="adminLinksList" class="divide-y divide-main max-h-[300px] overflow-y-auto p-2">
+                        <div class="p-4 text-center text-sm text-muted font-medium break-words">No links added yet.</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Admin Tab: VPN Management -->
+            <div id="adminTabVpnOrders" class="admin-content-section hidden space-y-4">
+                <div class="card overflow-hidden border-l-4" style="border-left-color: var(--brand-cyan);">
+                    <div class="bg-main border-b border-main px-4 py-3">
+                        <h3 class="font-bold text-main text-sm uppercase tracking-widest truncate" style="color: var(--brand-cyan)">Pending VPN Orders</h3>
+                    </div>
+                    <div id="adm-vpn-pending" class="p-4 space-y-4 max-h-[400px] overflow-y-auto bg-main"></div>
+                </div>
+            </div>
+            <div id="adminTabVpnStock" class="admin-content-section hidden space-y-4">
+                <div class="card p-5 space-y-3 border-t-4" style="border-top-color: var(--brand-cyan);">
+                    <b class="text-xs text-main truncate block" style="color: var(--brand-cyan)">Add to VPN Stock</b>
+                    <input type="text" id="stock-email" placeholder="Email / ID" class="adm-mini-input">
+                    <input type="text" id="stock-pass" placeholder="Password" class="adm-mini-input">
+                    <select id="stock-vpn-id" class="adm-mini-input"></select>
+                    <button onclick="addStock()" class="btn-primary w-full py-3 text-xs truncate">Save Stock</button>
+                </div>
+                <div id="stock-inventory-list" class="space-y-3"></div>
+            </div>
+            <div id="adminTabVpnBrands" class="admin-content-section hidden space-y-4">
+                <!-- Payment Methods -->
+                <div class="card p-5 space-y-3 border-t-4" style="border-top-color: var(--brand-cyan);">
+                    <b class="text-[10px] uppercase text-main truncate block" style="color: var(--brand-cyan)">VPN Payment Methods</b>
+                    <div class="flex gap-2 min-w-0"><input type="text" id="pay-name" placeholder="Name (e.g. bKash)" class="w-1/2 adm-mini-input min-w-0"><input type="text" id="pay-num-in" placeholder="Number" class="w-1/2 adm-mini-input min-w-0"></div>
+                    <div class="flex items-center gap-2 mt-2">
+                        <div class="file-upload-wrapper bg-main border border-main rounded-xl p-2.5 flex-1 cursor-pointer hover:opacity-80 transition relative">
+                            <span class="text-xs text-muted font-bold block text-center truncate" id="payLogoFileLabel"><i class="fa-solid fa-image mr-1"></i> Upload Logo</span>
+                            <input type="file" id="pay-logo-file" accept="image/*" onchange="handleLogoSelection('pay-logo-file', 'payLogoFileLabel')">
+                        </div>
+                        <span class="text-xs font-bold text-muted">OR</span>
+                        <input type="text" id="pay-logo-in" placeholder="Image URL" class="adm-mini-input flex-1">
+                    </div>
+                    <button id="btnAddPayMethod" onclick="addPay()" class="btn-primary w-full py-2.5 text-xs truncate mt-2">Add Method</button>
+                    <div id="pay-list" class="space-y-2 mt-3"></div>
+                </div>
+
+                <!-- Create VPN Brands -->
+                <div class="card p-5 space-y-3 border-t-4" style="border-top-color: var(--brand-cyan);">
+                    <b class="text-[10px] uppercase text-main truncate block" style="color: var(--brand-cyan)">Create VPN Brand</b>
+                    <div class="flex gap-2 min-w-0"><input type="text" id="v-name" placeholder="VPN Brand Name" class="adm-mini-input w-full"></div>
+                    <div class="flex items-center gap-2 mt-2">
+                        <div class="file-upload-wrapper bg-main border border-main rounded-xl p-2.5 flex-1 cursor-pointer hover:opacity-80 transition relative">
+                            <span class="text-xs text-muted font-bold block text-center truncate" id="vpnLogoFileLabel"><i class="fa-solid fa-image mr-1"></i> Upload Logo</span>
+                            <input type="file" id="vpn-logo-file" accept="image/*" onchange="handleLogoSelection('vpn-logo-file', 'vpnLogoFileLabel')">
+                        </div>
+                        <span class="text-xs font-bold text-muted">OR</span>
+                        <input type="text" id="vpn-logo-in" placeholder="Image URL" class="adm-mini-input flex-1">
+                    </div>
+                    <button id="btnCreateVpn" onclick="addVpn()" class="btn-primary w-full py-3 text-xs truncate mt-2">Create VPN</button>
+                </div>
+                <div id="adm-vpn-list" class="space-y-4 pb-12"></div>
+            </div>
+        </div>
+
+    </main>
+
+    <nav id="bottomNav" class="nav-bar fixed bottom-0 w-full max-w-2xl flex justify-around items-center pt-1.5 pb-safe-bottom z-[1000] shadow-[0_-4px_20px_rgba(0,0,0,0.03)] mx-auto left-0 right-0">
+        <button onclick="switchView('dashboard')" id="nav-dashboard" class="nav-item active flex flex-col items-center p-1 w-full">
+            <svg class="w-5 h-5 mb-0.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 001 1m-6 0h6"></path></svg>
+            <span class="text-[9px] font-bold tracking-wide">Home</span>
+        </button>
+        <button onclick="switchView('getnumber')" id="nav-getnumber" class="nav-item flex flex-col items-center p-1 w-full">
+            <svg class="w-5 h-5 mb-0.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"></path></svg>
+            <span class="text-[9px] font-bold tracking-wide">Number</span>
+        </button>
+        <button onclick="switchView('console')" id="nav-console" class="nav-item flex flex-col items-center p-1 w-full">
+            <svg class="w-5 h-5 mb-0.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 9l3 3-3 3m5 0h3M5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+            <span class="text-[9px] font-bold tracking-wide">Console</span>
+        </button>
+        <button onclick="switchView('vpnOrders')" id="nav-vpnOrders" class="nav-item flex flex-col items-center p-1 w-full relative">
+            <svg class="w-5 h-5 mb-0.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path></svg>
+            <span class="text-[9px] font-bold tracking-wide">Orders</span>
+            <div id="p-count-badge" class="hidden absolute top-0 right-3 bg-red-500 text-white text-[8px] font-black px-1.5 py-0.5 rounded-full animate-bounce shadow-md">0</div>
+        </button>
+        <button onclick="switchView('withdraw')" id="nav-withdraw" class="nav-item flex flex-col items-center p-1 w-full">
+            <svg class="w-5 h-5 mb-0.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"></path></svg>
+            <span class="text-[9px] font-bold tracking-wide">Wallet</span>
+        </button>
+        <button onclick="switchView('profile')" id="nav-profile" class="nav-item flex flex-col items-center p-1 w-full">
+            <svg class="w-5 h-5 mb-0.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
+            <span class="text-[9px] font-bold tracking-wide">Profile</span>
+        </button>
+    </nav>
+
+    <!-- VPN Modals -->
+    <div id="plan-modal" class="modal"><div class="sheet" id="plan-content"></div></div>
+    <div id="stock-select-modal" class="modal"><div class="sheet" id="stock-select-content"></div></div>
+    <div id="pay-modal" class="modal">
+        <div class="sheet text-center relative">
+            <button onclick="document.getElementById('pay-modal').style.display='none'" class="absolute top-4 right-4 w-8 h-8 bg-main rounded-full font-bold text-muted hover:opacity-80 flex-shrink-0 border border-main">&times;</button>
+            <h3 class="font-black text-xl mb-6 text-main break-words" style="color: var(--brand-navy)">Payment Details</h3>
+            <div id="user-pay-options" class="grid grid-cols-2 gap-3 mb-6"></div>
+            <div id="pay-details" class="hidden">
+                <div id="active-method-wrap" class="mb-4"></div>
+                <div class="p-5 rounded-2xl mb-4 border cursor-pointer hover:opacity-80 transition" style="background: var(--cyan-light); border-color: var(--cyan-light);" onclick="copySpecificText(document.getElementById('active-num').innerText)">
+                    <p class="text-[10px] font-bold text-muted uppercase tracking-widest mb-1 break-words">Send money to</p>
+                    <b id="active-num" class="text-xl text-main font-mono tracking-wider break-all" style="color: var(--brand-navy)"></b>
+                    <p class="text-[10px] font-bold mt-2 break-words" style="color: var(--brand-cyan)">Tap to copy</p>
+                </div>
+                <b id="target-price" class="text-lg block mb-5 text-main break-words" style="color: var(--brand-navy)"></b>
+                <div id="trx-input-area">
+                    <input type="text" id="trx-id" placeholder="Transaction ID (TrxID)" class="w-full p-3.5 border border-main rounded-xl text-center uppercase mb-5 outline-none font-mono font-bold text-sm bg-main text-main">
+                </div>
+                <button onclick="orderNow()" class="btn-primary w-full py-3.5 shadow-md truncate">Confirm Order</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast container -->
+    <div id="toastContainer" class="fixed top-24 left-1/2 transform -translate-x-1/2 z-[8500] flex flex-col gap-2 w-[90%] max-w-sm pointer-events-none"></div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, doc, setDoc, getDoc, collection, query, where, getDocs, updateDoc, onSnapshot, increment, addDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+        import { getDatabase, ref, onValue, push, remove, update, set, get } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-database.js";
+
+        // Combined config block using your new Titanium configuration credentials
+        const firebaseConfig = {
+            apiKey: "AIzaSyDQa7HfccrZMvAcyP8FwGrDEvD33qIOOXk",
+            authDomain: "titanium-number-bot.firebaseapp.com",
+            databaseURL: "https://titanium-number-bot-default-rtdb.firebaseio.com",
+            projectId: "titanium-number-bot",
+            storageBucket: "titanium-number-bot.firebasestorage.app",
+            messagingSenderId: "118170341817",
+            appId: "1:118170341817:web:5a7b90d62f1217c377a668",
+            measurementId: "G-4XW5Z4EXVM"
+        };
+
+        const appInstance = initializeApp(firebaseConfig);
+        const auth = getAuth(appInstance);
+        const db = getFirestore(appInstance);
+        const rtdb = getDatabase(appInstance);
+
+        const ADMIN_ID = "8505710811";
+        let tgUser = { id: 'unknown', first_name: 'Guest', username: '' };
+        let currentUserData = null;
+        let globalSettings = { appName: "Titanium", appLogo: "", stexKey: "MO7ZYIXM1OT", voltxKey: "M2MSHTI5RJW", withdrawEnabled: true, methods: ["bKash", "Nagad"], botToken: "", botUsername: "TitaniumNumberBot", customLinks: [], refComm: 0.05, minWithdraw: 10, enableStex: true, enableVoltx: true, welcomeMsg: "Welcome to Titanium OTP!" };
+        
+        let rangeStats = {}; 
+        let activeRequests = []; 
+        let currentNumberFilter = 'ALL';
+        let consoleUpdateInterval = null;
+        let countdownTickerInterval = null;
+        let adminUsersCache = [];
+        
+        let lastVpnPendingCount = 0;
+        let userVpnOrderStates = {};
+        let curV = '', curPl = '', curPr = 0, curVid = '', curMethod = '', isWalletPay = false;
+
+        const COUNTRY_FLAGS = {
+            "afghanistan": "🇦🇫", "albania": "🇦🇱", "algeria": "🇩🇿", "andorra": "🇦🇩", "angola": "🇦🇴",
+            "antigua and barbuda": "🇦🇬", "argentina": "🇦🇷", "armenia": "🇦🇲", "australia": "🇦🇺",
+            "austria": "🇦🇹", "azerbaijan": "🇦🇿", "bahamas": "🇧🇸", "bahrain": "🇧🇭",
+            "bangladesh": "🇧🇩", "barbados": "🇧🇧", "belarus": "🇧🇾", "belgium": "🇧🇪", "belize": "🇧🇿",
+            "benin": "🇧🇯", "bhutan": "🇧🇹", "bolivia": "🇧🇴", "bosnia and herzegovina": "🇧🇦",
+            "botswana": "🇧🇼", "brazil": "🇧🇷", "brunei": "🇧🇳", "bulgaria": "🇧🇬",
+            "burkina faso": "🇧🇫", "burundi": "🇧🇮", "cambodia": "🇰🇭", "cameroon": "🇨🇲",
+            "canada": "🇨🇦", "cape verde": "🇨🇻", "central african republic": "🇨🇫", "chad": "🇹🇩",
+            "chile": "🇨🇱", "china": "🇨🇳", "colombia": "🇨🇴", "comoros": "🇰🇲", "congo": "🇨🇬",
+            "costa rica": "🇨🇷", "cote d'ivoire": "🇨🇮", "ivory coast": "🇨🇮",
+            "croatia": "🇭🇷", "cuba": "🇨🇺", "cyprus": "🇨🇾", "czech republic": "🇨🇿",
+            "denmark": "🇩🇰", "djibouti": "🇩🇯", "dominica": "🇩🇲", "dominican republic": "🇩🇴",
+            "drc": "🇨🇩", "ecuador": "🇪🇨", "egypt": "🇪🇬", "el salvador": "🇸🇻",
+            "equatorial guinea": "🇬🇶", "eritrea": "🇪🇷", "estonia": "🇪🇪", "eswatini": "🇸🇿",
+            "ethiopia": "🇪🇹", "fiji": "🇫🇯", "finland": "🇫🇮", "france": "🇫🇷",
+            "gabon": "🇬🇦", "gambia": "🇬🇲", "georgia": "🇬🇪", "germany": "🇩🇪", "ghana": "🇬🇭",
+            "greece": "🇬🇷", "grenada": "🇬🇩", "guatemala": "🇬🇹", "guinea": "🇬🇳",
+            "guinea bissau": "🇬🇼", "guyana": "🇬🇾", "haiti": "🇭🇹", "honduras": "🇭🇳",
+            "hong kong": "🇭🇰", "hungary": "🇭🇺", "iceland": "🇮🇸", "india": "🇮🇳",
+            "indonesia": "🇮🇩", "iran": "🇮🇷", "iraq": "🇮🇶", "ireland": "🇮🇪", "israel": "🇮🇱",
+            "italy": "🇮🇹", "jamaica": "🇯🇲", "japan": "🇯🇵", "jordan": "🇯🇴", "kazakhstan": "🇰🇿",
+            "kenya": "🇰🇪", "kiribati": "🇰🇮", "kosovo": "🇽🇰", "kuwait": "🇰🇼", "kyrgyzstan": "🇰🇬",
+            "laos": "🇱🇦", "latvia": "🇱🇻", "lebanon": "🇱🇧", "lesotho": "🇱🇸", "liberia": "🇱🇷",
+            "libya": "🇱🇾", "liechtenstein": "🇱🇮", "lithuania": "🇱🇹", "luxembourg": "🇱🇺",
+            "macau": "🇲🇴", "madagascar": "🇲🇬", "malawi": "🇲🇼", "malaysia": "🇲🇾", "maldives": "🇲🇻",
+            "mali": "🇲🇱", "malta": "🇲🇹", "marshall islands": "🇲🇭", "mauritania": "🇲🇷",
+            "mauritius": "🇲🇺", "mexico": "🇲🇽", "micronesia": "🇫🇲", "moldova": "🇲🇩",
+            "monaco": "🇲🇨", "mongolia": "🇲🇳", "montenegro": "🇲🇪", "morocco": "🇲🇦",
+            "mozambique": "🇲🇿", "myanmar": "🇲🇲", "namibia": "🇳🇦", "nauru": "🇳🇷", "nepal": "🇳🇵",
+            "netherlands": "🇳🇱", "new zealand": "🇳🇿", "nicaragua": "🇳🇮", "niger": "🇳🇪",
+            "nigeria": "🇳🇬", "north korea": "🇰🇵", "north macedonia": "🇲🇰", "norway": "🇳🇴",
+            "oman": "🇴🇲", "pakistan": "🇵🇰", "palau": "🇵🇼", "palestine": "🇵🇸", "panama": "🇵🇦",
+            "papua new guinea": "🇵🇬", "paraguay": "🇵🇾", "peru": "🇵🇪", "philippines": "🇵🇭",
+            "poland": "🇵🇱", "portugal": "🇵🇹", "qatar": "🇶🇦", "romania": "🇷🇴", "russia": "🇷🇺",
+            "rwanda": "🇷🇼", "saint kitts and nevis": "🇰🇳", "saint lucia": "🇱🇨",
+            "saint vincent and the grenadines": "🇻🇨", "samoa": "🇼🇸", "san marino": "🇸🇲",
+            "sao tome and principe": "🇸🇹", "saudi arabia": "🇸🇦", "senegal": "🇸🇳", "serbia": "🇷🇸",
+            "seychelles": "🇸🇨", "sierra leone": "🇸🇱", "singapore": "🇸🇬", "slovakia": "🇸🇰",
+            "slovenia": "🇸🇮", "solomon islands": "🇸🇧", "somalia": "🇸🇴", "south africa": "🇿🇦",
+            "south korea": "🇰🇷", "south sudan": "🇸🇸", "spain": "🇪🇸", "sri lanka": "🇱🇰",
+            "sudan": "🇸🇩", "suriname": "🇸🇷", "sweden": "🇸🇪", "switzerland": "🇨🇭", "syria": "🇸🇾",
+            "taiwan": "🇹🇼", "tajikistan": "🇹🇯", "tanzania": "🇹🇿", "thailand": "🇹🇭",
+            "timor leste": "🇹🇱", "togo": "🇹🇬", "tonga": "🇹🇴", "trinidad and tobago": "🇹🇹",
+            "tunisia": "🇹🇳", "turkey": "🇹🇷", "turkmenistan": "🇹🇲", "tuvalu": "🇹🇻",
+            "uganda": "🇺🇬", "ukraine": "🇺🇦", "uae": "🇦🇪", "united arab emirates": "🇦🇪",
+            "united kingdom": "🇬🇧", "uk": "🇬🇧", "usa": "🇺🇸", "united states": "🇺🇸",
+            "uruguay": "🇺🇾", "uzbekistan": "🇺🇿", "vanuatu": "🇻🇺", "vatican city": "🇻🇦",
+            "venezuela": "🇻🇪", "vietnam": "🇻🇳", "yemen": "🇾🇪", "zambia": "🇿🇲", "zimbabwe": "🇿🇼",
+            "anguilla": "🇦🇮", "aruba": "🇦🇼", "bermuda": "🇧🇲", "british virgin islands": "🇻🇬",
+            "cayman islands": "🇰🇾", "curacao": "🇨🇼", "falkland islands": "🇫🇰",
+            "french guiana": "🇬🇫", "greenland": "🇬🇱", "guadeloupe": "🇬🇵",
+            "guam": "🇬🇺", "martinique": "🇲🇶", "mayotte": "🇾🇹", "montserrat": "🇲🇸",
+            "new caledonia": "🇳🇨", "niue": "🇳🇺", "norfolk island": "🇳🇫",
+            "northern mariana islands": "🇲🇵", "pitcairn islands": "🇵🇳", "puerto rico": "🇵🇷",
+            "reunion": "🇷🇪", "saint helena": "🇸🇭", "tokelau": "🇹🇰",
+            "turks and caicos islands": "🇹🇨", "us virgin islands": "🇻🇮",
+            "wallis and futuna": "🇼🇫", "western sahara": "🇪🇭", "cook islands": "🇨🇰",
+            "french polynesia": "🇵🇫", "gibraltar": "🇬🇮", "faroe islands": "🇫🇴",
+            "svalbard and jan mayen": "🇸🇯", "aland islands": "🇦🇽", "jersey": "🇯🇪",
+            "guernsey": "🇬🇬", "isle of man": "🇮🇲", "saint pierre and miquelon": "🇵🇲",
+            "sint maarten": "🇸🇽", "bonaire": "🇧🇶"
+        };
+
+        const COUNTRY_ISO = {
+            "afghanistan": "AF", "albania": "AL", "algeria": "DZ", "andorra": "AD", "angola": "AO",
+            "antigua and barbuda": "AG", "argentina": "AR", "armenia": "AM", "australia": "AU",
+            "austria": "AT", "azerbaijan": "AZ", "bahamas": "BS", "bahrain": "BH", "bangladesh": "BD",
+            "barbados": "BB", "belarus": "BY", "belgium": "BE", "belize": "BZ", "benin": "BJ",
+            "bhutan": "BT", "bolivia": "BO", "bosnia and herzegovina": "BA", "botswana": "BW",
+            "brazil": "BR", "brunei": "BN", "bulgaria": "BG", "burkina faso": "BF", "burundi": "BI",
+            "cambodia": "KH", "cameroon": "CM", "canada": "CA", "cape verde": "CV",
+            "central african republic": "CF", "chad": "TD", "chile": "CL", "china": "CN",
+            "colombia": "CO", "comoros": "KM", "congo": "CG", "costa rica": "CR", "cote d'ivoire": "CI",
+            "ivory coast": "CI", "croatia": "HR", "cuba": "CU", "cyprus": "CY", "czech republic": "CZ",
+            "denmark": "DK", "djibouti": "DJ", "dominica": "DM", "dominican republic": "DO",
+            "drc": "CD", "ecuador": "EC", "egypt": "EG", "el salvador": "SV", "equatorial guinea": "GQ",
+            "eritrea": "ER", "estonia": "EE", "eswatini": "SZ", "ethiopia": "ET", "fiji": "FJ",
+            "finland": "FI", "france": "FR", "gabon": "GA", "gambia": "GM", "georgia": "GE",
+            "germany": "DE", "ghana": "GH", "greece": "GR", "grenada": "GD", "guatemala": "GT",
+            "guinea": "GN", "guinea bissau": "GW", "guyana": "GY", "haiti": "HT", "honduras": "HN",
+            "hong kong": "HK", "hungary": "HU", "iceland": "IS", "india": "IN", "indonesia": "ID",
+            "iran": "IR", "iraq": "IQ", "ireland": "IE", "israel": "IL", "italy": "IT",
+            "jamaica": "JM", "japan": "JP", "jordan": "JO", "kazakhstan": "KZ", "kenya": "KE",
+            "kiribati": "KI", "kosovo": "XK", "kuwait": "KW", "kyrgyzstan": "KG", "laos": "LA",
+            "latvia": "LV", "lebanon": "LB", "lesotho": "LS", "liberia": "LR", "libya": "LY",
+            "liechtenstein": "LI", "lithuania": "LT", "luxembourg": "LU", "macau": "MO",
+            "madagascar": "MG", "malawi": "MW", "malaysia": "MY", "maldives": "MV", "mali": "ML",
+            "malta": "MT", "marshall islands": "MH", "mauritania": "MR", "mauritius": "MU",
+            "mexico": "MX", "micronesia": "FM", "moldova": "MD", "monaco": "MC", "mongolia": "MN",
+            "montenegro": "ME", "morocco": "MA", "mozambique": "MZ", "myanmar": "MM", "namibia": "NA",
+            "nauru": "NR", "nepal": "NP", "netherlands": "NL", "new zealand": "NZ", "nicaragua": "NI",
+            "niger": "NE", "nigeria": "NG", "north korea": "KP", "north macedonia": "MK", "norway": "NO",
+            "oman": "OM", "pakistan": "PK", "palau": "PW", "palestine": "PS", "panama": "PA",
+            "papua new guinea": "PG", "paraguay": "PY", "peru": "PE", "philippines": "PH", "poland": "PL",
+            "portugal": "PT", "qatar": "QA", "romania": "RO", "russia": "RU", "rwanda": "RW",
+            "saint kitts and nevis": "KN", "saint lucia": "LC", "saint vincent and the grenadines": "VC",
+            "samoa": "WS", "san marino": "SM", "sao tome and principe": "ST", "saudi arabia": "SA",
+            "senegal": "SN", "serbia": "RS", "seychelles": "SC", "sierra leone": "SL", "singapore": "SG",
+            "slovakia": "SK", "slovenia": "SI", "solomon islands": "SB", "somalia": "SO",
+            "south africa": "ZA", "south korea": "KR", "south sudan": "SS", "spain": "ES",
+            "sri lanka": "LK", "sudan": "SD", "suriname": "SR", "sweden": "SE", "switzerland": "CH",
+            "syria": "SY", "taiwan": "TW", "tajikistan": "TJ", "tanzania": "TZ", "thailand": "TH",
+            "timor leste": "TL", "togo": "TG", "tonga": "TO", "trinidad and tobago": "TT",
+            "tunisia": "TN", "turkey": "TR", "turkmenistan": "TM", "tuvalu": "TV", "uganda": "UG",
+            "ukraine": "UA", "uae": "AE", "united arab emirates": "AE", "united kingdom": "GB", "uk": "GB",
+            "usa": "US", "united states": "US", "uruguay": "UY", "uzbekistan": "UZ", "vanuatu": "VU",
+            "vatican city": "VA", "venezuela": "VE", "vietnam": "VN", "yemen": "YE", "zambia": "ZM", "zimbabwe": "ZW",
+            "anguilla": "AI", "aruba": "AW", "bermuda": "BM", "cayman islands": "KY", "curacao": "CW",
+            "greenland": "GL", "guam": "GU", "puerto rico": "PR", "reunion": "RE", "western sahara": "EH"
+        };
+
+        const PHONE_TO_COUNTRY = {
+            "1": "United States", "7": "Russia", "20": "Egypt", "27": "South Africa",
+            "30": "Greece", "31": "Netherlands", "32": "Belgium", "33": "France",
+            "34": "Spain", "36": "Hungary", "39": "Italy", "40": "Romania",
+            "41": "Switzerland", "43": "Austria", "44": "United Kingdom", "45": "Denmark",
+            "46": "Sweden", "47": "Norway", "48": "Poland", "49": "Germany",
+            "51": "Peru", "52": "Mexico", "53": "Cuba", "54": "Argentina",
+            "55": "Brazil", "56": "Chile", "57": "Colombia", "58": "Venezuela",
+            "60": "Malaysia", "61": "Australia", "62": "Indonesia", "63": "Philippines",
+            "64": "New Zealand", "65": "Singapore", "66": "Thailand", "81": "Japan",
+            "82": "South Korea", "84": "Vietnam", "86": "China", "90": "Turkey",
+            "91": "India", "92": "Pakistan", "93": "Afghanistan", "94": "Sri Lanka",
+            "95": "Myanmar", "98": "Iran", "211": "South Sudan", "212": "Morocco",
+            "213": "Algeria", "216": "Tunisia", "218": "Libya", "220": "Gambia",
+            "221": "Senegal", "222": "Mauritania", "223": "Mali", "224": "Guinea",
+            "225": "Cote d'Ivoire", "226": "Burkina Faso", "227": "Niger", "228": "Togo",
+            "229": "Benin", "230": "Mauritius", "231": "Liberia", "232": "Sierra Leone",
+            "233": "Ghana", "234": "Nigeria", "235": "Chad", "236": "Central African Republic",
+            "237": "Cameroon", "238": "Cape Verde", "239": "Sao Tome and Principe", "240": "Equatorial Guinea",
+            "241": "Gabon", "242": "Congo", "243": "DRC", "244": "Angola", "245": "Guinea Bissau",
+            "249": "Sudan", "250": "Rwanda", "251": "Ethiopia", "252": "Somalia", "253": "Djibouti",
+            "254": "Kenya", "255": "Tanzania", "256": "Uganda", "257": "Burundi",
+            "258": "Mozambique", "260": "Zambia", "261": "Madagascar", "262": "Reunion",
+            "263": "Zimbabwe", "264": "Namibia", "265": "Malawi", "266": "Lesotho",
+            "267": "Botswana", "268": "Eswatini", "269": "Comoros", "291": "Eritrea",
+            "350": "Gibraltar", "351": "Portugal", "352": "Luxembourg", "353": "Ireland",
+            "354": "Iceland", "355": "Albania", "356": "Malta", "357": "Cyprus",
+            "358": "Finland", "359": "Bulgaria", "370": "Lithuania", "371": "Latvia",
+            "372": "Estonia", "373": "Moldova", "374": "Armenia", "375": "Belarus",
+            "376": "Andorra", "377": "Monaco", "378": "San Marino", "379": "Vatican City",
+            "380": "Ukraine", "381": "Serbia", "382": "Montenegro", "383": "Kosovo",
+            "385": "Croatia", "386": "Slovenia", "387": "Bosnia and Herzegovina",
+            "389": "North Macedonia", "420": "Czech Republic", "421": "Slovakia",
+            "423": "Liechtenstein", "501": "Belize", "502": "Guatemala", "503": "El Salvador",
+            "504": "Honduras", "505": "Nicaragua", "506": "Costa Rica", "507": "Panama",
+            "509": "Haiti", "591": "Bolivia", "592": "Guyana", "593": "Ecuador",
+            "595": "Paraguay", "597": "Suriname", "598": "Uruguay", "670": "Timor Leste",
+            "673": "Brunei", "674": "Nauru", "675": "Papua New Guinea",
+            "676": "Tonga", "677": "Solomon Islands", "678": "Vanuatu", "679": "Fiji",
+            "680": "Palau", "685": "Samoa", "686": "Kiribati", "687": "New Caledonia",
+            "688": "Tuvalu", "689": "French Polynesia", "691": "Micronesia",
+            "692": "Marshall Islands", "850": "North Korea", "852": "Hong Kong",
+            "853": "Macau", "855": "Cambodia", "856": "Laos", "880": "Bangladesh",
+            "886": "Taiwan", "960": "Maldives", "961": "Lebanon", "962": "Jordan",
+            "963": "Syria", "964": "Iraq", "965": "Kuwait", "966": "Saudi Arabia",
+            "967": "Yemen", "968": "Oman", "970": "Palestine", "971": "UAE",
+            "972": "Israel", "973": "Bahrain", "974": "Qatar", "975": "Bhutan",
+            "976": "Mongolia", "977": "Nepal", "992": "Tajikistan", "993": "Turkmenistan",
+            "994": "Azerbaijan", "995": "Georgia", "996": "Kyrgyzstan", "998": "Uzbekistan"
+        };
+
+        const SERVICE_SHORTS = {
+            "whatsapp": "WA", "facebook": "FB", "instagram": "IG", "telegram": "TG",
+            "twitter": "TW", "google": "GO", "gmail": "GM", "youtube": "YT",
+            "apple": "AP", "microsoft": "MS", "tiktok": "TT", "snapchat": "SC",
+            "binance": "BN", "melbet": "MB", "bkash": "BK", "nagad": "NG",
+            "imo": "IMO", "paypal": "PP", "uber": "UB", "amazon": "AMZ",
+            "netflix": "NF", "discord": "DC", "spotify": "SP", "linkedin": "LI",
+            "yahoo": "YH", "viber": "VB", "line": "LN", "wechat": "WC", "signal": "SG"
+        };
+
+        window.switchView = switchView; window.switchAdminTab = switchAdminTab; window.copySpecificText = copySpecificText;
+        window.requestNumber = requestNumber; window.saveAdminApi = saveAdminApi; window.loadAdminUsers = loadAdminUsers; window.filterAdminUsers = filterAdminUsers;
+        window.updateUserProp = updateUserProp; window.deleteUser = deleteUser; window.useRange = useRange; window.closeBroadcast = closeBroadcast; window.sendBroadcast = sendBroadcast;
+        window.useMaxWithdraw = useMaxWithdraw; window.submitWithdraw = submitWithdraw; window.addWithdrawMethod = addWithdrawMethod; window.removeWithdrawMethod = removeWithdrawMethod;
+        window.toggleGlobalWithdraw = toggleGlobalWithdraw; window.updateWithdrawStatus = updateWithdrawStatus; window.addCustomLink = addCustomLink; window.removeCustomLink = removeCustomLink;
+        window.copyReferralLink = copyReferralLink; window.filterNumberList = filterNumberList; window.toggleTheme = toggleTheme; window.animateRefresh = animateRefresh; window.removeAppLogo = removeAppLogo;
+        
+        window.openPlans = openPlans; window.goPay = goPay; window.setPay = setPay; window.orderNow = orderNow;
+        window.showStockList = showStockList; window.approveSelected = approveSelected; window.rejectOrder = rejectOrder; window.toggleV = toggleV;
+        window.addPay = addPay; window.delPay = delPay; window.addVpn = addVpn; window.delV = delV; window.saveV = saveV; window.addStock = addStock; window.delStockItem = delStockItem;
+        window.renderActiveNumbers = renderActiveNumbers; window.loadConsoleData = loadConsoleData; window.suggestBestRange = suggestBestRange; window.clearNumberHistory = clearNumberHistory;
+        window.fetchManualOtp = fetchManualOtp; window.debounceFilterConsole = debounceFilterConsole;
+        window.handleLogoSelection = handleLogoSelection;
+        
+        window.approveWithdrawRequest = approveWithdrawRequest; window.rejectWithdrawRequest = rejectWithdrawRequest;
+
+        // Theme Switch Module
+        const themes = ['soft-light', 'dark', 'neon-purple', 'gray', 'neon-dark'];
+        let currentThemeIdx = 4; // Default to cyber NEONE DARK
+        function toggleTheme() {
+            currentThemeIdx = (currentThemeIdx + 1) % themes.length;
+            document.documentElement.setAttribute('data-theme', themes[currentThemeIdx]);
+            localStorage.setItem('numax-theme', themes[currentThemeIdx]);
+            showToast(`Theme switched to: ${themes[currentThemeIdx].toUpperCase()}`, "success");
+        }
+        function loadTheme() {
+            const saved = localStorage.getItem('numax-theme');
+            if (saved && themes.includes(saved)) {
+                currentThemeIdx = themes.indexOf(saved);
+                document.documentElement.setAttribute('data-theme', saved);
+            } else {
+                document.documentElement.setAttribute('data-theme', 'neon-dark');
+            }
+        }
+        loadTheme();
+
+        function showToast(message, type = 'info') {
+            const container = document.getElementById('toastContainer');
+            if (!container) return;
+            const toast = document.createElement('div');
+            let bgClass = "bg-[var(--bg-card)] text-[var(--text-dark)] border-[var(--border-light)]";
+            if (type === 'success') bgClass = "badge-success";
+            if (type === 'error') bgClass = "badge-danger";
+            if (type === 'warning') bgClass = "badge-warning";
+            toast.className = `toast-enter border px-4 py-3 rounded-xl shadow-lg text-sm flex items-center gap-2 ${bgClass}`;
+            toast.innerHTML = `<span class="truncate">${message}</span>`;
+            container.appendChild(toast);
+            setTimeout(() => { toast.style.opacity = '0'; toast.style.transition = 'all 0.3s ease'; setTimeout(() => toast.remove(), 300); }, 3000);
+        }
+
+        /* CLIENT-SIDE STORAGE: Convert local files to Base64 String to bypass Firebase Storage entirely! */
+        function readAsBase64(fileInputId) {
+            return new Promise((resolve) => {
+                const input = document.getElementById(fileInputId);
+                if (!input || !input.files || input.files.length === 0) {
+                    resolve(null);
+                    return;
+                }
+                const file = input.files[0];
+                const reader = new FileReader();
+                reader.onload = () => resolve(reader.result);
+                reader.onerror = () => resolve(null);
+                reader.readAsDataURL(file);
+            });
+        }
+
+        function handleLogoSelection(inputId, labelId) {
+            const el = document.getElementById(inputId);
+            const lbl = document.getElementById(labelId);
+            if(el && el.files && el.files.length > 0) {
+                lbl.innerHTML = `<i class='fa-solid fa-check text-success mr-1'></i> Selected`;
+            }
+        }
+
+        function getCountryInfo(numStr) {
+            const digits = (numStr||"").replace(/\D/g, ''); let mc = null;
+            for(let len=4; len>=1; len--) { 
+                if(digits.length>=len) { 
+                    const p = digits.substring(0,len); 
+                    if(PHONE_TO_COUNTRY[p]) { mc = PHONE_TO_COUNTRY[p]; break; } 
+                } 
+            }
+            if(!mc) return { name: "Unknown", flag: "🏳️" };
+            return { name: mc, flag: COUNTRY_FLAGS[mc.toLowerCase()] || "🏳️" };
+        }
+
+        function esc(v) { return String(v ?? '').replace(/[&<>"]/g, m => ({'&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;'}[m])); }
+        function jsStr(v) { return String(v ?? '').replace(/\\/g, '\\\\').replace(/'/g, "\\'").replace(/\n/g, ' '); }
+
+        function saveRequestsToStorage() {
+            if(!tgUser || !tgUser.id) return;
+            const key = `titanium_reqs_${tgUser.id}`;
+            const toSave = activeRequests.slice(0, 150).map(r => {
+                const {intervalId, ...rest} = r; 
+                return rest;
+            });
+            localStorage.setItem(key, JSON.stringify(toSave));
+        }
+
+        function loadStoredRequests() {
+            if(!tgUser || !tgUser.id) return;
+            const key = `titanium_reqs_${tgUser.id}`;
+            try {
+                const stored = localStorage.getItem(key);
+                if(stored) {
+                    activeRequests = JSON.parse(stored);
+                    activeRequests.forEach(req => { 
+                        if(!req.otps) req.otps = [];
+                        if(!req.processedIds) req.processedIds = [];
+                        if(req.code && req.otps.length === 0) {
+                            req.otps.push({code: req.code, message: req.message || 'Legacy OTP', time: req.startTime});
+                        }
+                        
+                        // Keep polling active requests within valid 20-min window
+                        if (Date.now() - req.startTime < 20 * 60 * 1000) {
+                            startPolling(req); 
+                        } else if (req.status === 'PENDING') {
+                            req.status = 'FAILED';
+                        }
+                    });
+                }
+            } catch(e) {}
+        }
+
+        function clearNumberHistory() {
+            activeRequests = [];
+            saveRequestsToStorage();
+            renderActiveNumbers();
+            showToast("History cleared successfully", "success");
+        }
+
+        async function sendTelegramMessage(chatId, text, inlineKeyboard = null) {
+            if (!globalSettings.botToken) return;
+            const payload = {
+                chat_id: chatId,
+                text: text,
+                parse_mode: 'HTML'
+            };
+            if (inlineKeyboard) {
+                payload.reply_markup = JSON.stringify({ inline_keyboard: inlineKeyboard });
+            }
+            try {
+                await fetch(`https://api.telegram.org/bot${globalSettings.botToken}/sendMessage`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+            } catch (e) {
+                console.error("Telegram message sending error: ", e);
+            }
+        }
+
+        // Deep linking processor for Instant Bot Inbox Actions
+        async function checkTelegramDeepLinking() {
+            const startParam = window.Telegram?.WebApp?.initDataUnsafe?.start_param || null;
+            if (startParam && String(tgUser.id) === ADMIN_ID) {
+                if (startParam.startsWith('approve_w_')) {
+                    const withdrawId = startParam.replace('approve_w_', '');
+                    await processDirectAdminAction(withdrawId, 'APPROVED');
+                } else if (startParam.startsWith('reject_w_')) {
+                    const withdrawId = startParam.replace('reject_w_', '');
+                    await processDirectAdminAction(withdrawId, 'REJECTED');
+                }
+            }
+        }
+
+        async function processDirectAdminAction(withdrawId, targetStatus) {
+            showToast(`Processing action...`, 'info');
+            try {
+                const docRef = doc(db, 'withdrawals', withdrawId);
+                const snap = await getDoc(docRef);
+                if (!snap.exists()) {
+                    showToast("Withdrawal not found", "error");
+                    return;
+                }
+                const data = snap.data();
+                if (data.status !== 'PENDING') {
+                    showToast(`Already processed as: ${data.status}`, "warning");
+                    return;
+                }
+                if (targetStatus === 'APPROVED') {
+                    await approveWithdrawRequest(withdrawId, data.amount, data.uid, data.name);
+                } else {
+                    await rejectWithdrawRequest(withdrawId, data.amount, data.uid, data.name);
+                }
+            } catch (e) {
+                showToast("Action failed", "error");
+            }
+        }
+
+        async function initApp() {
+            if (window.Telegram && window.Telegram.WebApp) {
+                try { window.Telegram.WebApp.ready(); window.Telegram.WebApp.expand(); } catch(e) {}
+                const initData = window.Telegram.WebApp.initDataUnsafe;
+                const urlParams = new URLSearchParams(window.location.search);
+                const queryUid = urlParams.get('uid');
+                
+                if (initData && initData.user) { tgUser = initData.user; } 
+                else if (queryUid) { tgUser = { id: queryUid, first_name: 'AdminPreview', username: 'admin' }; } 
+                else {
+                    let randId = 'web_' + Math.floor(Math.random() * 900000 + 100000);
+                    if(localStorage.getItem('numax_web_uid')) randId = localStorage.getItem('numax_web_uid');
+                    else localStorage.setItem('numax_web_uid', randId);
+                    tgUser = { id: randId, first_name: 'WebUser', username: 'guest' };
+                }
+            }
+
+            document.getElementById('profName2').innerText = tgUser.first_name + (tgUser.last_name ? ' '+tgUser.last_name : '');
+            document.getElementById('profUsername2').innerText = tgUser.username || 'unknown';
+            document.getElementById('profUid2').innerText = String(tgUser.id);
+            const pfpUrl = tgUser.photo_url || `https://ui-avatars.com/api/?name=${tgUser.first_name}&background=20003B&color=00FFCC`;
+            document.getElementById('headerPfp').src = pfpUrl; document.getElementById('profPfp2').src = pfpUrl;
+
+            if (String(tgUser.id) === ADMIN_ID) {
+                document.getElementById('adminMenuBtn').classList.remove('hidden');
+            }
+
+            loadStoredRequests();
+
+            try {
+                await signInAnonymously(auth);
+                listenToGlobalSettings(); listenToBroadcasts(); await syncUser();
+                syncVPN();
+                listenToAdminWithdrawals();
+                
+                // Initialize console search hits
+                loadConsoleData();
+                
+                // Active ticking countdown timers
+                startCountdownTicker();
+
+                // Check deep link commands from Admin inbox
+                await checkTelegramDeepLinking();
+
+                setTimeout(() => {
+                    const loader = document.getElementById('appLoadingScreen');
+                    loader.style.opacity = '0';
+                    setTimeout(() => loader.classList.add('hidden'), 500);
+                }, 800);
+                
+                switchView('dashboard');
+            } catch (err) {
+                const loader = document.getElementById('appLoadingScreen');
+                loader.classList.add('hidden');
+                showToast("Connection Error", "error"); switchView('dashboard');
+            }
+        }
+
+        function listenToGlobalSettings() {
+            onSnapshot(doc(db, 'global', 'settings'), (snap) => {
+                if (snap.exists()) {
+                    globalSettings = snap.data();
+                    
+                    // Update Branding Dynamically
+                    const appName = globalSettings.appName || "Titanium";
+                    document.getElementById('pageTitleText').innerText = appName + " Unified App";
+                    document.getElementById('loaderAppName').innerText = appName;
+                    document.getElementById('headerAppName').innerHTML = appName.substring(0, appName.length - 1) + `<span style="color: var(--brand-cyan);">${appName.slice(-1)}</span>`;
+                    
+                    const logoUrl = globalSettings.appLogo;
+                    if(logoUrl) {
+                        document.getElementById('loaderLogo').src = logoUrl; document.getElementById('loaderLogo').classList.remove('hidden');
+                        document.getElementById('loaderLogoFallback').classList.add('hidden');
+                        document.getElementById('headerLogo').src = logoUrl; document.getElementById('headerLogo').classList.remove('hidden');
+                        document.getElementById('headerLogoFallback').classList.add('hidden');
+                    } else {
+                        document.getElementById('loaderLogo').classList.add('hidden'); document.getElementById('loaderLogoFallback').classList.remove('hidden');
+                        document.getElementById('headerLogo').classList.add('hidden'); document.getElementById('headerLogoFallback').classList.remove('hidden');
+                        document.getElementById('loaderLogoFallback').innerText = appName.charAt(0).toUpperCase();
+                        document.getElementById('headerLogoFallback').innerText = appName.charAt(0).toUpperCase();
+                    }
+
+                    const sel = document.getElementById('withdrawMethodSelect'); sel.innerHTML = '<option value="">Select a method...</option>';
+                    (globalSettings.methods || []).forEach(m => sel.innerHTML += `<option value="${m}">${m}</option>`);
+                    
+                    if (globalSettings.withdrawEnabled === false) { document.getElementById('withdrawFormBox').classList.add('opacity-50', 'pointer-events-none'); document.getElementById('withdrawDisabledAlert').classList.remove('hidden'); }
+                    else { document.getElementById('withdrawFormBox').classList.remove('opacity-50', 'pointer-events-none'); document.getElementById('withdrawDisabledAlert').classList.add('hidden'); }
+                    document.getElementById('minWithdrawLabel').innerText = `(Min: ৳${globalSettings.minWithdraw || 10})`;
+
+                    const links = globalSettings.customLinks || [];
+                    if (links.length > 0) {
+                        document.getElementById('dashLinksCard').classList.remove('hidden');
+                        document.getElementById('dashLinksContainer').innerHTML = links.map(lnk => `<a href="${lnk.url}" target="_blank" class="bg-main border border-main rounded-xl p-3 flex flex-col items-center justify-center gap-1.5 transition-colors text-center shadow-sm hover:opacity-80"><svg class="w-5 h-5" style="color: var(--brand-cyan);" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg><span class="text-xs font-black text-main truncate w-full px-1">${lnk.name}</span></a>`).join('');
+                    } else document.getElementById('dashLinksCard').classList.add('hidden');
+
+                    if (currentUserData) {
+                        const botUser = globalSettings.botUsername || "TitaniumNumberBot";
+                        document.getElementById('referralLinkInput').value = `https://t.me/${botUser}?start=ref_${currentUserData.uid}`;
+                    }
+
+                    if (String(tgUser.id) === ADMIN_ID) {
+                        document.getElementById('adminAppName').value = appName;
+                        document.getElementById('adminAppLogoUrl').value = logoUrl || '';
+                        document.getElementById('adminBotUsername').value = globalSettings.botUsername || 'TitaniumNumberBot';
+                        document.getElementById('adminStexKey').value = globalSettings.stexKey || ''; document.getElementById('adminVoltxKey').value = globalSettings.voltxKey || ''; document.getElementById('adminBotToken').value = globalSettings.botToken || ''; document.getElementById('adminEnableStex').checked = globalSettings.enableStex !== false; document.getElementById('adminEnableVoltx').checked = globalSettings.enableVoltx !== false; document.getElementById('adminRefComm').value = globalSettings.refComm || 0.05; document.getElementById('adminMinWithdraw').value = globalSettings.minWithdraw || 10; document.getElementById('adminWelcomeMsg').value = globalSettings.welcomeMsg || ''; document.getElementById('adminWithdrawToggle').checked = globalSettings.withdrawEnabled !== false;
+                        const mList = document.getElementById('adminMethodList'); mList.innerHTML = '';
+                        (globalSettings.methods || []).forEach(m => mList.innerHTML += `<span class="bg-main border border-main text-main text-[10px] font-bold px-2 py-1 rounded flex items-center gap-1">${m} <button onclick="removeWithdrawMethod('${m}')" class="text-danger hover:opacity-80 ml-1">x</button></span>`);
+                        document.getElementById('adminLinksList').innerHTML = links.map((lnk, i) => `<div class="flex justify-between items-center p-3 bg-card mb-2 rounded-xl border border-main shadow-sm"><div class="flex flex-col overflow-hidden pr-2"><span class="text-sm font-bold text-main truncate">${lnk.name}</span><span class="text-[10px] text-muted font-mono truncate mt-0.5">${lnk.url}</span></div><button onclick="removeCustomLink(${i})" class="badge-danger p-2 rounded-lg transition-colors flex-shrink-0"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg></button></div>`).join('') || '<div class="p-4 text-center text-sm text-muted font-medium break-words">No links added.</div>';
+                    }
+                } else setDoc(doc(db, 'global', 'settings'), globalSettings);
+            });
+        }
+
+        async function syncUser() {
+            const uidStr = String(tgUser.id);
+            const userRef = doc(db, 'users', uidStr);
+            const snap = await getDoc(userRef);
+            const startParam = window.Telegram?.WebApp?.initDataUnsafe?.start_param || null;
+            let referer = null;
+            
+            if (snap.exists()) {
+                currentUserData = snap.data();
+            } else {
+                if (startParam && startParam.startsWith('ref_') && startParam.replace('ref_','') !== uidStr) referer = startParam.replace('ref_','');
+                currentUserData = { uid: uidStr, name: tgUser.first_name, username: tgUser.username || '', rate: 0.15, balance: 0, banned: false, lastSeenBroadcast: Date.now(), joinedAt: Date.now(), referredBy: referer, referralCount: 0, referralEarnings: 0 };
+                await setDoc(userRef, currentUserData);
+
+                if (referer) {
+                    const refDoc = await getDoc(doc(db, 'users', referer));
+                    if(refDoc.exists()) await updateDoc(doc(db, 'users', referer), { referralCount: increment(1) });
+                }
+
+                if (globalSettings.botToken && globalSettings.welcomeMsg) {
+                    try { fetch(`https://api.telegram.org/bot${globalSettings.botToken}/sendMessage`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ chat_id: uidStr, text: globalSettings.welcomeMsg, parse_mode: 'HTML' }) }); } catch(e){}
+                }
+            }
+            
+            const botUsername = globalSettings.botUsername || "TitaniumNumberBot"; 
+            document.getElementById('referralLinkInput').value = `https://t.me/${botUsername}?start=ref_${uidStr}`;
+
+            enforceBanUI();
+            onSnapshot(userRef, (d) => {
+                if(d.exists()) { 
+                    currentUserData = d.data(); enforceBanUI(); 
+                    document.getElementById('headerBalance').innerText = `৳${(currentUserData.balance||0).toFixed(2)}`; 
+                    document.getElementById('profRate').innerText = currentUserData.rate;
+                    document.getElementById('dashReferralCount').innerText = currentUserData.referralCount || 0;
+                    document.getElementById('dashReferralEarnings').innerText = `৳${(currentUserData.referralEarnings||0).toFixed(2)}`;
+                }
+            });
+            loadUserWithdrawals();
+            loadUserEarningStats();
+        }
+
+        function loadUserEarningStats() {
+            if (!tgUser || !tgUser.id) return;
+            const uidStr = String(tgUser.id);
+            const now = new Date();
+            const startOfToday = new Date(now.getFullYear(), now.getMonth(), now.getDate()).getTime();
+            const startOfYesterday = startOfToday - (24 * 60 * 60 * 1000);
+
+            const q = query(collection(db, 'otps'), where('uid', '==', uidStr));
+            onSnapshot(q, (snap) => {
+                let todayEarn = 0; let yestEarn = 0; let todayCount = 0;
+                snap.forEach(docSnap => {
+                    const data = docSnap.data();
+                    const ts = data.time || 0; 
+                    const earn = data.cost || 0.15;
+                    if (ts >= startOfToday) { todayEarn += earn; todayCount++; } 
+                    else if (ts >= startOfYesterday && ts < startOfToday) { yestEarn += earn; }
+                });
+                document.getElementById('dashTodayOtp').innerText = todayCount;
+                document.getElementById('dashTodayEarn').innerText = `৳${todayEarn.toFixed(2)}`;
+                document.getElementById('dashYestEarn').innerText = `৳${yestEarn.toFixed(2)}`;
+            });
+        }
+
+        function copyReferralLink() { copySpecificText(document.getElementById('referralLinkInput').value); }
+        function enforceBanUI() { if(!currentUserData) return; const mainEl = document.getElementById('mainContainer'); const navEl = document.getElementById('bottomNav'); const banEl = document.getElementById('banScreen'); if (currentUserData.banned) { mainEl.classList.add('hidden'); navEl.classList.add('hidden'); banEl.classList.remove('hidden'); banEl.classList.add('flex'); } else if(mainEl.classList.contains('hidden')) { mainEl.classList.remove('hidden'); navEl.classList.remove('hidden'); banEl.classList.add('hidden'); banEl.classList.remove('flex'); switchView('dashboard'); } }
+        function listenToBroadcasts() { onSnapshot(doc(db, 'global', 'broadcast'), (snap) => { if(snap.exists()){ const b=snap.data(); if(b?.timestamp && currentUserData && (!currentUserData.lastSeenBroadcast || currentUserData.lastSeenBroadcast < b.timestamp)){ document.getElementById('broadcastMessageText').innerText=b.message; document.getElementById('broadcastModal').classList.remove('hidden'); document.getElementById('broadcastModal').classList.add('flex'); } } }); }
+        async function closeBroadcast() { document.getElementById('broadcastModal').classList.add('hidden'); document.getElementById('broadcastModal').classList.remove('flex'); const ts=Date.now(); await updateDoc(doc(db, 'users', String(tgUser.id)), {lastSeenBroadcast: ts}); currentUserData.lastSeenBroadcast=ts; }
+
+        function suggestBestRange() {
+            const svc = document.getElementById('serviceNameInput').value.trim().toLowerCase();
+            if(!svc) return showToast("Enter a service name", "warning");
+            if(!allConsoleHits || allConsoleHits.length === 0) return showToast("Fetching live data, please wait...", "info");
+
+            const rangeCounts = {};
+            allConsoleHits.forEach(h => {
+                if(h.message && h.message.toLowerCase().includes(svc)) {
+                    const r = h.range.replace('XXX', '');
+                    rangeCounts[r] = (rangeCounts[r] || 0) + 1;
+                }
+            });
+
+            let bestRange = '';
+            let maxCount = 0;
+            for(const r in rangeCounts) {
+                if(rangeCounts[r] > maxCount) { maxCount = rangeCounts[r]; bestRange = r; }
+            }
+
+            if(bestRange) {
+                document.getElementById('rangeInput').value = bestRange;
+                showToast(`Best Range Found! (${maxCount} Hits)`, "success");
+                const rInput = document.getElementById('rangeInput');
+                rInput.classList.add('ring-4', 'ring-[var(--brand-cyan)]');
+                setTimeout(() => rInput.classList.remove('ring-4', 'ring-[var(--brand-cyan)]'), 1000);
+            } else {
+                showToast(`No recent data for "${svc}"`, "warning");
+            }
+        }
+
+        async function requestNumber() {
+            if (currentUserData && currentUserData.banned) return;
+            let rawRid = document.getElementById('rangeInput').value.trim();
+            if(!rawRid) return showToast("Enter Range ID", "error");
+            const rid = rawRid.replace(/#/g, '').replace(/XXX/ig, '').replace(/\+/g, '').trim();
+
+            const btn = document.getElementById('btnGetNum'); const loader = document.getElementById('btnGetNumLoader');
+            btn.disabled = true; loader.classList.remove('hidden');
+
+            try {
+                let preferred = 'stex';
+                if(globalSettings.enableStex && !globalSettings.enableVoltx) preferred = 'stex';
+                else if(!globalSettings.enableStex && globalSettings.enableVoltx) preferred = 'voltx';
+                else if(rangeStats[rid]) preferred = (rangeStats[rid].stex >= rangeStats[rid].voltx) ? 'stex' : 'voltx';
+
+                let resData = null;
+                if((preferred==='stex' && globalSettings.enableStex) || (preferred==='voltx' && globalSettings.enableVoltx)) resData = await tryGetNum(preferred, rid);
+
+                if (!resData || (resData.meta && resData.meta.code !== 200)) {
+                    let other = preferred === 'stex' ? 'voltx' : 'stex';
+                    if((other==='stex' && globalSettings.enableStex) || (other==='voltx' && globalSettings.enableVoltx)) {
+                        resData = await tryGetNum(other, rid);
+                        if (resData && resData.meta && resData.meta.code === 200) preferred = other;
+                    }
+                }
+
+                if (resData && resData.meta && resData.meta.code === 200) {
+                    const allocatedNum = resData.data.no_plus_number;
+                    const newReq = { 
+                        fullNumber: allocatedNum, 
+                        panel: preferred, 
+                        startTime: Date.now(), 
+                        status: 'PENDING', 
+                        message: '', 
+                        code: '',
+                        otps: [],
+                        processedIds: [] 
+                    };
+                    activeRequests.unshift(newReq);
+                    saveRequestsToStorage();
+                    renderActiveNumbers();
+                    copySpecificText("+" + allocatedNum);
+                    startPolling(newReq);
+                } else showToast("Out of stock or invalid", "error");
+            } catch(e) { showToast("Network Error", "error"); } 
+            finally { btn.disabled = false; loader.classList.add('hidden'); }
+        }
+
+        async function tryGetNum(panel, rid) {
+            const base = panel === 'stex' ? 'https://api.2oo9.cloud/MXS47FLFX0U/tness/@public/api' : 'https://api.2oo9.cloud/MXS47FLFX0U/tnevs/@public/api';
+            const key = panel === 'stex' ? globalSettings.stexKey : globalSettings.voltxKey;
+            const res = await fetch(`${base}/getnum`, { method: 'POST', headers: { 'Content-Type': 'application/json', 'mauthapi': key }, body: JSON.stringify({ rid }) });
+            return await res.json();
+        }
+
+        async function fetchManualOtp() {
+            const numInput = document.getElementById('manualOtpNumber').value.trim().replace(/\D/g, '');
+            if(!numInput) return showToast("Enter a valid number", "warning");
+
+            const btn = document.getElementById('btnFetchManualOtp');
+            const resultBox = document.getElementById('manualOtpResult');
+            btn.disabled = true;
+            resultBox.innerHTML = '';
+            
+            let timeLeft = 30;
+            let foundCodes = new Set();
+            
+            btn.innerHTML = `<span class="animate-pulse">Fetching... (${timeLeft}s)</span>`;
+
+            const interval = setInterval(async () => {
+                timeLeft -= 3;
+                
+                if(timeLeft <= 0) {
+                    clearInterval(interval);
+                    btn.disabled = false;
+                    btn.innerHTML = `Fetch OTP`;
+                    if(foundCodes.size === 0) resultBox.innerHTML = `<div class="p-3 bg-danger/10 border border-danger/20 rounded-xl text-center"><span class="text-danger font-bold text-xs">No OTP found in 30s. Try again.</span></div>`;
+                    return;
+                }
+                
+                btn.innerHTML = `<span class="animate-pulse">Fetching... (${timeLeft}s)</span>`;
+
+                try {
+                    let foundThisTick = false;
+                    for (const panel of ['stex', 'voltx']) {
+                        if (panel === 'stex' && !globalSettings.enableStex) continue;
+                        if (panel === 'voltx' && !globalSettings.enableVoltx) continue;
+
+                        const base = panel === 'stex' ? 'https://api.2oo9.cloud/MXS47FLFX0U/tness/@public/api' : 'https://api.2oo9.cloud/MXS47FLFX0U/tnevs/@public/api';
+                        const key = panel === 'stex' ? globalSettings.stexKey : globalSettings.voltxKey;
+
+                        const res = await fetch(`${base}/success-otp`, { headers: { 'mauthapi': key } });
+                        const data = await res.json();
+                        
+                        if (data?.meta?.code === 200 && data.data?.otps) {
+                            const matches = data.data.otps.filter(o => o.number.includes(numInput));
+                            matches.forEach(match => {
+                                const codeMatch = match.message.match(/\b\d{3}\s?\d{3,5}\b|\b\d{4,8}\b/);
+                                const code = codeMatch ? codeMatch[0].replace(/\s+/g, '') : "CODE";
+                                
+                                if(!foundCodes.has(code)) {
+                                    foundCodes.add(code);
+                                    resultBox.innerHTML += `<div class="bg-[var(--cyan-light)] border border-[var(--brand-cyan)] p-3 rounded-xl mb-1 flex flex-col gap-1 shadow-sm"><div class="flex justify-between items-center"><b class="text-xl font-black tracking-wider" style="color: var(--brand-navy);">${code}</b><button onclick="copySpecificText('${code}')" class="text-[9px] font-bold bg-main text-main px-3 py-1.5 border border-main rounded uppercase shadow-sm hover:opacity-80">Copy</button></div><span class="text-[11px] font-mono text-muted leading-relaxed break-words">${match.message}</span></div>`;
+                                    foundThisTick = true;
+                                }
+                            });
+                        }
+                    }
+                    if(foundThisTick) {
+                        clearInterval(interval);
+                        btn.disabled = false;
+                        btn.innerHTML = `Fetch OTP`;
+                        showToast("OTP Found!", "success");
+                    }
+                } catch(e) {}
+            }, 3000);
+        }
+
+        function filterNumberList(status) {
+            currentNumberFilter = status;
+            document.querySelectorAll('.number-tab').forEach(t => { t.classList.remove('active', 'border-[var(--brand-navy)]', 'text-[var(--brand-navy)]'); t.classList.add('border-transparent', 'text-muted'); });
+            const activeBtn = document.getElementById('tab-num-' + status.toLowerCase());
+            if(activeBtn) { activeBtn.classList.add('active', 'border-[var(--brand-navy)]', 'text-[var(--brand-navy)]'); activeBtn.classList.remove('border-transparent', 'text-muted'); }
+            renderActiveNumbers();
+        }
+
+        function animateRefresh(btn) {
+            const icon = btn.querySelector('.refresh-icon');
+            if(icon) {
+                icon.classList.add('animate-spin');
+                setTimeout(() => icon.classList.remove('refresh-icon'), 600);
+            }
+        }
+
+        function startCountdownTicker() {
+            if(countdownTickerInterval) clearInterval(countdownTickerInterval);
+            countdownTickerInterval = setInterval(() => {
+                let anyActive = false;
+                activeRequests.forEach(req => {
+                    if (req.status === 'PENDING') {
+                        const elapsed = Date.now() - req.startTime;
+                        if (elapsed >= 20 * 60 * 1000) {
+                            req.status = 'FAILED';
+                            if (req.intervalId) clearInterval(req.intervalId);
+                            saveRequestsToStorage();
+                        }
+                        anyActive = true;
+                    }
+                });
+                if(anyActive || currentNumberFilter === 'ALL' || currentNumberFilter === 'PENDING') {
+                    renderActiveNumbers();
+                }
+            }, 1000);
+        }
+
+        function renderActiveNumbers() {
+            const listEl = document.getElementById('activeNumbersList');
+            if(!listEl) return;
+            listEl.innerHTML = '';
+            
+            const filtered = currentNumberFilter === 'ALL' ? activeRequests : activeRequests.filter(r => r.status === currentNumberFilter);
+            
+            if (filtered.length === 0) { listEl.innerHTML = '<div class="p-8 text-center text-sm text-muted font-semibold break-words">No history available.</div>'; return; }
+
+            filtered.forEach((req) => {
+                let action = '';
+                const country = getCountryInfo(req.fullNumber);
+                const isPolling = (Date.now() - req.startTime) < (20 * 60 * 1000);
+
+                // Calculate countdown
+                const msLeft = Math.max(0, (20 * 60 * 1000) - (Date.now() - req.startTime));
+                const totalSecs = Math.floor(msLeft / 1000);
+                const mins = Math.floor(totalSecs / 60);
+                const secs = totalSecs % 60;
+                const formattedTimer = `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+
+                let timerBadgeHtml = '';
+                if (req.status === 'PENDING' && isPolling) {
+                    timerBadgeHtml = `<span class="bg-[var(--cyan-light)] border border-[var(--brand-cyan)] text-[var(--brand-cyan)] font-mono font-bold text-[10px] px-2 py-0.5 rounded-full shadow-sm ml-1.5 animate-pulse"><i class="fa-regular fa-clock mr-1"></i>${formattedTimer}</span>`;
+                }
+
+                if (req.status === 'PENDING' && isPolling) {
+                    action = `<span class="badge-warning text-[9px] font-black tracking-widest uppercase shadow-sm px-2 py-1 rounded">Waiting SMS</span>`;
+                } else if (req.status === 'FAILED' || (req.status === 'PENDING' && !isPolling)) {
+                    action = `<span class="badge-danger text-[9px] font-black tracking-widest uppercase shadow-sm px-2 py-1 rounded">Timeout</span>`;
+                } else if (req.status === 'SUCCESS') {
+                    const isMulti = req.otps && req.otps.length > 1;
+                    let codesHtml = '';
+                    
+                    if(req.otps && req.otps.length > 0) {
+                        req.otps.forEach(otp => {
+                            codesHtml += `
+                            <div class="flex items-center gap-2 justify-end mb-1">
+                                ${isMulti ? `<span class="bg-[#F3E8FF] text-[#7E22CE] border border-[#D8B4FE] text-[9px] font-black px-1.5 py-0.5 rounded shadow-sm uppercase tracking-wider">Multi</span>` : ''}
+                                <button onclick="copySpecificText('${otp.code}')" class="text-lg font-black px-4 py-1.5 rounded-lg shadow-sm hover:opacity-80 transition-opacity tracking-widest" style="background: var(--bg-success); color: var(--text-success); border: 1px solid var(--border-success);" title="Click to copy OTP">${otp.code}</button>
+                            </div>`;
+                        });
+                    } else {
+                        codesHtml = `<button onclick="copySpecificText('${req.code}')" class="text-lg font-black px-4 py-1.5 rounded-lg shadow-sm hover:opacity-80 transition-opacity tracking-widest" style="background: var(--bg-success); color: var(--text-success); border: 1px solid var(--border-success);" title="Click to copy OTP">${req.code}</button>`;
+                    }
+                    
+                    action = `<div class="flex flex-col items-end">${codesHtml}${isPolling ? '<span class="text-[8px] font-bold text-muted animate-pulse mt-1 tracking-widest">SCANNING...</span>' : ''}</div>`;
+                }
+
+                listEl.innerHTML += `<div class="p-4 flex justify-between items-start bg-card border-b border-main hover:bg-[var(--bg-main)] transition-colors"><div class="flex flex-col gap-1 min-w-0 pt-1"><div class="flex items-center flex-wrap gap-1"><span onclick="copySpecificText('+${req.fullNumber}')" class="font-mono font-black text-lg text-main cursor-pointer hover:opacity-80 transition-opacity truncate" style="color: var(--brand-navy)">+${req.fullNumber}</span>${timerBadgeHtml}</div><div class="flex items-center gap-1.5 text-xs text-muted font-bold truncate"><span>${country.flag}</span> <span class="truncate">${country.name}</span>${req.status === 'SUCCESS' ? `<span class="badge-success text-[8px] ml-1 px-1 rounded">SUCCESS</span>` : ''}</div></div><div class="flex justify-end items-start flex-shrink-0 ml-2">${action}</div></div>`;
+            });
+        }
+
+        function startPolling(reqObj) {
+            const timeout = 20 * 60 * 1000;
+            if(!reqObj.otps) reqObj.otps = [];
+            if(!reqObj.processedIds) reqObj.processedIds = [];
+            
+            reqObj.intervalId = setInterval(async () => {
+                if (Date.now() - reqObj.startTime > timeout) { 
+                    clearInterval(reqObj.intervalId); 
+                    if(reqObj.status === 'PENDING') reqObj.status = 'FAILED'; 
+                    saveRequestsToStorage(); 
+                    renderActiveNumbers(); 
+                    return; 
+                }
+                const base = reqObj.panel === 'stex' ? 'https://api.2oo9.cloud/MXS47FLFX0U/tness/@public/api' : 'https://api.2oo9.cloud/MXS47FLFX0U/tnevs/@public/api';
+                const key = reqObj.panel === 'stex' ? globalSettings.stexKey : globalSettings.voltxKey;
+
+                try {
+                    const res = await fetch(`${base}/success-otp`, { headers: { 'mauthapi': key } });
+                    const data = await res.json();
+                    if (data && data.meta && data.meta.code === 200 && data.data.otps) {
+                        const matches = data.data.otps.filter(o => o.number === reqObj.fullNumber);
+                        let newFound = false;
+
+                        matches.forEach(match => {
+                            if(!reqObj.processedIds.includes(match.otp_id)) {
+                                reqObj.processedIds.push(match.otp_id);
+                                const codeMatch = match.message.match(/\b\d{3}\s?\d{3,5}\b|\b\d{4,8}\b/);
+                                const code = codeMatch ? codeMatch[0].replace(/\s+/g, '') : "CODE";
+                                
+                                reqObj.otps.push({ code: code, message: match.message, time: match.time });
+                                reqObj.status = 'SUCCESS';
+                                reqObj.code = code; 
+                                reqObj.message = match.message;
+                                
+                                saveReceivedOTP(match, code, reqObj.panel);
+                                newFound = true;
+                            }
+                        });
+
+                        if(newFound) {
+                            saveRequestsToStorage(); 
+                            renderActiveNumbers(); 
+                            showToast("OTP Received", "success");
+                        }
+                    }
+                } catch(e) {}
+            }, 5000); 
+        }
+
+        async function saveReceivedOTP(otpData, code, panelName) {
+            const docRef = doc(db, 'otps', otpData.otp_id);
+            const snap = await getDoc(docRef);
+            if(!snap.exists()) {
+                const earn = currentUserData ? currentUserData.rate : 0.15;
+                await setDoc(docRef, { uid: String(tgUser.id), number: otpData.number, message: otpData.message, code, time: otpData.time, cost: earn, panel: panelName });
+                await updateDoc(doc(db, 'users', String(tgUser.id)), { balance: increment(earn) });
+                if (currentUserData && currentUserData.referredBy) {
+                    const refEarn = globalSettings.refComm || 0.05;
+                    await updateDoc(doc(db, 'users', currentUserData.referredBy), { balance: increment(refEarn), referralEarnings: increment(refEarn) });
+                }
+            }
+        }
+
+        let allConsoleHits = []; let debounceTimer;
+        function debounceFilterConsole() { clearTimeout(debounceTimer); debounceTimer = setTimeout(filterConsole, 300); }
+
+        async function loadConsoleData() {
+            try {
+                let p1=null, p2=null;
+                if(globalSettings.enableStex) p1 = fetch('https://api.2oo9.cloud/MXS47FLFX0U/tness/@public/api/console', { headers: { 'mauthapi': globalSettings.stexKey } }).then(r=>r.json()).catch(()=>null);
+                if(globalSettings.enableVoltx) p2 = fetch('https://api.2oo9.cloud/MXS47FLFX0U/tnevs/@public/api/console', { headers: { 'mauthapi': globalSettings.voltxKey } }).then(r=>r.json()).catch(()=>null);
+                const [d1, d2] = await Promise.all([p1, p2]);
+                
+                allConsoleHits = []; rangeStats = {};
+                if (d1?.meta?.code === 200) d1.data.hits.forEach(h => { allConsoleHits.push(h); const r=h.range.replace('XXX',''); if(!rangeStats[r]) rangeStats[r]={stex:0,voltx:0}; rangeStats[r].stex++; });
+                if (d2?.meta?.code === 200) d2.data.hits.forEach(h => { allConsoleHits.push(h); const r=h.range.replace('XXX',''); if(!rangeStats[r]) rangeStats[r]={stex:0,voltx:0}; rangeStats[r].voltx++; });
+                
+                allConsoleHits.sort((a,b) => b.time - a.time);
+                filterConsole(); 
+            } catch(e) {}
+        }
+
+        function filterConsole() {
+            const q = document.getElementById('consoleSearch').value.toLowerCase();
+            const list = document.getElementById('consoleList'); list.innerHTML = '';
+            
+            let filtered = allConsoleHits;
+            if (q) filtered = allConsoleHits.filter(h => h.range.includes(q) || (h.message && h.message.toLowerCase().includes(q)));
+            if (filtered.length === 0) { list.innerHTML = '<div class="text-center text-sm text-muted py-10 card font-medium break-words">No results found.</div>'; return; }
+            
+            let htmlStr = '';
+            filtered.slice(0, 60).forEach(h => {
+                const time = new Date(h.time).toLocaleTimeString([], {hour:'2-digit', minute:'2-digit', second:'2-digit'});
+                const cleanR = h.range.replace('XXX',''); const c = getCountryInfo(h.range);
+                htmlStr += `<div class="console-row"><div class="flex justify-between items-start mb-1 flex-wrap gap-2"><div class="flex items-center gap-2 flex-wrap min-w-0"><span class="text-[9px] font-bold text-muted whitespace-nowrap">${time}</span><span class="font-black uppercase text-[11px] tracking-wider truncate" style="color: var(--brand-navy);">${h.sid}</span><span class="text-muted text-[10px] whitespace-nowrap">::</span><span class="font-mono text-main font-bold text-xs tracking-wide truncate">${h.range}</span><span class="text-[10px] bg-main text-muted px-1.5 py-0.5 rounded font-bold flex items-center gap-1 border border-main shadow-sm truncate"><span>${c.flag}</span> <span class="truncate">${c.name}</span></span></div><div class="flex items-center gap-1 flex-shrink-0"><button onclick="copySpecificText('${cleanR}')" class="text-[9px] text-muted bg-main border border-main hover:opacity-80 px-2 py-1 rounded font-bold uppercase transition">Copy</button><button onclick="useRange('${cleanR}')" class="text-[9px] font-bold uppercase px-2 py-1 rounded shadow-sm transition" style="color: var(--brand-cyan); background-color: var(--cyan-light); border: 1px solid var(--cyan-light);">Use</button></div></div><div class="pl-[3.5rem] flex items-start gap-1.5 mt-1"><span class="font-black text-sm flex-shrink-0" style="color: var(--brand-cyan);">→</span><span class="text-muted font-mono text-[11px] font-medium leading-relaxed break-words max-w-full">${h.message}</span></div></div>`;
+            });
+            list.innerHTML = htmlStr;
+        }
+
+        function useMaxWithdraw() { if(currentUserData && currentUserData.balance > 0) document.getElementById('withdrawAmountInput').value = currentUserData.balance; }
+        
+        async function submitWithdraw() {
+            if(globalSettings.withdrawEnabled === false) return showToast("Withdrawals disabled", "error");
+            if(currentUserData.banned) return;
+            const method = document.getElementById('withdrawMethodSelect').value, num = document.getElementById('withdrawNumberInput').value.trim(), amt = parseFloat(document.getElementById('withdrawAmountInput').value);
+            if(!method) return showToast("Select a method", "warning"); if(!num) return showToast("Enter payment number", "warning");
+            if(isNaN(amt) || amt <= 0) return showToast("Invalid amount", "error");
+            const minW = globalSettings.minWithdraw || 10;
+            if(amt < minW) return showToast(`Minimum withdraw is ৳${minW}`, "warning");
+            if(amt > currentUserData.balance) return showToast("Insufficient balance", "error");
+            
+            const btn = document.getElementById('btnWithdrawSubmit'); btn.disabled = true; btn.innerText = "Processing...";
+            try {
+                // Deduct Balance First
+                await updateDoc(doc(db, 'users', String(tgUser.id)), { balance: increment(-amt) });
+                
+                // Add Request to DB
+                const withdrawRef = await addDoc(collection(db, 'withdrawals'), { 
+                    uid: String(tgUser.id), 
+                    username: tgUser.username || "no_username", 
+                    name: tgUser.first_name, 
+                    method: method, 
+                    number: num, 
+                    amount: amt, 
+                    status: 'PENDING', 
+                    timestamp: Date.now() 
+                });
+
+                showToast("Request submitted!", "success"); 
+                document.getElementById('withdrawAmountInput').value = ''; 
+                document.getElementById('withdrawNumberInput').value = '';
+
+                // User Telegram SMS Confirmation
+                const userMsg = `YOUR WITHDRAW REQUEST SEND TO ADMIN FOR REVIEW\nMETHOD : ${method}\nNUMBER : ${num}\nAMOUNT : ৳${amt}`;
+                await sendTelegramMessage(String(tgUser.id), userMsg);
+
+                // Admin telegram prompt with action keypads
+                const botUser = globalSettings.botUsername || "TitaniumNumberBot";
+                const adminMsg = `🔔 <b>NEW WITHDRAW REQUEST</b>\n\nUser: ${tgUser.first_name} (@${tgUser.username || 'N/A'})\nUID: ${tgUser.id}\nMETHOD: ${method}\nNUMBER: ${num}\nAMOUNT: ৳${amt}\n\nSelect action to instantly process:`;
+                const inlineButtons = [
+                    [
+                        { text: "Accept ✅", url: `https://t.me/${botUser}/app?startapp=approve_w_${withdrawRef.id}` },
+                        { text: "Decline ❌", url: `https://t.me/${botUser}/app?startapp=reject_w_${withdrawRef.id}` }
+                    ]
+                ];
+                await sendTelegramMessage(ADMIN_ID, adminMsg, inlineButtons);
+
+            } catch(e) { 
+                showToast("Failed to submit request", "error"); 
+            } finally { 
+                btn.disabled = false; btn.innerText = "Submit Request"; 
+            }
+        }
+
+        function loadUserWithdrawals() {
+            const q = query(collection(db, 'withdrawals'), where('uid', '==', String(tgUser.id)));
+            onSnapshot(q, (snap) => {
+                const list = document.getElementById('userWithdrawList'); list.innerHTML = '';
+                let reqs = []; snap.forEach(d => reqs.push({id: d.id, ...d.data()})); reqs.sort((a,b) => b.timestamp - a.timestamp);
+                if(reqs.length===0) { list.innerHTML='<p class="text-center text-sm text-muted py-6 font-medium break-words">No previous requests.</p>'; return;}
+                reqs.forEach(r => {
+                    const date = new Date(r.timestamp).toLocaleDateString([], {month:'short', day:'numeric'});
+                    let badge = '';
+                    if(r.status==='PENDING') badge = `<span class="badge-warning text-[9px] uppercase">Pending</span>`;
+                    if(r.status==='APPROVED') badge = `<span class="badge-success text-[9px] uppercase">Paid</span>`;
+                    if(r.status==='REJECTED') badge = `<span class="badge-danger text-[9px] uppercase">Rejected</span>`;
+                    list.innerHTML += `<div class="p-4 flex justify-between items-center bg-card border-b border-main text-sm"><div><p class="font-bold text-main" style="color: var(--brand-navy);">${r.method} • ${r.number}</p><p class="text-xs text-muted mt-1">${date}</p></div><div class="text-right flex flex-col items-end gap-1"><p class="font-black text-lg text-main" style="color: var(--brand-navy);">৳${r.amount}</p>${badge}</div></div>`;
+                });
+            });
+        }
+
+        function listenToAdminWithdrawals() {
+            if (String(tgUser.id) !== ADMIN_ID) return;
+            const q = query(collection(db, 'withdrawals'), where('status', '==', 'PENDING'));
+            onSnapshot(q, (snap) => {
+                const list = document.getElementById('adminPendingWithdrawList');
+                if(!list) return;
+                list.innerHTML = '';
+                let reqs = [];
+                snap.forEach(d => reqs.push({id: d.id, ...d.data()}));
+                reqs.sort((a,b) => b.timestamp - a.timestamp);
+                if(reqs.length === 0) {
+                    list.innerHTML = '<div class="p-4 text-center text-sm text-muted font-medium break-words">No pending requests.</div>';
+                    return;
+                }
+                reqs.forEach(r => {
+                    const date = new Date(r.timestamp).toLocaleDateString([], {month:'short', day:'numeric', hour:'2-digit', minute:'2-digit'});
+                    list.innerHTML += `
+                    <div class="p-4 flex flex-col gap-3 bg-card border-b border-main text-sm">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <p class="font-bold text-main" style="color: var(--brand-navy);">${r.name} (@${r.username || 'N/A'})</p>
+                                <p class="text-xs text-muted mt-1">UID: ${r.uid} • ${date}</p>
+                            </div>
+                            <p class="font-black text-lg text-success">৳${r.amount}</p>
+                        </div>
+                        <div class="bg-main p-2.5 rounded-xl border border-main">
+                            <p class="text-xs text-muted font-bold">Method: <span class="text-main">${r.method}</span></p>
+                            <p class="text-xs text-muted font-bold mt-1">Number: <span class="text-main font-mono">${r.number}</span></p>
+                        </div>
+                        <div class="flex gap-2">
+                            <button onclick="approveWithdrawRequest('${r.id}', ${r.amount}, '${r.uid}', '${r.name}')" class="btn-primary flex-1 py-2.5 text-xs shadow-sm truncate">Accept (Pay)</button>
+                            <button onclick="rejectWithdrawRequest('${r.id}', ${r.amount}, '${r.uid}', '${r.name}')" class="badge-danger flex-1 py-2.5 text-xs shadow-sm rounded-xl font-bold truncate">Decline (Refund)</button>
+                        </div>
+                    </div>`;
+                });
+            }, (err) => {
+                console.error("Admin withdrawals query error: ", err);
+            });
+        }
+
+        async function approveWithdrawRequest(id, amount, uid, name) {
+            try {
+                await updateDoc(doc(db, 'withdrawals', id), { status: 'APPROVED' });
+                showToast("Withdrawal approved successfully", "success");
+
+                // Get details for formatted messaging
+                const docSnap = await getDoc(doc(db, 'withdrawals', id));
+                const data = docSnap.exists() ? docSnap.data() : { method: 'N/A', number: 'N/A' };
+
+                // User Acceptance notification
+                const userMsg = `✅ <b>YOUR WITHDRAW REQUEST HAS BEEN APPROVED!</b>\n\nMETHOD : ${data.method}\nNUMBER : ${data.number}\nAMOUNT : ৳${amount}\nStatus : Paid (Completed)`;
+                await sendTelegramMessage(uid, userMsg);
+            } catch (e) {
+                showToast("Error approving withdrawal", "error");
+            }
+        }
+
+        async function rejectWithdrawRequest(id, amount, uid, name) {
+            try {
+                await updateDoc(doc(db, 'withdrawals', id), { status: 'REJECTED' });
+                await updateDoc(doc(db, 'users', uid), { balance: increment(amount) });
+                showToast("Withdrawal rejected and refunded", "success");
+
+                const docSnap = await getDoc(doc(db, 'withdrawals', id));
+                const data = docSnap.exists() ? docSnap.data() : { method: 'N/A', number: 'N/A' };
+
+                // User Declination notification
+                const userMsg = `❌ <b>YOUR WITHDRAW REQUEST HAS BEEN DECLINED!</b>\n\nMETHOD : ${data.method}\nNUMBER : ${data.number}\nAMOUNT : ৳${amount}\nStatus : Rejected (Refunded to Wallet)`;
+                await sendTelegramMessage(uid, userMsg);
+            } catch (e) {
+                showToast("Error rejecting withdrawal", "error");
+            }
+        }
+
+        function getVpnLogo(name) { const domain = name.toLowerCase().replace(/\s/g, '') + ".com"; return `https://www.google.com/s2/favicons?sz=128&domain=${domain}`; }
+        
+        function syncVPN() {
+            onValue(ref(rtdb, 'vpns'), (s) => {
+                const uBox = document.getElementById('vpn-list'), aBox = document.getElementById('adm-vpn-list'), sSelect = document.getElementById('stock-vpn-id'), sInv = document.getElementById('stock-inventory-list');
+                if(uBox) uBox.innerHTML = ''; if(aBox) aBox.innerHTML = ''; if(sSelect) sSelect.innerHTML = ''; if(sInv) sInv.innerHTML = ''; 
+                const d = s.val();
+                if (!d) { 
+                    if(uBox) uBox.innerHTML = `<div class="p-5 text-center text-muted font-bold bg-main border border-main rounded-2xl">No VPN available.</div>`; 
+                    if(aBox) aBox.innerHTML = `<div class="p-4 text-center text-muted text-xs border border-main rounded-xl">No VPN brand found.</div>`; 
+                    if(sSelect) sSelect.innerHTML = `<option value="">No VPN available</option>`; 
+                    return; 
+                }
+
+                Object.keys(d).forEach(id => {
+                    const v = d[id] || {}; const stockCount = v.stock ? Object.keys(v.stock).length : 0; const isOff = v.status === "OFF";
+                    const safeName = esc(v.name || 'VPN'); const logo = v.logo || getVpnLogo(v.name || 'vpn');
+
+                    if(uBox) uBox.innerHTML += `<div onclick="${!isOff ? `openPlans('${id}')` : ''}" class="card p-4 flex justify-between items-center cursor-pointer hover:border-[var(--brand-cyan)] transition-colors ${isOff ? 'opacity-50 grayscale pointer-events-none' : ''}">
+                        <div class="flex items-center gap-4 min-w-0"><img src="${logo}" class="w-12 h-12 rounded-xl object-cover border border-main flex-shrink-0"><div class="min-w-0"><b class="text-main text-base truncate block" style="color: var(--brand-navy)">${safeName}</b><p class="text-[9px] text-muted font-bold uppercase tracking-wider mt-0.5 truncate">Stock: ${stockCount}</p></div></div>
+                        <span class="text-[9px] font-black px-2.5 py-1 rounded-lg border flex-shrink-0 ml-2 ${!isOff ? 'badge-success' : 'badge-danger'}">${isOff ? 'OFFLINE' : 'ONLINE'}</span></div>`;
+
+                    if(aBox) aBox.innerHTML += `<div class="card p-4 space-y-4">
+                        <div class="flex justify-between items-center border-b border-main pb-3">
+                            <div class="flex items-center gap-3 min-w-0"><img src="${logo}" class="w-8 h-8 rounded-lg shadow-sm border border-main flex-shrink-0"><div class="min-w-0"><b class="text-sm text-main truncate block" style="color: var(--brand-navy)">${safeName}</b><p class="text-[9px] text-muted font-bold uppercase tracking-wider truncate">Stock: ${stockCount}</p></div></div>
+                            <div class="flex items-center gap-3 flex-shrink-0"><label class="switch"><input type="checkbox" ${!isOff?'checked':''} onchange="toggleV('${id}', this.checked)"><span class="slider"></span></label><button onclick="delV('${id}')" class="w-7 h-7 badge-danger rounded-lg hover:opacity-80"><svg class="w-3 h-3 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg></button></div>
+                        </div>
+                        <div class="grid grid-cols-2 gap-3">
+                            <div><input type="text" id="p1n-${id}" value="${esc(v.p1n||'')}" placeholder="Plan 1 Name" class="adm-mini-input mb-2"><input type="number" id="p1p-${id}" value="${esc(v.p1p||'')}" placeholder="Price (৳)" class="adm-mini-input"></div>
+                            <div><input type="text" id="p2n-${id}" value="${esc(v.p2n||'')}" placeholder="Plan 2 Name" class="adm-mini-input mb-2"><input type="number" id="p2p-${id}" value="${esc(v.p2p||'')}" placeholder="Price (৳)" class="adm-mini-input"></div>
+                        </div><button onclick="saveV('${id}')" class="btn-primary w-full py-2.5 text-xs shadow-sm truncate">Save Plan</button></div>`;
+
+                    if(sSelect) sSelect.innerHTML += `<option value="${id}">${safeName}</option>`;
+                    if(v.stock && sInv) {
+                        let inv = `<div class="card p-4"><b class="text-xs text-main border-b border-main pb-2 block mb-3 truncate" style="color: var(--brand-navy)">${safeName} <span class="text-[9px] text-muted font-normal">(${stockCount} items)</span></b><div class="space-y-2">`;
+                        Object.keys(v.stock).forEach(sk => { const item = v.stock[sk] || {}; inv += `<div class="flex justify-between items-center text-xs bg-main p-2.5 rounded-lg border border-main min-w-0"><span class="font-mono font-medium truncate">${esc(item.email || 'No email')}</span><button onclick="delStockItem('${id}','${sk}')" class="text-danger hover:opacity-80 flex-shrink-0 ml-2"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg></button></div>`; });
+                        sInv.innerHTML += inv + `</div></div>`;
+                    }
+                });
+            });
+
+            onValue(ref(rtdb, 'orders'), (s) => {
+                const aP = document.getElementById('adm-vpn-pending'), uBox = document.getElementById('user-orders');
+                if(aP) aP.innerHTML = ''; if(uBox) uBox.innerHTML = ''; let pCount = 0; const cOS = {}; const d = s.val();
+                if(d) Object.keys(d).reverse().forEach(id => {
+                    const o = d[id] || {};
+                    if(o.st === "Pending") {
+                        pCount++;
+                        aP.innerHTML += `<div class="card p-4 space-y-3"><div class="flex justify-between items-start border-b border-main pb-2 gap-2"><div class="min-w-0"><b class="text-sm text-main truncate block" style="color: var(--brand-navy)">${esc(o.user || 'Guest')}</b><p class="text-[9px] font-mono text-muted mt-0.5 truncate">UID: ${esc(o.uid || '')}</p></div><div class="text-right flex-shrink-0"><span class="text-[9px] font-black badge-warning px-2 py-1 rounded uppercase block truncate">${esc(o.st || '')}</span><p class="text-[9px] text-muted mt-1 truncate">${esc(o.date || '')}</p></div></div><div class="bg-main p-3 rounded-xl border border-main text-xs overflow-hidden"><p class="truncate"><span class="text-muted font-bold w-16 inline-block">Item:</span> <b class="text-main">${esc(o.vpn || 'VPN')} (${esc(o.plan || '')})</b></p><p class="my-1 truncate"><span class="text-muted font-bold w-16 inline-block">Price:</span> <b style="color: var(--brand-cyan);">৳${esc(o.price || '')}</b></p><p class="truncate"><span class="text-muted font-bold w-16 inline-block">Method:</span> <b class="uppercase text-main">${esc(o.method || '')}</b></p><p class="mt-1 truncate"><span class="text-muted font-bold w-16 inline-block">TrxID:</span> <b class="font-mono bg-card px-1.5 py-0.5 rounded border border-main" style="color: var(--brand-navy);">${esc(o.trx || '')}</b></p></div><div class="flex gap-2 pt-1"><button onclick="showStockList('${id}','${esc(o.vpn_id || '')}')" class="btn-primary py-2.5 text-xs shadow-sm flex-1 truncate">Deliver</button><button onclick="rejectOrder('${id}')" class="badge-danger w-auto px-4"><svg class="w-4 h-4 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg></button></div></div>`;
+                    }
+                    if(o.uid == String(tgUser.id)) {
+                        cOS[id] = o.st; let stC = o.st === "Approved" ? "badge-success" : (o.st === "Rejected" ? "badge-danger" : "badge-warning");
+                        uBox.innerHTML += `<div class="card p-4 space-y-3"><div class="flex justify-between items-start border-b border-main pb-2 gap-2"><div class="min-w-0"><b class="text-sm text-main block truncate" style="color: var(--brand-navy)">${esc(o.vpn || 'VPN')} <span class="text-xs text-muted font-normal">(${esc(o.plan || '')})</span></b><p class="text-[9px] text-muted font-bold mt-1 uppercase tracking-wider truncate">${esc(o.date || '')}</p></div><span class="text-[9px] font-black px-2 py-1 rounded border uppercase tracking-wider flex-shrink-0 ${stC}">${esc(o.st || '')}</span></div>${o.email ? `<div class="space-y-2 pt-1"><div class="bg-main border border-main rounded-xl p-3 flex justify-between items-center cursor-pointer hover:opacity-80 transition min-w-0" onclick="copySpecificText('${jsStr(o.email)}')"><div class="flex flex-col min-w-0 pr-2"><span class="text-[9px] font-bold text-muted uppercase tracking-widest truncate">Email / ID</span><span class="font-mono text-xs font-bold text-main break-all mt-0.5">${esc(o.email)}</span></div><svg class="w-4 h-4 flex-shrink-0" style="color: var(--brand-cyan);" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg></div><div class="bg-main border border-main rounded-xl p-3 flex justify-between items-center cursor-pointer hover:opacity-80 transition min-w-0" onclick="copySpecificText('${jsStr(o.pass)}')"><div class="flex flex-col min-w-0 pr-2"><span class="text-[9px] font-bold text-muted uppercase tracking-widest truncate">Password</span><span class="font-mono text-xs font-bold text-main break-all mt-0.5">${esc(o.pass)}</span></div><svg class="w-4 h-4 flex-shrink-0" style="color: var(--brand-cyan);" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg></div></div>` : `<p class="text-xs text-muted font-medium italic py-1 break-words">Admin is reviewing your payment (${esc(o.trx||'')}). Details will appear here.</p>`}${o.st === "Rejected" ? `<p class="text-xs font-bold p-2 rounded-lg mt-2 break-words badge-danger">Order rejected. Contact support.</p>` : ''}</div>`;
+                    }
+                });
+                if (!aP.innerHTML.trim()) aP.innerHTML = `<div class="p-4 text-center text-muted font-medium border border-main rounded-xl border-dashed break-words">No pending orders.</div>`;
+                if (!uBox.innerHTML.trim()) uBox.innerHTML = `<div class="p-6 text-center text-muted font-medium bg-main border border-main rounded-2xl break-words">You haven't purchased any VPNs yet.</div>`;
+                const bEl = document.getElementById('p-count-badge'); if(bEl) { bEl.innerText = pCount; bEl.classList.toggle('hidden', pCount === 0); }
+                userVpnOrderStates = cOS;
+            });
+
+            onValue(ref(rtdb, 'payments'), (s) => {
+                const uP = document.getElementById('user-pay-options'), pL = document.getElementById('pay-list');
+                if(uP) uP.innerHTML = ''; if(pL) pL.innerHTML = ''; const d = s.val();
+                if(!d) { if(uP) uP.innerHTML = `<div class="col-span-2 p-3 text-center text-muted text-xs border border-main rounded-xl border-dashed break-words">No payment methods.</div>`; return; }
+                Object.keys(d).forEach(id => {
+                    const p = d[id]||{}, n=p.name||'Pay', m=p.num||'', l=p.logo||getVpnLogo(n);
+                    uP.innerHTML += `<button onclick="setPay('${jsStr(n)}','${jsStr(m)}','${jsStr(l)}', this, false)" class="pay-card hover:border-[var(--brand-cyan)] group"><div class="pay-logo-wrap"><img src="${esc(l)}" class="w-10 h-10 rounded-xl object-cover" onerror="this.style.display='none'"></div><span class="group-hover:text-[var(--brand-cyan)] transition-colors truncate w-full">${esc(n)}</span></button>`;
+                    pL.innerHTML += `<div class="flex justify-between items-center text-xs p-2.5 bg-main border border-main rounded-lg min-w-0"><div class="flex items-center gap-2 min-w-0"><img src="${esc(l)}" class="w-6 h-6 rounded object-cover flex-shrink-0" onerror="this.style.display='none'"> <b class="text-main truncate" style="color: var(--brand-navy)">${esc(n)}</b> <span class="text-muted font-mono text-[10px] ml-1 truncate">${esc(m)}</span></div><button onclick="delPay('${id}')" class="text-danger hover:opacity-80 flex-shrink-0 ml-2"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg></button></div>`;
+                });
+            });
+        }
+
+        function openPlans(id) {
+            get(ref(rtdb,`vpns/${id}`)).then(s => {
+                const v = s.val(); curV = v.name; curVid = id; const logo = v.logo || getVpnLogo(v.name);
+                let h = `<div class="flex justify-between items-center mb-5 border-b border-main pb-3 gap-2"><div class="flex items-center gap-3 min-w-0"><img src="${logo}" class="w-10 h-10 rounded-lg shadow-sm border border-main flex-shrink-0 object-cover"><h3 class="font-black text-lg text-main truncate" style="color: var(--brand-navy)">${v.name}</h3></div><button onclick="this.closest('.modal').style.display='none'" class="w-8 h-8 bg-main rounded-full font-bold text-muted flex-shrink-0 hover:opacity-80 transition border border-main">&times;</button></div>`;
+                if(v.p1n) h += `<div onclick="goPay('${v.p1n}','${v.p1p}')" class="card bg-main hover:border-[var(--brand-cyan)] transition cursor-pointer mb-3 p-4 flex justify-between items-center gap-2"><span class="font-bold text-sm text-main truncate">${v.p1n}</span><b class="text-[var(--brand-cyan)] text-lg flex-shrink-0">৳${v.p1p}</b></div>`;
+                if(v.p2n) h += `<div onclick="goPay('${v.p2n}','${v.p2p}')" class="card bg-main hover:border-[var(--brand-cyan)] transition cursor-pointer mb-3 p-4 flex justify-between items-center gap-2"><span class="font-bold text-sm text-main truncate">${v.p2n}</span><b class="text-[var(--brand-cyan)] text-lg flex-shrink-0">৳${v.p2p}</b></div>`;
+                document.getElementById('plan-content').innerHTML = h; document.getElementById('plan-modal').style.display = 'flex';
+            });
+        }
+
+        function goPay(n, p) { 
+            curPl = n; curPr = parseFloat(p); curMethod = ''; isWalletPay = false;
+            document.getElementById('plan-modal').style.display='none'; document.getElementById('pay-modal').style.display='flex'; document.getElementById('pay-details').classList.add('hidden'); document.getElementById('active-method-wrap').innerHTML = ''; document.getElementById('target-price').innerHTML = `Pay <span class="text-xl font-black">৳${p}</span>`; 
+            const uP = document.getElementById('user-pay-options'); let balanceBtn = '';
+            if (currentUserData && currentUserData.balance >= curPr) { balanceBtn = `<button onclick="setPay('App Balance', 'AUTO', '', this, true)" class="pay-card hover:border-[var(--brand-cyan)] vpn-grad-card border-none group relative overflow-hidden"><div class="relative z-10 flex flex-col items-center gap-2"><svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"></path></svg><span class="truncate w-full text-center text-white">App Wallet</span></div></button>`; } 
+            else { balanceBtn = `<div class="pay-card opacity-50 grayscale border-dashed border-main"><svg class="w-8 h-8 text-muted mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"></path></svg><span class="truncate w-full text-center">Wallet (Need ৳${curPr})</span></div>`; }
+            uP.innerHTML = balanceBtn;
+            get(ref(rtdb, 'payments')).then(s => { const d = s.val(); if(d) Object.keys(d).forEach(id => { const p=d[id]||{}; const nm=p.name||'Pay'; const l=p.logo||getVpnLogo(nm); uP.innerHTML += `<button onclick="setPay('${jsStr(nm)}','${jsStr(p.num)}','${jsStr(l)}', this, false)" class="pay-card hover:border-[var(--brand-cyan)] group"><div class="pay-logo-wrap"><img src="${esc(l)}" class="w-10 h-10 rounded-xl object-cover" onerror="this.style.display='none'"></div><span class="group-hover:text-[var(--brand-cyan)] transition-colors truncate w-full">${esc(nm)}</span></button>`; }); });
+        }
+
+        function setPay(n, m, logo = '', el = null, isWallet = false) { 
+            curMethod = n; isWalletPay = isWallet;
+            document.querySelectorAll('.pay-card').forEach(c => c.classList.remove('active', 'ring-2', 'ring-[var(--brand-cyan)]')); 
+            if(el) { el.classList.add('active'); if(isWallet) el.classList.add('ring-2', 'ring-white'); }
+            const trxArea = document.getElementById('trx-input-area'); const detailsArea = document.getElementById('pay-details');
+            if(isWallet) {
+                document.getElementById('active-num').innerText = "Titanium Wallet"; document.getElementById('active-method-wrap').innerHTML = `<span class="badge-success px-3 py-1.5 rounded-full text-xs font-black uppercase shadow-sm">Paying via Balance</span>`;
+                trxArea.classList.add('hidden'); document.getElementById('trx-id').value = 'AUTO-WALLET';
+            } else {
+                document.getElementById('active-num').innerText = m; document.getElementById('active-method-wrap').innerHTML = `<span class="px-3 py-1.5 rounded-full text-xs font-black uppercase shadow-sm flex items-center gap-2 justify-center mx-auto w-max max-w-full" style="background: var(--cyan-light); color: var(--brand-navy); border: 1px solid var(--cyan-light);"><img src="${logo||getVpnLogo(n)}" class="w-5 h-5 rounded object-cover" onerror="this.style.display='none'"><span class="truncate">${esc(n)}</span></span>`;
+                trxArea.classList.remove('hidden'); document.getElementById('trx-id').value = '';
+            }
+            detailsArea.classList.remove('hidden'); 
+        }
+        
+        async function orderNow() {
+            const trx = document.getElementById('trx-id').value.trim(); if(!curMethod) return showToast('Select payment method', 'warning'); if(!trx) return showToast('Enter TrxID', 'warning');
+            if (isWalletPay) { if(!currentUserData || currentUserData.balance < curPr) return showToast('Insufficient Wallet Balance', 'error'); await updateDoc(doc(db, 'users', String(tgUser.id)), { balance: increment(-curPr) }); }
+            const now = new Date(); const dateStr = now.toLocaleDateString('en-GB') + ' ' + now.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+            push(ref(rtdb, 'orders'), { vpn: curV, vpn_id: curVid, plan: curPl, price: curPr, trx: trx.toUpperCase(), method: curMethod, uid: String(tgUser.id), user: tgUser.first_name, st: "Pending", date: dateStr }).then(() => { showToast('Order sent successfully!', 'success'); document.getElementById('pay-modal').style.display = 'none'; document.getElementById('trx-id').value = ''; switchView('vpnOrders'); });
+        }
+
+        async function addVpn() { 
+            const n = document.getElementById('v-name').value.trim(); 
+            let l = document.getElementById('vpn-logo-in').value.trim();
+            if(!n) return showToast('Enter VPN brand name', 'warning'); 
+            const btn = document.getElementById('btnCreateVpn'); const orig = btn.innerHTML;
+            btn.innerHTML = "Saving Brand..."; btn.disabled = true;
+            try {
+                const localBase64 = await readAsBase64('vpn-logo-file');
+                if (localBase64) l = localBase64;
+                
+                await push(ref(rtdb,'vpns'),{name:n, status: "ON", logo: l});
+                document.getElementById('v-name').value=''; document.getElementById('vpn-logo-in').value=''; document.getElementById('vpn-logo-file').value='';
+                document.getElementById('vpnLogoFileLabel').innerHTML = '<i class="fa-solid fa-image mr-1"></i> Upload Logo';
+                showToast('Brand created successfully', 'success'); 
+            } catch(e) { showToast("Error", "error"); } finally { btn.innerHTML = orig; btn.disabled = false; }
+        }
+
+        async function addPay() { 
+            const n = document.getElementById('pay-name').value.trim(), m = document.getElementById('pay-num-in').value.trim(); 
+            let l = document.getElementById('pay-logo-in').value.trim(); 
+            if(!n || !m) return showToast('Enter name and number', 'warning');
+            const btn = document.getElementById('btnAddPayMethod'); const orig = btn.innerHTML;
+            btn.innerHTML = "Saving Method..."; btn.disabled = true;
+            try {
+                const localBase64 = await readAsBase64('pay-logo-file');
+                if (localBase64) l = localBase64;
+
+                await push(ref(rtdb,'payments'),{name:n,num:m,logo:l});
+                document.getElementById('pay-name').value=''; document.getElementById('pay-num-in').value=''; document.getElementById('pay-logo-in').value=''; document.getElementById('pay-logo-file').value='';
+                document.getElementById('payLogoFileLabel').innerHTML = '<i class="fa-solid fa-image mr-1"></i> Upload Logo';
+                showToast('Method added successfully', 'success'); 
+            } catch(e) { showToast("Error", "error"); } finally { btn.innerHTML = orig; btn.disabled = false; }
+        }
+
+        function showStockList(orderId, vpnId) {
+            const content = document.getElementById('stock-select-content');
+            let h = `<div class="mb-4 font-black text-main text-lg flex justify-between items-center border-b border-main pb-3 gap-2 truncate" style="color: var(--brand-navy)"><span class="truncate">Select Account</span> <button onclick="this.closest('.modal').style.display='none'" class="w-8 h-8 bg-main rounded-full font-bold text-muted text-sm flex-shrink-0 hover:opacity-80 transition border border-main">&times;</button></div>`;
+            if(!vpnId) { content.innerHTML = h + `<p class="badge-danger p-3 rounded-xl break-words">Order missing VPN ID.</p>`; document.getElementById('stock-select-modal').style.display = 'flex'; return; }
+            get(ref(rtdb, `vpns/${vpnId}/stock`)).then(snap => {
+                if(snap.exists()) { Object.keys(snap.val()).forEach(sk => { const stock = snap.val()[sk] || {}; h += `<button class="w-full text-left p-4 bg-main hover:border-[var(--brand-cyan)] border border-main transition mb-2 rounded-xl font-medium text-sm text-main truncate max-w-full block" onclick="approveSelected('${orderId}','${vpnId}','${sk}')" style="color: var(--brand-navy)">${esc(stock.email || 'No email')}</button>`; }); } 
+                else h += `<p class="badge-warning p-3 rounded-xl break-words">Stock empty! Add accounts first.</p>`;
+                content.innerHTML = h; document.getElementById('stock-select-modal').style.display = 'flex';
+            });
+        }
+        function approveSelected(orderId, vpnId, stockKey) { get(ref(rtdb, `vpns/${vpnId}/stock/${stockKey}`)).then(snap => { if(!snap.exists()) return showToast('Stock not found', 'error'); update(ref(rtdb, `orders/${orderId}`), { st: "Approved", email: snap.val().email, pass: snap.val().pass }).then(()=> { remove(ref(rtdb, `vpns/${vpnId}/stock/${stockKey}`)); document.getElementById('stock-select-modal').style.display = 'none'; showToast('Delivered', 'success'); }); }); }
+        function rejectOrder(id) { update(ref(rtdb, `orders/${id}`), { st: "Rejected" }).then(() => showToast('Rejected', 'success')); }
+        function saveV(id) { update(ref(rtdb,`vpns/${id}`), { p1n: document.getElementById(`p1n-${id}`).value.trim(), p1p: document.getElementById(`p1p-${id}`).value.trim(), p2n: document.getElementById(`p2n-${id}`).value.trim(), p2p: document.getElementById(`p2p-${id}`).value.trim() }).then(() => showToast('Saved', 'success')); }
+        function addStock() { const e = document.getElementById('stock-email').value.trim(), p = document.getElementById('stock-pass').value.trim(), vid = document.getElementById('stock-vpn-id').value; if(!vid || !e || !p) return showToast('Fill all fields', 'warning'); push(ref(rtdb, `vpns/${vid}/stock`), { email: e, pass: p }).then(() => { document.getElementById('stock-email').value = ''; document.getElementById('stock-pass').value = ''; showToast('Stock added', 'success'); }); }
+        function toggleV(id, val) { update(ref(rtdb, `vpns/${id}`), { status: val ? "ON" : "OFF" }).then(() => showToast(val ? 'Online' : 'Offline', 'success')); }
+        function delV(id) { remove(ref(rtdb,`vpns/${id}`)).then(() => showToast('Deleted', 'success')); }
+        function delStockItem(vid, skey) { remove(ref(rtdb, `vpns/${vid}/stock/${skey}`)).then(() => showToast('Removed', 'success')); }
+        function delPay(id) { remove(ref(rtdb,`payments/${id}`)).then(() => showToast('Removed', 'success')); }
+
+        function switchView(vid) {
+            document.querySelectorAll('.view-section').forEach(el => el.classList.add('hidden')); 
+            document.getElementById(vid + 'View').classList.remove('hidden');
+            document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active')); 
+            
+            let activeNavId = vid;
+            if(vid === 'vpnStore') activeNavId = 'dashboard';
+            if(vid === 'fetchOtp') activeNavId = 'getnumber';
+            
+            const navBtn = document.getElementById('nav-' + activeNavId); 
+            if(navBtn) navBtn.classList.add('active');
+            
+            if(vid === 'console') { loadConsoleData(); if(!consoleUpdateInterval) consoleUpdateInterval = setInterval(loadConsoleData, 5000); } 
+            else { clearInterval(consoleUpdateInterval); consoleUpdateInterval = null; }
+            if(vid === 'getnumber') renderActiveNumbers();
+        }
+
+        function switchAdminTab(tabId) {
+            document.querySelectorAll('.admin-tab').forEach(t => t.classList.remove('active')); document.getElementById('tab-' + tabId).classList.add('active');
+            document.querySelectorAll('.admin-content-section').forEach(s => s.classList.add('hidden')); const map = {stats:'adminTabStats', api:'adminTabApi', withdrawals:'adminTabWithdrawals', users:'adminTabUsers', broadcast:'adminTabBroadcast', links:'adminTabLinks', vpnOrders:'adminTabVpnOrders', vpnStock:'adminTabVpnStock', vpnBrands:'adminTabVpnBrands'};
+            if(map[tabId]) document.getElementById(map[tabId]).classList.remove('hidden');
+            if(tabId === 'users') loadAdminUsers();
+        }
+
+        function filterAdminUsers() {
+            const q = document.getElementById('adminUserSearch').value.toLowerCase(); const list = document.getElementById('adminUserList'); list.innerHTML = '';
+            const filtered = q ? adminUsersCache.filter(u => u.name.toLowerCase().includes(q) || u.uid.includes(q)) : adminUsersCache;
+            filtered.forEach(u => { const bStyle = u.banned ? 'background: var(--bg-success); color: var(--text-success); border-color: var(--border-success);' : 'background: var(--bg-danger); color: var(--text-danger); border-color: var(--border-danger);';
+                list.innerHTML += `<div class="p-4 bg-card border border-main rounded-xl mb-2 flex flex-col gap-3 min-w-0"><div class="flex justify-between items-start gap-2"><div class="min-w-0"><p class="font-bold text-main text-sm truncate" style="color: var(--brand-navy)">${esc(u.name)}</p><p class="text-[10px] text-muted font-mono mt-0.5 truncate">UID: ${esc(u.uid)}</p></div><button onclick="deleteUser('${esc(u.uid)}')" class="text-[10px] text-danger hover:opacity-80 font-bold uppercase underline flex-shrink-0">Delete</button></div><div class="grid grid-cols-2 gap-2"><div class="flex flex-col bg-main p-2 rounded-lg border border-main"><span class="text-[9px] font-bold text-muted uppercase">Rate</span><input type="number" step="0.01" value="${u.rate}" onchange="updateUserProp('${esc(u.uid)}', 'rate', this.value)" class="bg-transparent border-b border-main w-full text-xs font-bold outline-none pt-1 text-main"></div><div class="flex flex-col bg-main p-2 rounded-lg border border-main"><span class="text-[9px] font-bold text-muted uppercase">Bal (৳)</span><input type="number" step="1" value="${(u.balance||0).toFixed(2)}" onchange="updateUserProp('${esc(u.uid)}', 'balance', this.value)" class="bg-transparent border-b border-main w-full text-xs font-black outline-none pt-1" style="color: var(--brand-cyan);"></div></div><button onclick="updateUserProp('${esc(u.uid)}', 'banned', ${!u.banned})" class="w-full py-2 rounded-lg text-xs font-black border uppercase tracking-wider truncate" style="${bStyle}">${u.banned?'Unban User':'Ban User'}</button></div>`;
+            });
+        }
+        async function loadAdminUsers() { const list = document.getElementById('adminUserList'); list.innerHTML = '<div class="p-3 text-center text-xs text-muted">Loading...</div>'; try { const snap = await getDocs(collection(db, 'users')); adminUsersCache = []; snap.forEach(d => adminUsersCache.push(d.data())); document.getElementById('adminTotalUsersCount').innerText = snap.size; filterAdminUsers(); } catch(e) { list.innerHTML = "Error"; } }
+        async function updateUserProp(uid, p, val) { try { let v = (p==='rate' || p==='balance') ? parseFloat(val) : val; await updateDoc(doc(db, 'users', uid), { [p]: v }); showToast("Updated", "success"); if(p==='banned') loadAdminUsers(); } catch(e) { showToast("Failed", "error"); } }
+        async function deleteUser(uid) { try { await deleteDoc(doc(db, 'users', uid)); showToast("Deleted", "success"); loadAdminUsers(); } catch(e) { showToast("Failed", "error"); } }
+        
+        async function removeAppLogo() {
+            try { await updateDoc(doc(db, 'global', 'settings'), { appLogo: "" }); document.getElementById('adminAppLogoUrl').value = ''; document.getElementById('adminAppLogoFile').value = ''; document.getElementById('adminAppLogoFileLabel').innerHTML = '<i class="fa-solid fa-image mr-1"></i> Upload Image'; showToast("Logo removed", "success"); } catch(e) {}
+        }
+
+        async function saveAdminApi() { 
+            const btn = document.getElementById('btnSaveApiSet'); const orig = btn.innerHTML;
+            btn.innerHTML = "Uploading & Saving..."; btn.disabled = true;
+            try { 
+                let newLogoUrl = document.getElementById('adminAppLogoUrl').value.trim();
+                if(document.getElementById('adminAppLogoFile').files.length > 0) {
+                    const upLogo = await readAsBase64('adminAppLogoFile');
+                    if(upLogo) newLogoUrl = upLogo;
+                }
+
+                await updateDoc(doc(db, 'global', 'settings'), { 
+                    appName: document.getElementById('adminAppName').value.trim() || "Titanium",
+                    appLogo: newLogoUrl,
+                    botUsername: document.getElementById('adminBotUsername').value.trim() || "TitaniumNumberBot",
+                    stexKey: document.getElementById('adminStexKey').value.trim(), voltxKey: document.getElementById('adminVoltxKey').value.trim(), botToken: document.getElementById('adminBotToken').value.trim(), enableStex: document.getElementById('adminEnableStex').checked, enableVoltx: document.getElementById('adminEnableVoltx').checked, refComm: parseFloat(document.getElementById('adminRefComm').value)||0.05, minWithdraw: parseFloat(document.getElementById('adminMinWithdraw').value)||10, welcomeMsg: document.getElementById('adminWelcomeMsg').value.trim() 
+                }); 
+                document.getElementById('adminAppLogoFile').previousElementSibling.innerHTML = '<i class="fa-solid fa-image mr-1"></i> Upload Image';
+                showToast("Settings & Branding Saved", "success"); 
+            } catch(e) { showToast("Error saving", "error"); } 
+            finally { btn.innerHTML = orig; btn.disabled = false; }
+        }
+        
+        async function toggleGlobalWithdraw() { try { await updateDoc(doc(db, 'global', 'settings'), { withdrawEnabled: document.getElementById('adminWithdrawToggle').checked }); showToast("Status updated", "success"); } catch(e) { showToast("Error", "error"); } }
+        async function addWithdrawMethod() { const m = document.getElementById('adminNewMethodInput').value.trim(); if(!m) return; try { await updateDoc(doc(db, 'global', 'settings'), { methods: [...(globalSettings.methods || []), m] }); document.getElementById('adminNewMethodInput').value=''; } catch(e){} }
+        async function removeWithdrawMethod(m) { try { await updateDoc(doc(db, 'global', 'settings'), { methods: (globalSettings.methods || []).filter(x => x !== m) }); } catch(e){} }
+        async function addCustomLink() { const name = document.getElementById('adminLinkName').value.trim(), url = document.getElementById('adminLinkUrl').value.trim(); if(!name||!url) return showToast("Enter details", "error"); try { await updateDoc(doc(db, 'global', 'settings'), { customLinks: [...(globalSettings.customLinks || []), {name, url}] }); document.getElementById('adminLinkName').value=''; document.getElementById('adminLinkUrl').value=''; showToast("Link added", "success"); } catch(e){} }
+        async function removeCustomLink(index) { const newLinks = [...(globalSettings.customLinks || [])]; newLinks.splice(index, 1); try { await updateDoc(doc(db, 'global', 'settings'), { customLinks: newLinks }); showToast("Link removed", "success"); } catch(e){} }
+        async function updateWithdrawStatus(id, status, refundAmt=0, uid='') { try { await updateDoc(doc(db, 'withdrawals', id), { status: status }); if(status === 'REJECTED' && refundAmt > 0) await updateDoc(doc(db, 'users', uid), { balance: increment(refundAmt) }); showToast(`Marked as ${status}`, "success"); } catch(e) {} }
+
+        async function sendBroadcast() {
+            const msg = document.getElementById('adminBroadcastMessage').value.trim(), sendDm = document.getElementById('adminSendTgDm').checked;
+            if(!msg) return showToast("Message empty", "error");
+            const btn = document.getElementById('broadcastBtnElement'); btn.disabled = true; btn.innerHTML = `<span class="animate-pulse">Sending...</span>`;
+            try {
+                await setDoc(doc(db, 'global', 'broadcast'), { message: msg, timestamp: Date.now() });
+                if(sendDm && globalSettings.botToken) {
+                    const snap = await getDocs(collection(db, 'users')); const uids = []; snap.forEach(d => { if(!d.data().banned) uids.push(d.id); });
+                    let successCount = 0;
+                    for (let i = 0; i < uids.length; i++) { try { await fetch(`https://api.telegram.org/bot${globalSettings.botToken}/sendMessage`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ chat_id: uids[i], text: `📢 <b>Announcement</b>\n\n${msg}`, parse_mode: 'HTML' }) }); successCount++; } catch(e) {} await new Promise(r => setTimeout(r, 35)); }
+                    showToast(`Broadcast Sent! App updated & ${successCount} DMs sent.`, "success");
+                } else showToast("Broadcast Sent to Web App!", "success");
+                document.getElementById('adminBroadcastMessage').value = ''; document.getElementById('adminSendTgDm').checked = false;
+            } catch(e) { showToast("Error", "error"); } finally { btn.disabled = false; btn.innerHTML = `<svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path></svg> Send Broadcast`; }
+        }
+
+        function copySpecificText(t) {
+            const el = document.createElement("textarea"); el.value = t; document.body.appendChild(el); el.select();
+            try { document.execCommand('copy'); showToast("Copied", "success"); } catch(e) {} el.remove();
+        }
+
+        function useRange(r) {
+            switchView('getnumber');
+            document.getElementById('rangeInput').value = r;
+            const rInput = document.getElementById('rangeInput');
+            rInput.classList.add('ring-4', 'ring-[var(--brand-cyan)]');
+            setTimeout(() => rInput.classList.remove('ring-4', 'ring-[var(--brand-cyan)]'), 1000);
+            showToast("Range Selected", "success");
+        }
+
+        initApp();
+    </script>
+</body>
+</html>
