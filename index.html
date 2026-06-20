@@ -857,6 +857,12 @@
         let rangeStats = {}; let activeRequests = []; let currentNumberFilter = 'ALL';
         let consoleUpdateInterval = null; let countdownTickerInterval = null; let adminUsersCache = [];
         let userVpnOrderStates = {}; let curV = '', curPl = '', curPr = 0, curVid = '', curMethod = '', isWalletPay = false;
+        
+        // ---- FIX: Undefined Variables Added Here ----
+        let lastUpdateId = 0;
+        let botPollInterval = null;
+        const themes = ["soft-light", "dark", "neon-purple", "gray", "neon-dark"];
+        // ---------------------------------------------
 
         const SERVICE_SMS_KEYWORDS = {
             "whatsapp": ["whatsapp", "wa", "wap", "w/a", "whatsapp business", "whatsapp code", "whatsapp verification", "whatsapp kod"],
@@ -1390,6 +1396,7 @@
                     switchView('dashboard');
                 }
             } catch (err) {
+                console.error(err);
                 const loader = document.getElementById('appLoadingScreen'); loader.classList.add('hidden');
                 showToast("Connection Error", "error");
             }
