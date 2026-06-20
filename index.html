@@ -428,7 +428,6 @@
             </div>
         </div>
 
-        <!-- FETCH OTP VIEW -->
         <div id="fetchOtpView" class="view-section hidden space-y-4">
             <div class="flex items-center gap-3 mb-2 px-1">
                 <button onclick="switchView('getnumber')" class="bg-main border border-main text-main p-2 rounded-xl hover:opacity-80 transition-colors shadow-sm flex-shrink-0">
@@ -449,7 +448,6 @@
             </div>
         </div>
 
-        <!-- CONSOLE VIEW -->
         <div id="consoleView" class="view-section hidden space-y-3">
             <div class="flex gap-2 w-full mb-2">
                 <div class="relative flex-grow min-w-0">
@@ -468,7 +466,6 @@
             </div>
         </div>
 
-        <!-- WITHDRAW VIEW -->
         <div id="withdrawView" class="view-section hidden space-y-4">
             <h2 class="text-xl font-black text-main mb-2 px-1 truncate" style="color: var(--brand-navy)">💳 Withdraw Wallet</h2>
             
@@ -510,7 +507,6 @@
             </div>
         </div>
 
-        <!-- PROFILE VIEW -->
         <div id="profileView" class="view-section hidden space-y-4">
             <h2 class="text-xl font-black text-main mb-2 px-1 truncate" style="color: var(--brand-navy)">👑 Profile</h2>
             <div class="card p-6 text-center flex flex-col items-center">
@@ -540,7 +536,6 @@
             </div>
         </div>
 
-        <!-- VPN STORE VIEW -->
         <div id="vpnStoreView" class="view-section hidden space-y-4">
             <div class="flex items-center gap-3 mb-2 px-1">
                 <button onclick="switchView('dashboard')" class="bg-main border border-main text-main p-2 rounded-xl hover:opacity-80 transition-colors shadow-sm flex-shrink-0">
@@ -551,13 +546,11 @@
             <div id="vpn-list" class="space-y-3"></div>
         </div>
 
-        <!-- VPN ORDERS VIEW -->
         <div id="vpnOrdersView" class="view-section hidden space-y-4">
             <h2 class="text-xl font-black text-main mb-2 px-1 truncate" style="color: var(--brand-navy)">📦 VPN Orders</h2>
             <div id="user-orders" class="space-y-3"></div>
         </div>
 
-        <!-- ADMIN PANEL VIEW -->
         <div id="adminView" class="view-section hidden space-y-4 pb-20">
             <h2 class="font-black text-xl text-main px-1 truncate" style="color: var(--brand-navy)">Admin Panel</h2>
             
@@ -904,35 +897,26 @@
         let rangeStats = {}; let activeRequests = []; let currentNumberFilter = 'ALL';
         let consoleUpdateInterval = null; let countdownTickerInterval = null; let adminUsersCache = [];
         let userVpnOrderStates = {}; let curV = '', curPl = '', curPr = 0, curVid = '', curMethod = '', isWalletPay = false;
+        
+        // Window Exposure
+        window.switchView = switchView; window.switchAdminTab = switchAdminTab; window.copySpecificText = copySpecificText;
+        window.requestNumber = requestNumber; window.saveAdminApi = saveAdminApi; window.loadAdminUsers = loadAdminUsers; window.filterAdminUsers = filterAdminUsers;
+        window.updateUserProp = updateUserProp; window.deleteUser = deleteUser; window.useRange = useRange; window.closeBroadcast = closeBroadcast; window.sendBroadcast = sendBroadcast;
+        window.useMaxWithdraw = useMaxWithdraw; window.submitWithdraw = submitWithdraw; window.addWithdrawMethod = addWithdrawMethod; window.removeWithdrawMethod = removeWithdrawMethod;
+        window.toggleGlobalWithdraw = toggleGlobalWithdraw; window.addCustomLink = addCustomLink; window.removeCustomLink = removeCustomLink;
+        window.copyReferralLink = copyReferralLink; window.filterNumberList = filterNumberList; window.toggleTheme = toggleTheme; window.animateRefresh = animateRefresh; window.removeAppLogo = removeAppLogo;
+        
+        window.openPlans = openPlans; window.goPay = goPay; window.setPay = setPay; window.orderNow = orderNow;
+        window.showStockList = showStockList; window.approveSelected = approveSelected; window.rejectOrder = rejectOrder; window.toggleV = toggleV;
+        window.addPay = addPay; window.delPay = delPay; window.addVpn = addVpn; window.delV = delV; window.saveV = saveV; window.addStock = addStock; window.delStockItem = delStockItem;
+        window.renderActiveNumbers = renderActiveNumbers; window.loadConsoleData = loadConsoleData; window.suggestBestRange = suggestBestRange; window.clearNumberHistory = clearNumberHistory;
+        window.fetchManualOtp = fetchManualOtp; window.debounceFilterConsole = debounceFilterConsole;
+        
+        window.approveWithdrawRequest = approveWithdrawRequest; window.rejectWithdrawRequest = rejectWithdrawRequest;
+        window.generate2FACode = generate2FACode; window.generateRealName = generateRealName; window.generateIgUsernames = generateIgUsernames;
+        window.addAdmin = addAdmin; window.removeAdmin = removeAdmin; window.toggleBotEngine = toggleBotEngine; window.handleLogoSelection = handleLogoSelection;
 
-        const COUNTRY_FLAGS = {
-            "afghanistan": "🇦🇫", "albania": "🇦🇱", "algeria": "🇩🇿", "argentina": "🇦🇷", "australia": "🇦🇺",
-            "austria": "🇦🇹", "bangladesh": "🇧🇩", "belgium": "🇧🇪", "brazil": "🇧🇷", "bulgaria": "🇧🇬", "canada": "🇨🇦", "china": "🇨🇳",
-            "croatia": "🇭🇷", "cyprus": "🇨🇾", "czech republic": "🇨🇿", "denmark": "🇩🇰", "egypt": "🇪🇬", "estonia": "🇪🇪",
-            "finland": "🇫🇮", "france": "🇫🇷", "germany": "🇩🇪", "greece": "🇬🇷", "hungary": "🇭🇺", "india": "🇮🇳", "indonesia": "🇮🇩",
-            "ireland": "🇮🇪", "israel": "🇮🇱", "italy": "🇮🇹", "japan": "🇯🇵", "kazakhstan": "🇰🇿", "kenya": "🇰🇪", "latvia": "🇱🇻",
-            "lithuania": "🇱🇹", "luxembourg": "🇱🇺", "malaysia": "🇲🇾", "mexico": "🇲🇽", "morocco": "🇲🇦", "myanmar": "🇲🇲",
-            "nepal": "🇳🇵", "netherlands": "🇳🇱", "new zealand": "🇳🇿", "nigeria": "🇳🇬", "norway": "🇳🇴", "pakistan": "🇵🇰",
-            "peru": "🇵🇪", "philippines": "🇵🇭", "poland": "🇵🇱", "portugal": "🇵🇹", "romania": "🇷🇴", "russia": "🇷🇺",
-            "saudi arabia": "🇸🇦", "serbia": "🇷🇸", "singapore": "🇸🇬", "slovakia": "🇸🇰", "slovenia": "🇸🇮", "south africa": "🇿🇦", 
-            "south korea": "🇰🇷", "spain": "🇪🇸", "sri lanka": "🇱🇰", "sweden": "🇸🇪", "switzerland": "🇨🇭", "taiwan": "🇹🇼",
-            "thailand": "🇹🇭", "turkey": "🇹🇷", "uk": "🇬🇧", "united kingdom": "🇬🇧", "usa": "🇺🇸", "united states": "🇺🇸", "vietnam": "🇻🇳"
-        };
-
-        const PHONE_TO_COUNTRY = {
-            "1": "United States", "7": "Russia", "20": "Egypt", "27": "South Africa", "30": "Greece", "31": "Netherlands",
-            "32": "Belgium", "33": "France", "34": "Spain", "36": "Hungary", "39": "Italy", "40": "Romania", "41": "Switzerland",
-            "43": "Austria", "44": "United Kingdom", "45": "Denmark", "46": "Sweden", "47": "Norway", "48": "Poland",
-            "49": "Germany", "51": "Peru", "52": "Mexico", "54": "Argentina", "55": "Brazil", "60": "Malaysia",
-            "61": "Australia", "62": "Indonesia", "63": "Philippines", "64": "New Zealand", "65": "Singapore", "66": "Thailand",
-            "81": "Japan", "82": "South Korea", "84": "Vietnam", "86": "China", "90": "Turkey", "91": "India", "92": "Pakistan",
-            "93": "Afghanistan", "94": "Sri Lanka", "95": "Myanmar", "977": "Nepal", "212": "Morocco", "234": "Nigeria",
-            "254": "Kenya", "353": "Ireland", "358": "Finland", "359": "Bulgaria", "370": "Lithuania", "371": "Latvia",
-            "372": "Estonia", "381": "Serbia", "385": "Croatia", "386": "Slovenia", "420": "Czech Republic", "421": "Slovakia",
-            "880": "Bangladesh", "886": "Taiwan", "966": "Saudi Arabia", "972": "Israel", "997": "Kazakhstan"
-        };
-
-        // ====== CORE UI FUNCTIONS ====== //
+        // --- CORE FUNCTIONS ---
         function switchView(viewId) {
             document.querySelectorAll('.view-section').forEach(view => {
                 view.classList.add('hidden');
@@ -943,7 +927,6 @@
             document.querySelectorAll('.nav-item').forEach(nav => {
                 nav.classList.remove('active');
             });
-            
             let activeNavId = viewId;
             if(viewId === 'vpnStore') activeNavId = 'dashboard';
             if(viewId === 'fetchOtp') activeNavId = 'getnumber';
@@ -959,23 +942,8 @@
         }
 
         function switchAdminTab(tabId) {
-            document.querySelectorAll('.admin-tab').forEach(t => t.classList.remove('active')); 
-            document.getElementById('tab-' + tabId).classList.add('active');
-            document.querySelectorAll('.admin-content-section').forEach(s => s.classList.add('hidden')); 
-            
-            const map = {
-                stats: 'adminTabStats', 
-                api: 'adminTabApi', 
-                admins: 'adminTabAdmins',
-                withdrawals: 'adminTabWithdrawals', 
-                users: 'adminTabUsers', 
-                broadcast: 'adminTabBroadcast', 
-                links: 'adminTabLinks', 
-                vpnOrders: 'adminTabVpnOrders', 
-                vpnStock: 'adminTabVpnStock', 
-                vpnBrands: 'adminTabVpnBrands'
-            };
-            
+            document.querySelectorAll('.admin-tab').forEach(t => t.classList.remove('active')); document.getElementById('tab-' + tabId).classList.add('active');
+            document.querySelectorAll('.admin-content-section').forEach(s => s.classList.add('hidden')); const map = {stats:'adminTabStats', api:'adminTabApi', withdrawals:'adminTabWithdrawals', users:'adminTabUsers', broadcast:'adminTabBroadcast', links:'adminTabLinks', vpnOrders:'adminTabVpnOrders', vpnStock:'adminTabVpnStock', vpnBrands:'adminTabVpnBrands'};
             if(map[tabId]) document.getElementById(map[tabId]).classList.remove('hidden');
             if(tabId === 'users') loadAdminUsers();
         }
@@ -1047,6 +1015,32 @@
                 lbl.innerHTML = `<i class='fa-solid fa-check text-success mr-1'></i> Selected`;
             }
         }
+        
+        // --- THEME LOGIC ---
+        const themes = ['soft-light', 'dark', 'neon-purple', 'gray', 'neon-dark'];
+        let currentThemeIdx = 0; // Ensures index 0 is always evaluated as the base.
+        
+        function toggleTheme() {
+            currentThemeIdx = (currentThemeIdx + 1) % themes.length;
+            document.documentElement.setAttribute('data-theme', themes[currentThemeIdx]);
+            localStorage.setItem('numax-theme', themes[currentThemeIdx]);
+            showToast(`Theme switched to: ${themes[currentThemeIdx].toUpperCase()}`, "success");
+        }
+        
+        function loadTheme() {
+            const saved = localStorage.getItem('numax-theme');
+            if (saved && themes.includes(saved)) {
+                currentThemeIdx = themes.indexOf(saved);
+                document.documentElement.setAttribute('data-theme', saved);
+            } else {
+                currentThemeIdx = 0; // Hard reset the index
+                document.documentElement.setAttribute('data-theme', 'soft-light'); // Enforce White Default immediately
+                localStorage.setItem('numax-theme', 'soft-light');
+            }
+        }
+        
+        // Immediately execute theme load to prevent flash of wrong theme
+        loadTheme();
 
         // --- ROLE LOGIC ---
         function getUserRole(uid) {
@@ -1145,6 +1139,13 @@
                     });
                 }
             } catch(e) {}
+        }
+        
+        function clearNumberHistory() {
+            activeRequests = [];
+            saveRequestsToStorage();
+            renderActiveNumbers();
+            showToast("History cleared successfully", "success");
         }
 
         async function sendTelegramMessage(chatId, text, inlineKeyboard = null) {
