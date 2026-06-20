@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="neon-dark">
+<html lang="en" data-theme="soft-light">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     
     <style>
-        /* Eye-Protected Default (Soft Light) */
+        /* Eye-Protected Default (Soft Light / White) */
         :root[data-theme="soft-light"] {
             --brand-navy: #0F172A; --brand-cyan: #0D9488; --bg-main: #F8FAFC; --bg-card: #FFFFFF;
             --text-dark: #0F172A; --text-muted: #64748B; --border-light: #E2E8F0; 
@@ -57,7 +57,7 @@
             --btn-grad-1: #3F3F46; --btn-grad-2: #71717A; --shadow-glow: none;
         }
 
-        /* NEON DARK (Requested Premium Theme) */
+        /* NEON DARK (Premium Theme) */
         :root[data-theme="neon-dark"] {
             --brand-navy: #00FFCC; --brand-cyan: #FF007F; --bg-main: #020205; --bg-card: #0A0A14; 
             --text-dark: #FFFFFF; --text-muted: #9EAFCE; --border-light: #1A1A30; 
@@ -1878,7 +1878,6 @@
                         
                         let detectedService = String(h.sid || h.service || h.app || 'APP').toUpperCase();
                         
-                        // Premium Service Detection Logic using the newly added dictionaries
                         const lowerMsg = msgStr.toLowerCase();
                         for (const [srv, keywords] of Object.entries(SERVICE_SMS_KEYWORDS)) {
                             if (keywords.some(kw => lowerMsg.includes(kw))) {
