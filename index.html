@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title id="pageTitleText">Titanium Unified App</title>
+    <title id="pageTitleText">Titanium OTP</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
@@ -131,14 +131,13 @@
     </style>
 </head>
 <body class="min-h-screen flex flex-col antialiased">
-
     <!-- Loading Screen -->
     <div id="appLoadingScreen" class="fixed inset-0 z-[99999] flex flex-col items-center justify-center bg-[var(--bg-main)] transition-opacity duration-500">
         <div class="relative flex flex-col items-center">
             <div class="absolute inset-0 bg-[var(--brand-cyan)] blur-[60px] opacity-20 rounded-full w-32 h-32 -z-10"></div>
             <img id="loaderLogo" src="" alt="App Logo" class="w-24 h-24 rounded-2xl shadow-2xl mb-6 object-cover border-2 border-[var(--border-light)] bg-[var(--bg-card)] hidden">
             <div id="loaderLogoFallback" class="w-24 h-24 rounded-2xl shadow-2xl mb-6 flex items-center justify-center text-4xl font-black text-white bg-gradient-to-br from-[var(--btn-grad-1)] to-[var(--btn-grad-2)]">T</div>
-            <h1 id="loaderAppName" class="text-3xl font-black text-[var(--brand-navy)] tracking-tight mb-2">Titanium</h1>
+            <h1 id="loaderAppName" class="text-3xl font-black text-[var(--brand-navy)] tracking-tight mb-2">Titanium OTP</h1>
             <div class="flex gap-1.5 mt-4">
                 <div class="w-2 h-2 rounded-full bg-[var(--brand-cyan)] animate-bounce" style="animation-delay: -0.3s"></div>
                 <div class="w-2 h-2 rounded-full bg-[var(--brand-cyan)] animate-bounce" style="animation-delay: -0.15s"></div>
@@ -174,13 +173,12 @@
             </div>
         </div>
     </div>
-
     <!-- Header -->
     <header class="glass-header fixed top-0 w-full z-40 px-4 py-3 flex justify-between items-center shadow-sm">
         <div class="flex items-center gap-2">
             <img id="headerLogo" src="" alt="App Logo" class="w-8 h-8 rounded-lg object-cover shadow-sm hidden">
             <div id="headerLogoFallback" class="w-8 h-8 rounded-lg vpn-grad-card flex items-center justify-center font-black text-lg shadow-md border-none">T</div>
-            <h1 id="headerAppName" class="text-lg font-black tracking-tight" style="color: var(--brand-navy);">Titanium</h1>
+            <h1 id="headerAppName" class="text-lg font-black tracking-tight" style="color: var(--brand-navy);">Titanium OTP</h1>
             <span id="headerRoleBadge" class="hidden role-badge">USER</span>
         </div>
         <div class="flex items-center gap-3">
@@ -195,7 +193,6 @@
         </div>
     </header>
 
-    <!-- MAIN CONTAINER -->
     <main id="mainContainer" class="pt-20 pb-24 px-4 max-w-2xl mx-auto w-full flex-grow relative">
         
         <!-- DASHBOARD VIEW -->
@@ -206,8 +203,8 @@
                     <div class="flex items-center gap-4 min-w-0">
                         <div class="bg-white/20 p-2.5 rounded-xl text-white text-2xl shadow-inner flex-shrink-0"><i class="fa-solid fa-shield-halved"></i></div>
                         <div class="flex flex-col min-w-0 text-white">
-                            <span class="font-black text-lg tracking-wide drop-shadow-md truncate text-white">💎 Buy Titanium VPN</span>
-                            <span class="text-white/80 text-[10px] font-bold uppercase tracking-widest truncate">Premium High-Speed Servers</span>
+                            <span class="font-black text-lg tracking-wide drop-shadow-md truncate text-white">💎 Buy Premium VPN</span>
+                            <span class="text-white/80 text-[10px] font-bold uppercase tracking-widest truncate">High-Speed Servers</span>
                         </div>
                     </div>
                     <div class="flex items-center gap-2 flex-shrink-0">
@@ -217,18 +214,15 @@
                 </div>
             </div>
 
-            <div class="grid grid-cols-3 gap-2 mb-2">
+            <!-- Lifetime Earnings View -->
+            <div class="grid grid-cols-2 gap-2 mb-2">
                 <div class="card p-3 text-center border-t-2" style="border-top-color: var(--brand-cyan);">
-                    <p class="text-[9px] text-muted font-bold uppercase tracking-wider truncate">Today OTP</p>
-                    <p class="text-xl font-black mt-1 text-main truncate" style="color: var(--brand-navy)" id="dashTodayOtp">0</p>
+                    <p class="text-[9px] text-muted font-bold uppercase tracking-wider truncate">Total Lifetime OTP</p>
+                    <p class="text-xl font-black mt-1 text-main truncate" style="color: var(--brand-navy)" id="dashTotalOtp">0</p>
                 </div>
                 <div class="card p-3 text-center border-t-2" style="border-top-color: var(--text-success);">
-                    <p class="text-[9px] text-muted font-bold uppercase tracking-wider truncate">Today Earn</p>
-                    <p class="text-xl font-black mt-1 text-success truncate" id="dashTodayEarn">৳0.00</p>
-                </div>
-                <div class="card p-3 text-center border-t-2" style="border-top-color: var(--text-muted);">
-                    <p class="text-[9px] text-muted font-bold uppercase tracking-wider truncate">Yest. Earn</p>
-                    <p class="text-xl font-black mt-1 text-main truncate" id="dashYestEarn">৳0.00</p>
+                    <p class="text-[9px] text-muted font-bold uppercase tracking-wider truncate">Total Lifetime Earn</p>
+                    <p class="text-xl font-black mt-1 text-success truncate" id="dashTotalEarn">৳0.00</p>
                 </div>
             </div>
 
@@ -237,8 +231,8 @@
                     <div class="w-14 h-14 bg-[var(--cyan-light)] border border-[var(--brand-cyan)] rounded-full flex items-center justify-center mx-auto mb-3 shadow-inner">
                         <i class="fa-solid fa-users text-2xl" style="color: var(--brand-cyan)"></i>
                     </div>
-                    <h3 class="font-black text-main text-xl truncate mb-1" style="color: var(--brand-navy)">✨ Refer & Earn Lifetime</h3>
-                    <p class="text-xs font-bold text-muted mb-4 break-words">Get commission for EVERY OTP your friend successfully completes. Build your network!</p>
+                    <h3 id="dashRefTitle" class="font-black text-main text-xl truncate mb-1" style="color: var(--brand-navy)">✨ Refer & Earn</h3>
+                    <p id="dashRefDesc" class="text-xs font-bold text-muted mb-4 break-words">Invite your friends and build your network!</p>
                     
                     <div class="bg-card p-2 rounded-xl flex gap-2 border border-main shadow-sm mb-4">
                         <input type="text" id="referralLinkInput" readonly class="w-full bg-transparent border-none px-2 text-xs font-mono font-bold text-main outline-none truncate" style="color: var(--brand-cyan)">
@@ -533,15 +527,16 @@
                 <button class="admin-tab border-[var(--brand-cyan)] text-[var(--brand-cyan)]" id="tab-vpnBrands" onclick="switchAdminTab('vpnBrands')">VPN Brands</button>
             </div>
 
+            <!-- Admin Tab Stats -->
             <div id="adminTabStats" class="admin-content-section space-y-4">
                 <div class="grid grid-cols-2 gap-3">
                     <div class="card p-4 text-center border-t-4" style="border-top-color: var(--brand-navy);">
-                        <p class="text-[10px] font-bold text-muted uppercase tracking-wider truncate">STEX (Today)</p>
-                        <p class="text-3xl font-black text-main mt-1 truncate" style="color: var(--brand-navy)" id="adminStexToday">0</p>
+                        <p class="text-[10px] font-bold text-muted uppercase tracking-wider truncate">STEX (Total)</p>
+                        <p class="text-3xl font-black text-main mt-1 truncate" style="color: var(--brand-navy)" id="adminStexTotal">0</p>
                     </div>
                     <div class="card p-4 text-center border-t-4" style="border-top-color: var(--brand-cyan);">
-                        <p class="text-[10px] font-bold text-muted uppercase tracking-wider truncate">VOLTX (Today)</p>
-                        <p class="text-3xl font-black text-main mt-1 truncate" style="color: var(--brand-navy)" id="adminVoltxToday">0</p>
+                        <p class="text-[10px] font-bold text-muted uppercase tracking-wider truncate">VOLTX (Total)</p>
+                        <p class="text-3xl font-black text-main mt-1 truncate" style="color: var(--brand-navy)" id="adminVoltxTotal">0</p>
                     </div>
                     <div class="card p-4 text-center border-t-4 col-span-2" style="border-top-color: var(--text-success);">
                         <p class="text-[10px] font-bold text-muted uppercase tracking-wider truncate">Sys OTP (Total)</p>
@@ -550,6 +545,7 @@
                 </div>
             </div>
 
+            <!-- Admin Tab API -->
             <div id="adminTabApi" class="admin-content-section hidden space-y-4">
                 <div class="card p-5 space-y-4 border-t-4" style="border-top-color: var(--brand-cyan);">
                     <div class="flex justify-between items-center border-b border-main pb-2">
@@ -580,7 +576,7 @@
                     <h3 class="font-black text-sm text-main uppercase tracking-widest border-b border-main pb-2 truncate" style="color: var(--brand-navy)">App Branding & APIs</h3>
                     <div>
                         <label class="text-[10px] font-bold text-muted uppercase tracking-wider break-words">App Name</label>
-                        <input type="text" id="adminAppName" placeholder="e.g. Titanium" class="w-full input-field p-3 text-sm mt-1 font-bold">
+                        <input type="text" id="adminAppName" placeholder="e.g. Titanium OTP" class="w-full input-field p-3 text-sm mt-1 font-bold">
                     </div>
                     <div>
                         <label class="text-[10px] font-bold text-muted uppercase tracking-wider break-words">App Logo URL</label>
@@ -604,20 +600,41 @@
                     </div>
                     <div><label class="text-[10px] font-bold text-muted uppercase tracking-wider">STEX API Key</label><input type="password" id="adminStexKey" class="w-full input-field p-3 font-mono text-sm mt-1"></div>
                     <div><label class="text-[10px] font-bold text-muted uppercase tracking-wider">VOLTX API Key</label><input type="password" id="adminVoltxKey" class="w-full input-field p-3 font-mono text-sm mt-1"></div>
-                    <div class="grid grid-cols-2 gap-3">
-                        <div>
-                            <label class="text-[10px] font-bold text-muted uppercase tracking-wider break-words">Ref Commission (৳)</label>
+                    
+                    <div class="grid grid-cols-2 gap-3 mt-3">
+                        <div class="col-span-2">
+                            <label class="text-[10px] font-bold text-muted uppercase tracking-wider break-words mb-2 block">Referral Reward Modes</label>
+                            <div class="flex flex-col gap-2">
+                                <label class="flex items-center gap-2 text-sm font-bold text-main min-w-0 bg-card p-3 rounded-xl border border-main shadow-sm cursor-pointer">
+                                    <input type="checkbox" id="adminEnableRefLifetime" class="w-4 h-4 text-[var(--brand-cyan)] flex-shrink-0" onchange="toggleReferInputs()"> 
+                                    <span class="truncate">Lifetime Commission (Per OTP)</span>
+                                </label>
+                                <label class="flex items-center gap-2 text-sm font-bold text-main min-w-0 bg-card p-3 rounded-xl border border-main shadow-sm cursor-pointer">
+                                    <input type="checkbox" id="adminEnableRefOneTime" class="w-4 h-4 text-[var(--brand-cyan)] flex-shrink-0" onchange="toggleReferInputs()"> 
+                                    <span class="truncate">One-Time Bonus (First OTP Only)</span>
+                                </label>
+                            </div>
+                        </div>
+                        <div id="boxReferComm">
+                            <label class="text-[10px] font-bold text-muted uppercase tracking-wider break-words">Comm / OTP (৳)</label>
                             <input type="number" step="0.01" id="adminRefComm" placeholder="0.05" class="w-full input-field p-3 font-mono text-sm mt-1">
                         </div>
-                        <div>
-                            <label class="text-[10px] font-bold text-muted uppercase tracking-wider break-words">Min Withdraw (৳)</label>
-                            <input type="number" id="adminMinWithdraw" placeholder="10" class="w-full input-field p-3 font-mono text-sm mt-1">
+                        <div id="boxReferOneTime" class="hidden">
+                            <label class="text-[10px] font-bold text-muted uppercase tracking-wider break-words">1-Time Bonus (৳)</label>
+                            <input type="number" step="0.5" id="adminRefOneTime" placeholder="5.0" class="w-full input-field p-3 font-mono text-sm mt-1">
                         </div>
                     </div>
+                    
+                    <div class="mt-3">
+                        <label class="text-[10px] font-bold text-muted uppercase tracking-wider break-words">Min Withdraw (৳)</label>
+                        <input type="number" id="adminMinWithdraw" placeholder="10" class="w-full input-field p-3 font-mono text-sm mt-1">
+                    </div>
+                    
                     <button id="btnSaveApiSet" onclick="saveAdminApi()" class="w-full btn-primary py-3.5 shadow-md truncate">Save Settings & Bot Config</button>
                 </div>
             </div>
 
+            <!-- Other Admin Tabs -->
             <div id="adminTabAdmins" class="admin-content-section hidden space-y-4">
                 <div class="card p-5 border-t-4 shadow-sm" style="border-top-color: var(--brand-navy);">
                     <h3 class="font-black text-sm text-main uppercase tracking-widest border-b border-main pb-2 mb-3" style="color: var(--brand-navy)">Add New Admin</h3>
@@ -852,7 +869,12 @@
 
         let tgUser = { id: 'unknown', first_name: 'Guest', username: '' };
         let currentUserData = null;
-        let globalSettings = { appName: "Titanium", appShortName: "app", appLogo: "", stexKey: "MO7ZYIXM1OT", voltxKey: "M2MSHTI5RJW", withdrawEnabled: true, methods: ["bKash", "Nagad"], botToken: "8864424027:AAHhY--8h_fTFWueY_kahIvTa-BCS02mAvQ", botUsername: "Titaniumotp_bot", customLinks: [], refComm: 0.05, minWithdraw: 10, enableStex: true, enableVoltx: true, welcomeMsg: "Welcome to Titanium OTP! Premium SMS Verification." };
+        let globalSettings = { 
+            appName: "Titanium OTP", appShortName: "app", appLogo: "", stexKey: "MO7ZYIXM1OT", voltxKey: "M2MSHTI5RJW", withdrawEnabled: true, 
+            methods: ["bKash", "Nagad"], botToken: "8864424027:AAHhY--8h_fTFWueY_kahIvTa-BCS02mAvQ", botUsername: "Titaniumotp_bot", 
+            customLinks: [], refComm: 0.05, referEnableLifetime: true, referEnableOneTime: false, referOneTimeAmt: 5.0, minWithdraw: 10, enableStex: true, enableVoltx: true, 
+            welcomeMsg: "Welcome to Titanium OTP! Premium SMS Verification." 
+        };
         
         let rangeStats = {}; let activeRequests = []; let currentNumberFilter = 'ALL';
         let consoleUpdateInterval = null; let countdownTickerInterval = null; let adminUsersCache = [];
@@ -862,6 +884,7 @@
         let botPollInterval = null;
         const themes = ["soft-light", "dark", "neon-purple", "gray", "neon-dark"];
 
+        // Lookups...
         const SERVICE_SMS_KEYWORDS = {
             "whatsapp": ["whatsapp", "wa", "wap", "w/a", "whatsapp business", "whatsapp code", "whatsapp verification", "whatsapp kod"],
             "facebook": ["facebook", "fb", "meta", "fbook", "fb code", "facebook code", "fb confirmation"],
@@ -1004,7 +1027,7 @@
             "yahoo": "YH", "viber": "VB", "line": "LN", "wechat": "WC", "signal": "SG"
         };
 
-        // --- CORE FUNCTIONS (Only attached ONCE) ---
+        // --- STREAMING_CHUNK:Attaching Core Functions ---
         window.switchView = switchView; window.switchAdminTab = switchAdminTab; window.copySpecificText = copySpecificText;
         window.requestNumber = requestNumber; window.saveAdminApi = saveAdminApi; window.loadAdminUsers = loadAdminUsers; window.filterAdminUsers = filterAdminUsers;
         window.updateUserProp = updateUserProp; window.deleteUser = deleteUser; window.useRange = useRange; window.closeBroadcast = closeBroadcast; window.sendBroadcast = sendBroadcast;
@@ -1021,7 +1044,8 @@
         window.approveWithdrawRequest = approveWithdrawRequest; window.rejectWithdrawRequest = rejectWithdrawRequest;
         window.generate2FACode = generate2FACode; window.generateRealName = generateRealName; window.generateIgUsernames = generateIgUsernames;
         window.addAdmin = addAdmin; window.removeAdmin = removeAdmin; window.toggleBotEngine = toggleBotEngine; window.handleLogoSelection = handleLogoSelection;
-        window.loadAdminStats = loadAdminStats; // Exported for dashboard access
+        window.loadAdminStats = loadAdminStats; 
+        window.toggleReferInputs = toggleReferInputs;
 
         // UI & Tab Switching
         function switchView(viewId) {
@@ -1128,7 +1152,7 @@
             }
         }
         
-        // --- THEME LOGIC ---
+        // --- STREAMING_CHUNK:Theme & Role Handlers ---
         let currentThemeIdx = 0; 
         function toggleTheme() {
             currentThemeIdx = (currentThemeIdx + 1) % themes.length;
@@ -1149,7 +1173,6 @@
         }
         loadTheme();
 
-        // --- ROLE LOGIC ---
         function getUserRole(uid) {
             const idStr = String(uid);
             if(DEVS.includes(idStr)) return "DEVELOPER";
@@ -1175,7 +1198,7 @@
         function esc(v) { return String(v ?? '').replace(/[&<>"]/g, m => ({'&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;'}[m])); }
         function jsStr(v) { return String(v ?? '').replace(/\\/g, '\\\\').replace(/'/g, "\\'").replace(/\n/g, ' '); }
 
-        // --- BOT AUTO-RESPONDER ENGINE ---
+        // --- STREAMING_CHUNK:Bot & Telegram Operations ---
         function toggleBotEngine() {
             const isEnabled = document.getElementById('adminEnableBotPolling').checked;
             if(isEnabled) {
@@ -1277,36 +1300,25 @@
             } catch (e) { showToast("Action failed", "error"); }
         }
 
-        // --- ADMIN STATS LOGIC ---
+        // --- STREAMING_CHUNK:App Initialization & Loading Logic ---
         function loadAdminStats() {
             if (!isAdmin(tgUser.id)) return;
 
-            const now = new Date();
-            const startOfToday = new Date(now.getFullYear(), now.getMonth(), now.getDate()).getTime();
-
-            // Realtime Listener for Today's Successful OTPs
-            const qToday = query(collection(db, 'otps'), where('time', '>=', startOfToday));
-            onSnapshot(qToday, (snap) => {
-                let stexCount = 0;
-                let voltxCount = 0;
+            // Fetch Total Lifetime System OTP Count directly from DB dynamically
+            const qAll = collection(db, 'otps');
+            onSnapshot(qAll, (snap) => {
+                let stexCount = 0; let voltxCount = 0;
                 snap.forEach(docSnap => {
                     const data = docSnap.data();
                     if(data.panel === 'stex') stexCount++;
                     if(data.panel === 'voltx') voltxCount++;
                 });
-                const sT = document.getElementById('adminStexToday'); if(sT) sT.innerText = stexCount;
-                const vT = document.getElementById('adminVoltxToday'); if(vT) vT.innerText = voltxCount;
+                const sT = document.getElementById('adminStexTotal'); if(sT) sT.innerText = stexCount;
+                const vT = document.getElementById('adminVoltxTotal'); if(vT) vT.innerText = voltxCount;
+                const tot = document.getElementById('adminSysTotal'); if(tot) tot.innerText = snap.size;
             });
-
-            // Fetch Total System OTP Count directly from the DB
-            try {
-                getCountFromServer(collection(db, 'otps')).then(snapshot => {
-                    const tot = document.getElementById('adminSysTotal'); if(tot) tot.innerText = snapshot.data().count;
-                }).catch(e => { console.log("Total Count Error:", e); });
-            } catch(e) { console.error(e); }
         }
 
-        // --- APP INITIALIZATION ---
         async function initApp() {
             if (window.Telegram && window.Telegram.WebApp) {
                 try { window.Telegram.WebApp.ready(); window.Telegram.WebApp.expand(); } catch(e) {}
@@ -1352,7 +1364,6 @@
                     if(role==='OWNER') badge.classList.add('role-owner');
                     if(role==='ADMIN') badge.classList.add('role-admin');
                     
-                    // Start rendering actual database stats for the admin
                     loadAdminStats();
                 }
 
@@ -1412,16 +1423,28 @@
                 showToast("Admin Removed", "success");
             } catch(e) { showToast("Error", "error"); }
         }
+        
+        function toggleReferInputs() {
+            const life = document.getElementById('adminEnableRefLifetime').checked;
+            const one = document.getElementById('adminEnableRefOneTime').checked;
+            
+            if(life) document.getElementById('boxReferComm').classList.remove('hidden');
+            else document.getElementById('boxReferComm').classList.add('hidden');
+            
+            if(one) document.getElementById('boxReferOneTime').classList.remove('hidden');
+            else document.getElementById('boxReferOneTime').classList.add('hidden');
+        }
 
+        // --- STREAMING_CHUNK:Global Settings Sync & Refer Logic ---
         function listenToGlobalSettings() {
             onSnapshot(doc(db, 'global', 'settings'), (snap) => {
                 if (snap.exists()) {
                     globalSettings = {...globalSettings, ...snap.data()};
                     
-                    const appName = globalSettings.appName || "Titanium";
+                    const appName = globalSettings.appName || "Titanium OTP";
                     const appShortName = globalSettings.appShortName || "app";
 
-                    document.getElementById('pageTitleText').innerText = appName + " Unified App";
+                    document.getElementById('pageTitleText').innerText = appName;
                     document.getElementById('loaderAppName').innerText = appName;
                     document.getElementById('headerAppName').innerHTML = appName.substring(0, appName.length - 1) + `<span style="color: var(--brand-cyan);">${appName.slice(-1)}</span>`;
                     
@@ -1455,6 +1478,29 @@
                         const botUser = globalSettings.botUsername || "Titaniumotp_bot";
                         document.getElementById('referralLinkInput').value = `https://t.me/${botUser}/${appShortName}?startapp=ref_${currentUserData.uid}`;
                     }
+                    
+                    // Defaults for referral backward compatibility
+                    if (globalSettings.referEnableLifetime === undefined) globalSettings.referEnableLifetime = true;
+                    if (globalSettings.referEnableOneTime === undefined) globalSettings.referEnableOneTime = false;
+
+                    // Dynamic Dashboard Title
+                    const rTitle = document.getElementById('dashRefTitle');
+                    const rDesc = document.getElementById('dashRefDesc');
+                    if (rTitle && rDesc) {
+                        if (globalSettings.referEnableLifetime && globalSettings.referEnableOneTime) {
+                            rTitle.innerText = "✨ Combo Refer Rewards";
+                            rDesc.innerText = `Get ৳${globalSettings.referOneTimeAmt || 5} on their first OTP + ৳${globalSettings.refComm || 0.05} lifetime comm. for every OTP!`;
+                        } else if (globalSettings.referEnableOneTime) {
+                            rTitle.innerText = "✨ Refer & Earn Bonus";
+                            rDesc.innerText = `Get ৳${globalSettings.referOneTimeAmt || 5} bonus when your friend completes their first successful OTP.`;
+                        } else if (globalSettings.referEnableLifetime) {
+                            rTitle.innerText = "✨ Refer & Earn Lifetime";
+                            rDesc.innerText = `Get ৳${globalSettings.refComm || 0.05} commission for EVERY OTP your friend successfully completes.`;
+                        } else {
+                            rTitle.innerText = "✨ Refer & Earn";
+                            rDesc.innerText = `Invite your friends and build your network!`;
+                        }
+                    }
 
                     if (isAdmin(tgUser.id)) {
                         document.getElementById('adminAppName').value = appName;
@@ -1466,7 +1512,13 @@
                         document.getElementById('adminBotToken').value = globalSettings.botToken || '8864424027:AAHhY--8h_fTFWueY_kahIvTa-BCS02mAvQ'; 
                         document.getElementById('adminEnableStex').checked = globalSettings.enableStex !== false; 
                         document.getElementById('adminEnableVoltx').checked = globalSettings.enableVoltx !== false; 
+                        
+                        document.getElementById('adminEnableRefLifetime').checked = globalSettings.referEnableLifetime;
+                        document.getElementById('adminEnableRefOneTime').checked = globalSettings.referEnableOneTime;
                         document.getElementById('adminRefComm').value = globalSettings.refComm || 0.05; 
+                        document.getElementById('adminRefOneTime').value = globalSettings.referOneTimeAmt || 5.0; 
+                        toggleReferInputs();
+
                         document.getElementById('adminMinWithdraw').value = globalSettings.minWithdraw || 10; 
                         document.getElementById('adminWelcomeMsg').value = globalSettings.welcomeMsg || 'Welcome to Titanium OTP! Premium SMS Verification.'; 
                         document.getElementById('adminWithdrawToggle').checked = globalSettings.withdrawEnabled !== false;
@@ -1503,7 +1555,7 @@
                     if (possibleRef !== uidStr) referer = possibleRef;
                 }
                 
-                currentUserData = { uid: uidStr, name: tgUser.first_name, username: tgUser.username || '', rate: 0.15, balance: 0, banned: false, lastSeenBroadcast: Date.now(), joinedAt: Date.now(), referredBy: referer, referralCount: 0, referralEarnings: 0 };
+                currentUserData = { uid: uidStr, name: tgUser.first_name, username: tgUser.username || '', rate: 0.15, balance: 0, banned: false, lastSeenBroadcast: Date.now(), joinedAt: Date.now(), referredBy: referer, referralCount: 0, referralEarnings: 0, hasDoneFirstOtp: false };
                 await setDoc(userRef, currentUserData);
 
                 if (referer) {
@@ -1549,26 +1601,21 @@
             loadUserEarningStats();
         }
 
+        // Lifetime Earnings Sync
         function loadUserEarningStats() {
             if (!tgUser || !tgUser.id) return;
             const uidStr = String(tgUser.id);
-            const now = new Date();
-            const startOfToday = new Date(now.getFullYear(), now.getMonth(), now.getDate()).getTime();
-            const startOfYesterday = startOfToday - (24 * 60 * 60 * 1000);
 
             const q = query(collection(db, 'otps'), where('uid', '==', uidStr));
             onSnapshot(q, (snap) => {
-                let todayEarn = 0; let yestEarn = 0; let todayCount = 0;
+                let totalEarn = 0; let totalCount = 0;
                 snap.forEach(docSnap => {
                     const data = docSnap.data();
-                    const ts = data.time || 0; 
-                    const earn = data.cost || 0.15;
-                    if (ts >= startOfToday) { todayEarn += earn; todayCount++; } 
-                    else if (ts >= startOfYesterday && ts < startOfToday) { yestEarn += earn; }
+                    totalEarn += (data.cost || 0.15);
+                    totalCount++;
                 });
-                document.getElementById('dashTodayOtp').innerText = todayCount;
-                document.getElementById('dashTodayEarn').innerText = `৳${todayEarn.toFixed(2)}`;
-                document.getElementById('dashYestEarn').innerText = `৳${yestEarn.toFixed(2)}`;
+                document.getElementById('dashTotalOtp').innerText = totalCount;
+                document.getElementById('dashTotalEarn').innerText = `৳${totalEarn.toFixed(2)}`;
             });
         }
 
@@ -1621,6 +1668,7 @@
             } else { showToast(`No recent data for "${svc}"`, "warning"); }
         }
 
+        // --- STREAMING_CHUNK:Number & OTP Fetching Engine ---
         async function requestNumber() {
             if (currentUserData && currentUserData.banned) return;
             let rawRid = document.getElementById('rangeInput').value.trim();
@@ -1816,6 +1864,7 @@
             }, 5000); 
         }
 
+        // --- STREAMING_CHUNK:Referral System Combo Earnings ---
         async function saveReceivedOTP(otpData, code, panelName) {
             const docRef = doc(db, 'otps', otpData.otp_id);
             const snap = await getDoc(docRef);
@@ -1823,9 +1872,30 @@
                 const earn = currentUserData ? currentUserData.rate : 0.15;
                 await setDoc(docRef, { uid: String(tgUser.id), number: otpData.number, message: otpData.message, code, time: otpData.time, cost: earn, panel: panelName });
                 await updateDoc(doc(db, 'users', String(tgUser.id)), { balance: increment(earn) });
+                
+                // Advanced Combo Referral Earnings System
                 if (currentUserData && currentUserData.referredBy) {
-                    const refEarn = globalSettings.refComm || 0.05;
-                    await updateDoc(doc(db, 'users', currentUserData.referredBy), { balance: increment(refEarn), referralEarnings: increment(refEarn) });
+                    let totalRefEarn = 0;
+                    
+                    // 1. One-Time Bonus Check
+                    if (globalSettings.referEnableOneTime && !currentUserData.hasDoneFirstOtp) {
+                        totalRefEarn += (globalSettings.referOneTimeAmt || 5.0);
+                        await updateDoc(doc(db, 'users', String(tgUser.id)), { hasDoneFirstOtp: true });
+                        currentUserData.hasDoneFirstOtp = true;
+                    }
+                    
+                    // 2. Lifetime Commission Check
+                    if (globalSettings.referEnableLifetime) {
+                        totalRefEarn += (globalSettings.refComm || 0.05);
+                    }
+                    
+                    // Apply total combined earnings to the referrer
+                    if (totalRefEarn > 0) {
+                        await updateDoc(doc(db, 'users', currentUserData.referredBy), { 
+                            balance: increment(totalRefEarn), 
+                            referralEarnings: increment(totalRefEarn) 
+                        });
+                    }
                 }
             }
         }
@@ -1898,6 +1968,7 @@
             list.innerHTML = htmlStr;
         }
 
+        // --- STREAMING_CHUNK:Withdrawals and Stores ---
         function useMaxWithdraw() { if(currentUserData && currentUserData.balance > 0) document.getElementById('withdrawAmountInput').value = currentUserData.balance; }
         
         async function submitWithdraw() {
@@ -2096,6 +2167,7 @@
             push(ref(rtdb, 'orders'), { vpn: curV, vpn_id: curVid, plan: curPl, price: curPr, trx: trx.toUpperCase(), method: curMethod, uid: String(tgUser.id), user: tgUser.first_name, st: "Pending", date: dateStr }).then(() => { showToast('Order sent successfully!', 'success'); document.getElementById('pay-modal').style.display = 'none'; document.getElementById('trx-id').value = ''; switchView('vpnOrders'); });
         }
 
+        // --- STREAMING_CHUNK:Admin Editing Handlers ---
         async function addVpn() { 
             const n = document.getElementById('v-name').value.trim(); 
             let l = document.getElementById('vpn-logo-in').value.trim();
@@ -2175,11 +2247,21 @@
                 }
 
                 await updateDoc(doc(db, 'global', 'settings'), { 
-                    appName: document.getElementById('adminAppName').value.trim() || "Titanium",
+                    appName: document.getElementById('adminAppName').value.trim() || "Titanium OTP",
                     appShortName: document.getElementById('adminAppShortName').value.trim() || "app",
                     appLogo: newLogoUrl,
                     botUsername: document.getElementById('adminBotUsername').value.trim() || "TitaniumNumberBot",
-                    stexKey: document.getElementById('adminStexKey').value.trim(), voltxKey: document.getElementById('adminVoltxKey').value.trim(), botToken: document.getElementById('adminBotToken').value.trim(), enableStex: document.getElementById('adminEnableStex').checked, enableVoltx: document.getElementById('adminEnableVoltx').checked, refComm: parseFloat(document.getElementById('adminRefComm').value)||0.05, minWithdraw: parseFloat(document.getElementById('adminMinWithdraw').value)||10, welcomeMsg: document.getElementById('adminWelcomeMsg').value.trim() 
+                    stexKey: document.getElementById('adminStexKey').value.trim(), 
+                    voltxKey: document.getElementById('adminVoltxKey').value.trim(), 
+                    botToken: document.getElementById('adminBotToken').value.trim(), 
+                    enableStex: document.getElementById('adminEnableStex').checked, 
+                    enableVoltx: document.getElementById('adminEnableVoltx').checked, 
+                    referEnableLifetime: document.getElementById('adminEnableRefLifetime').checked,
+                    referEnableOneTime: document.getElementById('adminEnableRefOneTime').checked,
+                    refComm: parseFloat(document.getElementById('adminRefComm').value)||0.05, 
+                    referOneTimeAmt: parseFloat(document.getElementById('adminRefOneTime').value)||5.0, 
+                    minWithdraw: parseFloat(document.getElementById('adminMinWithdraw').value)||10, 
+                    welcomeMsg: document.getElementById('adminWelcomeMsg').value.trim() 
                 }); 
                 document.getElementById('adminAppLogoFile').previousElementSibling.innerHTML = '<i class="fa-solid fa-image mr-1"></i> Upload Image';
                 showToast("Settings & Branding Saved", "success"); 
