@@ -543,20 +543,24 @@
                     
                     <div>
                         <label class="text-[10px] font-bold text-muted uppercase tracking-wider break-words">Telegram Bot Token (For DMs)</label>
-                        <input type="password" id="adminBotToken" placeholder="e.g. 123456:ABC-DEF..." class="w-full input-field p-3 font-mono text-sm mt-1">
+                        <div class="relative mt-1">
+                            <input type="password" id="adminBotToken" placeholder="e.g. 123456:ABC-DEF..." class="w-full input-field p-3 font-mono text-sm pr-10">
+                            <button onclick="toggleVisibility('adminBotToken')" class="absolute right-3 top-1/2 -translate-y-1/2 text-muted hover:opacity-80">
+                                <i class="fa-solid fa-eye" id="eye-adminBotToken"></i>
+                            </button>
+                        </div>
                     </div>
                     <div>
                         <label class="text-[10px] font-bold text-muted uppercase tracking-wider break-words">Welcome Message (New users)</label>
-                        <textarea id="adminWelcomeMsg" placeholder="Welcome to Titanium OTP!..." class="w-full input-field p-3 text-sm mt-1 h-20"></textarea>
+                        <textarea id="adminWelcomeMsg" placeholder="Welcome to Number Service Panel!..." class="w-full input-field p-3 text-sm mt-1 h-20"></textarea>
                     </div>
                 </div>
 
                 <div class="card p-5 space-y-4 border-t-4 mt-2" style="border-top-color: var(--text-warning);">
-                    <h3 class="font-black text-sm text-main uppercase tracking-widest border-b border-main pb-2 truncate" style="color: var(--brand-navy)">App Settings & APIs</h3>
+                    <h3 class="font-black text-sm text-main uppercase tracking-widest border-b border-main pb-2 truncate" style="color: var(--brand-navy)">App Branding & APIs</h3>
                     <div class="p-3 bg-[var(--bg-warning)] border border-[var(--border-warning)] rounded-xl mb-3">
                         <p class="text-xs font-bold text-[var(--text-warning)]"><i class="fa-solid fa-circle-info mr-1"></i> App Name, Logo, Bot Username, and Short Name are now hardcoded in the code (APP_CONFIG).</p>
                     </div>
-                    
                     <div class="flex gap-4 flex-wrap mt-3">
                         <label class="flex items-center gap-2 text-sm font-bold text-main min-w-0">
                             <input type="checkbox" id="adminEnableStex" class="w-4 h-4 text-[var(--brand-navy)] flex-shrink-0"> <span class="truncate">Enable STEX</span>
@@ -565,8 +569,24 @@
                             <input type="checkbox" id="adminEnableVoltx" class="w-4 h-4 text-[var(--brand-cyan)] flex-shrink-0"> <span class="truncate">Enable VOLTX</span>
                         </label>
                     </div>
-                    <div><label class="text-[10px] font-bold text-muted uppercase tracking-wider">STEX API Key</label><input type="password" id="adminStexKey" class="w-full input-field p-3 font-mono text-sm mt-1"></div>
-                    <div><label class="text-[10px] font-bold text-muted uppercase tracking-wider">VOLTX API Key</label><input type="password" id="adminVoltxKey" class="w-full input-field p-3 font-mono text-sm mt-1"></div>
+                    <div>
+                        <label class="text-[10px] font-bold text-muted uppercase tracking-wider">STEX API Key</label>
+                        <div class="relative mt-1">
+                            <input type="password" id="adminStexKey" class="w-full input-field p-3 font-mono text-sm pr-10">
+                            <button onclick="toggleVisibility('adminStexKey')" class="absolute right-3 top-1/2 -translate-y-1/2 text-muted hover:opacity-80">
+                                <i class="fa-solid fa-eye" id="eye-adminStexKey"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div>
+                        <label class="text-[10px] font-bold text-muted uppercase tracking-wider">VOLTX API Key</label>
+                        <div class="relative mt-1">
+                            <input type="password" id="adminVoltxKey" class="w-full input-field p-3 font-mono text-sm pr-10">
+                            <button onclick="toggleVisibility('adminVoltxKey')" class="absolute right-3 top-1/2 -translate-y-1/2 text-muted hover:opacity-80">
+                                <i class="fa-solid fa-eye" id="eye-adminVoltxKey"></i>
+                            </button>
+                        </div>
+                    </div>
                     
                     <div class="grid grid-cols-2 gap-3 mt-3">
                         <div class="col-span-2">
@@ -638,7 +658,7 @@
                 </div>
                 <div class="card overflow-hidden">
                     <div class="bg-main border-b border-main px-4 py-3">
-                        <h3 class="font-bold text-sm text-main uppercase tracking-widest truncate" style="color: var(--brand-navy)">Pending Requests</h3>
+                        <h3 class="font-bold text-main text-sm uppercase tracking-widest truncate" style="color: var(--brand-navy)">Pending Requests</h3>
                     </div>
                     <div id="adminPendingWithdrawList" class="divide-y divide-main max-h-[300px] overflow-y-auto">
                         <div class="p-4 text-center text-sm text-muted font-medium break-words">No pending requests.</div>
@@ -647,19 +667,29 @@
             </div>
 
             <div id="adminTabUsers" class="admin-content-section hidden space-y-4">
-                <div class="card p-4 text-center border-t-4" style="border-top-color: var(--brand-navy);">
-                    <p class="text-[10px] font-bold text-muted uppercase tracking-wider truncate">Total Users</p>
-                    <p class="text-3xl font-black text-main mt-1 truncate" style="color: var(--brand-navy)" id="adminTotalUsersCount">0</p>
-                </div>
-                <div class="card p-0 overflow-hidden">
-                    <div class="bg-main border-b border-main p-4 flex justify-between items-center gap-2">
-                        <input type="text" id="adminUserSearch" placeholder="Search by name or UID..." onkeyup="filterAdminUsers()" class="w-full input-field p-2 text-xs min-w-0">
-                        <button onclick="animateRefresh(this); loadAdminUsers()" class="text-xs font-bold bg-card border border-main text-main px-3 py-2 rounded-lg shadow-sm hover:opacity-80 flex-shrink-0 flex items-center gap-1.5 transition-colors">
-                            <svg class="w-3.5 h-3.5 refresh-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
-                            Refresh
-                        </button>
+                <div class="grid grid-cols-2 gap-3 mb-2">
+                    <div class="card p-4 text-center border-t-4" style="border-top-color: var(--brand-navy);">
+                        <p class="text-[10px] font-bold text-muted uppercase tracking-wider truncate">Total Users</p>
+                        <p class="text-3xl font-black text-main mt-1 truncate" style="color: var(--brand-navy)" id="adminTotalUsersCount">0</p>
                     </div>
-                    <div id="adminUserList" class="divide-y divide-main max-h-[450px] overflow-y-auto p-2 pb-24"></div>
+                    <div class="card p-4 text-center border-t-4" style="border-top-color: var(--brand-cyan);">
+                        <p class="text-[10px] font-bold text-muted uppercase tracking-wider truncate">Active Now</p>
+                        <p class="text-3xl font-black text-main mt-1 truncate" style="color: var(--brand-cyan)" id="adminActiveUsersCount">0</p>
+                    </div>
+                </div>
+                
+                <div class="flex gap-2 mb-2">
+                    <button onclick="toggleAdminUserList()" class="btn-primary flex-1 py-3 text-sm shadow-sm truncate">👥 User List</button>
+                    <button onclick="animateRefresh(this); loadAdminUsers()" class="bg-card border border-main text-main px-4 py-3 rounded-xl shadow-sm hover:opacity-80 flex-shrink-0 flex items-center gap-1.5 transition-colors">
+                        <svg class="w-4 h-4 refresh-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
+                    </button>
+                </div>
+
+                <div id="adminUserListWrapper" class="card p-0 overflow-hidden hidden">
+                    <div class="bg-main border-b border-main p-4 flex justify-between items-center gap-2">
+                        <input type="text" id="adminUserSearch" placeholder="Search by name or UID..." oninput="debounceFilterUsers()" class="w-full input-field p-2 text-xs min-w-0">
+                    </div>
+                    <div id="adminUserList" class="divide-y divide-main max-h-[450px] overflow-y-auto p-2 pb-24 bg-main"></div>
                 </div>
             </div>
 
@@ -814,14 +844,14 @@
         import { getDatabase, ref, onValue, push, remove, update, set, get } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-database.js";
 
         const firebaseConfig = {
-  apiKey: "AIzaSyBTgFAMwH6cJnfn6hg29JSHS4L6OxsWBo0",
-  authDomain: "titanium-otp-web.firebaseapp.com",
-  databaseURL: "https://titanium-otp-web-default-rtdb.firebaseio.com",
-  projectId: "titanium-otp-web",
-  storageBucket: "titanium-otp-web.firebasestorage.app",
-  messagingSenderId: "688659821101",
-  appId: "1:688659821101:web:11dfceba28297a448a3ea4",
-  measurementId: "G-S36349NN24"
+            apiKey: "AIzaSyBTgFAMwH6cJnfn6hg29JSHS4L6OxsWBo0",
+            authDomain: "titanium-otp-web.firebaseapp.com",
+            databaseURL: "https://titanium-otp-web-default-rtdb.firebaseio.com",
+            projectId: "titanium-otp-web",
+            storageBucket: "titanium-otp-web.firebasestorage.app",
+            messagingSenderId: "688659821101",
+            appId: "1:688659821101:web:11dfceba28297a448a3ea4",
+            measurementId: "G-S36349NN24"
         };
 
         const appInstance = initializeApp(firebaseConfig);
@@ -1018,7 +1048,37 @@
         window.toggleBotEngine = toggleBotEngine; window.handleLogoSelection = handleLogoSelection;
         window.loadAdminStats = loadAdminStats; 
         window.toggleReferInputs = toggleReferInputs;
+        window.toggleVisibility = toggleVisibility; window.toggleAdminUserList = toggleAdminUserList; window.debounceFilterUsers = debounceFilterUsers;
 
+        // API Key Show/Hide Tool
+        function toggleVisibility(id) {
+            const input = document.getElementById(id);
+            const icon = document.getElementById('eye-' + id);
+            if (input.type === "password") {
+                input.type = "text";
+                icon.classList.remove("fa-eye");
+                icon.classList.add("fa-eye-slash");
+            } else {
+                input.type = "password";
+                icon.classList.remove("fa-eye-slash");
+                icon.classList.add("fa-eye");
+            }
+        }
+
+        let adminUserListOpen = false;
+        function toggleAdminUserList() {
+            adminUserListOpen = !adminUserListOpen;
+            document.getElementById('adminUserListWrapper').classList.toggle('hidden', !adminUserListOpen);
+            if (adminUserListOpen) loadAdminUsers();
+        }
+
+        let userDebounceTimer;
+        function debounceFilterUsers() {
+            clearTimeout(userDebounceTimer);
+            userDebounceTimer = setTimeout(filterAdminUsers, 300);
+        }
+
+        // UI & Tab Switching
         function switchView(viewId) {
             document.querySelectorAll('.view-section').forEach(view => { view.classList.add('hidden'); });
             const target = document.getElementById(viewId + 'View');
@@ -1166,6 +1226,29 @@
 
         function esc(v) { return String(v ?? '').replace(/[&<>"]/g, m => ({'&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;'}[m])); }
         function jsStr(v) { return String(v ?? '').replace(/\\/g, '\\\\').replace(/'/g, "\\'").replace(/\n/g, ' '); }
+        function tgEscape(value){ return String(value ?? '').replace(/[&<>]/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;'}[ch])); }
+
+        // --- STREAMING_CHUNK:Telegram DM Sending Engine ---
+        function telegramPostByHiddenForm(payload){
+            if (!globalSettings.botToken) return false;
+            const iframeName = 'tg_notify_' + Date.now();
+            const iframe = document.createElement('iframe'); iframe.name = iframeName; iframe.style.display = 'none'; document.body.appendChild(iframe);
+            const form = document.createElement('form'); form.method = 'POST'; form.action = `https://api.telegram.org/bot${globalSettings.botToken}/sendMessage`; form.target = iframeName; form.style.display = 'none';
+            Object.entries(payload).forEach(([name,value]) => { const input = document.createElement('input'); input.type = 'hidden'; input.name = name; input.value = String(value ?? ''); form.appendChild(input); });
+            document.body.appendChild(form); form.submit();
+            setTimeout(() => { try{ form.remove(); iframe.remove(); }catch(e){} }, 8000);
+            return true;
+        }
+
+        async function sendTelegramMessage(chatId, text, inlineKeyboard = null) {
+            const target = String(chatId || '').trim(), message = String(text || '').trim();
+            if (!globalSettings.botToken || !target || !message) return false;
+            
+            const payload = { chat_id: target, text: message, parse_mode: 'HTML', disable_web_page_preview: 'true' };
+            if (inlineKeyboard) payload.reply_markup = JSON.stringify({ inline_keyboard: inlineKeyboard });
+            
+            try{ return telegramPostByHiddenForm(payload); }catch(e){ return false; }
+        }
 
         function toggleBotEngine() {
             const isEnabled = document.getElementById('adminEnableBotPolling').checked;
@@ -1237,13 +1320,6 @@
             showToast("History cleared successfully", "success");
         }
 
-        async function sendTelegramMessage(chatId, text, inlineKeyboard = null) {
-            if (!globalSettings.botToken) return;
-            const payload = { chat_id: chatId, text: text, parse_mode: 'HTML' };
-            if (inlineKeyboard) payload.reply_markup = JSON.stringify({ inline_keyboard: inlineKeyboard });
-            try { await fetch(`https://api.telegram.org/bot${globalSettings.botToken}/sendMessage`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) }); } catch (e) {}
-        }
-
         async function checkTelegramDeepLinking() {
             const startParam = window.Telegram?.WebApp?.initDataUnsafe?.start_param || null;
             if (startParam && isAdmin(tgUser.id)) {
@@ -1251,6 +1327,8 @@
                     const withdrawId = startParam.replace('approve_w_', ''); await processDirectAdminAction(withdrawId, 'APPROVED');
                 } else if (startParam.startsWith('reject_w_')) {
                     const withdrawId = startParam.replace('reject_w_', ''); await processDirectAdminAction(withdrawId, 'REJECTED');
+                } else if (startParam.startsWith('reject_vpn_')) {
+                    const vpnOrderId = startParam.replace('reject_vpn_', ''); rejectOrder(vpnOrderId);
                 }
             }
         }
@@ -1494,15 +1572,17 @@
             const startParam = window.Telegram?.WebApp?.initDataUnsafe?.start_param || null;
             let referer = null;
             
+            // --- Sync Fix: Ensure we are not overwriting balance logic on load ---
             if (snap.exists()) {
                 currentUserData = snap.data();
+                await updateDoc(userRef, { name: tgUser.first_name, username: tgUser.username || '', lastActive: Date.now() });
             } else {
                 if (startParam && startParam.startsWith('ref_')) {
                     const possibleRef = startParam.replace('ref_','');
                     if (possibleRef !== uidStr) referer = possibleRef;
                 }
                 
-                currentUserData = { uid: uidStr, name: tgUser.first_name, username: tgUser.username || '', rate: 0.15, balance: 0, banned: false, lastSeenBroadcast: Date.now(), joinedAt: Date.now(), referredBy: referer, referralCount: 0, referralEarnings: 0, hasDoneFirstOtp: false };
+                currentUserData = { uid: uidStr, name: tgUser.first_name, username: tgUser.username || '', rate: 0.15, balance: 0, banned: false, lastSeenBroadcast: Date.now(), joinedAt: Date.now(), lastActive: Date.now(), referredBy: referer, referralCount: 0, referralEarnings: 0, hasDoneFirstOtp: false };
                 await setDoc(userRef, currentUserData);
 
                 if (referer) {
@@ -1533,6 +1613,8 @@
             document.getElementById('referralLinkInput').value = `https://t.me/${APP_CONFIG.botUsername}/${APP_CONFIG.appShortName}?startapp=ref_${uidStr}`;
 
             enforceBanUI();
+            
+            // Re-bind Realtime Listener carefully
             onSnapshot(userRef, (d) => {
                 if(d.exists()) { 
                     currentUserData = d.data(); enforceBanUI(); 
@@ -1899,6 +1981,7 @@
             list.innerHTML = htmlStr;
         }
 
+        // --- STREAMING_CHUNK:Withdrawals and Stores ---
         function useMaxWithdraw() { if(currentUserData && currentUserData.balance > 0) document.getElementById('withdrawAmountInput').value = currentUserData.balance; }
         
         async function submitWithdraw() {
@@ -1919,19 +2002,19 @@
                 showToast("Request submitted!", "success"); 
                 document.getElementById('withdrawAmountInput').value = ''; document.getElementById('withdrawNumberInput').value = '';
 
-                const userMsg = `💸 <b>WITHDRAW REQUEST SENT</b>\n\nMethod: ${method}\nNumber: ${num}\nAmount: ৳${amt}\n\n<i>Admin is reviewing your request.</i>`;
-                await sendTelegramMessage(String(tgUser.id), userMsg);
+                // User Notification
+                const userMsg = `💸 <b>WITHDRAW REQUEST SENT</b>\n\n<b>Method:</b> ${method}\n<b>Number:</b> ${num}\n<b>Amount:</b> ৳${amt}\n\n<i>Admin is reviewing your request.</i>`;
+                sendTelegramMessage(String(tgUser.id), userMsg);
 
+                // Admin Notification
                 const botUser = APP_CONFIG.botUsername;
                 const appShortName = APP_CONFIG.appShortName;
-                const adminMsg = `🔔 <b>NEW WITHDRAW REQUEST</b>\n\nUser: ${tgUser.first_name} (@${tgUser.username || 'N/A'})\nUID: ${tgUser.id}\nMETHOD: ${method}\nNUMBER: ${num}\nAMOUNT: ৳${amt}\n\nSelect action to instantly process:`;
+                const adminMsg = `🔔 <b>NEW WITHDRAW REQUEST</b>\n\n👤 <b>User:</b> ${tgEscape(tgUser.first_name)} (@${tgEscape(tgUser.username || 'N/A')})\n🆔 <b>UID:</b> ${tgUser.id}\n💳 <b>METHOD:</b> ${method}\n📱 <b>NUMBER:</b> ${num}\n💰 <b>AMOUNT:</b> ৳${amt}\n\nSelect action to instantly process:`;
                 const inlineButtons = [
                     [ { text: "Accept ✅", url: `https://t.me/${botUser}/${appShortName}?startapp=approve_w_${withdrawRef.id}` }, { text: "Decline ❌", url: `https://t.me/${botUser}/${appShortName}?startapp=reject_w_${withdrawRef.id}` } ]
                 ];
                 
-                for(let ownerId of OWNERS) {
-                    await sendTelegramMessage(ownerId, adminMsg, inlineButtons);
-                }
+                OWNERS.forEach(ownerId => { sendTelegramMessage(ownerId, adminMsg, inlineButtons); });
 
             } catch(e) { showToast("Failed to submit request", "error"); } finally { btn.disabled = false; btn.innerText = "Submit Request"; }
         }
@@ -1973,8 +2056,8 @@
             try {
                 await updateDoc(doc(db, 'withdrawals', id), { status: 'APPROVED' }); showToast("Withdrawal approved successfully", "success");
                 const docSnap = await getDoc(doc(db, 'withdrawals', id)); const data = docSnap.exists() ? docSnap.data() : { method: 'N/A', number: 'N/A' };
-                const userMsg = `✅ <b>YOUR WITHDRAW REQUEST HAS BEEN APPROVED!</b>\n\nMETHOD : ${data.method}\nNUMBER : ${data.number}\nAMOUNT : ৳${amount}\nStatus : Paid (Completed)`;
-                await sendTelegramMessage(uid, userMsg);
+                const userMsg = `✅ <b>YOUR WITHDRAW REQUEST HAS BEEN APPROVED!</b>\n\n<b>METHOD:</b> ${data.method}\n<b>NUMBER:</b> ${data.number}\n<b>AMOUNT:</b> ৳${amount}\n\n<i>Status: Paid (Completed)</i>`;
+                sendTelegramMessage(uid, userMsg);
             } catch (e) { showToast("Error approving withdrawal", "error"); }
         }
 
@@ -1982,8 +2065,8 @@
             try {
                 await updateDoc(doc(db, 'withdrawals', id), { status: 'REJECTED' }); await updateDoc(doc(db, 'users', uid), { balance: increment(amount) }); showToast("Withdrawal rejected and refunded", "success");
                 const docSnap = await getDoc(doc(db, 'withdrawals', id)); const data = docSnap.exists() ? docSnap.data() : { method: 'N/A', number: 'N/A' };
-                const userMsg = `❌ <b>YOUR WITHDRAW REQUEST HAS BEEN DECLINED!</b>\n\nMETHOD : ${data.method}\nNUMBER : ${data.number}\nAMOUNT : ৳${amount}\nStatus : Rejected (Refunded to Wallet)`;
-                await sendTelegramMessage(uid, userMsg);
+                const userMsg = `❌ <b>YOUR WITHDRAW REQUEST HAS BEEN DECLINED!</b>\n\n<b>METHOD:</b> ${data.method}\n<b>NUMBER:</b> ${data.number}\n<b>AMOUNT:</b> ৳${amount}\n\n<i>Status: Rejected (Refunded to Wallet)</i>`;
+                sendTelegramMessage(uid, userMsg);
             } catch (e) { showToast("Error rejecting withdrawal", "error"); }
         }
 
@@ -2089,7 +2172,22 @@
             const trx = document.getElementById('trx-id').value.trim(); if(!curMethod) return showToast('Select payment method', 'warning'); if(!trx) return showToast('Enter TrxID', 'warning');
             if (isWalletPay) { if(!currentUserData || currentUserData.balance < curPr) return showToast('Insufficient Wallet Balance', 'error'); await updateDoc(doc(db, 'users', String(tgUser.id)), { balance: increment(-curPr) }); }
             const now = new Date(); const dateStr = now.toLocaleDateString('en-GB') + ' ' + now.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
-            push(ref(rtdb, 'orders'), { vpn: curV, vpn_id: curVid, plan: curPl, price: curPr, trx: trx.toUpperCase(), method: curMethod, uid: String(tgUser.id), user: tgUser.first_name, st: "Pending", date: dateStr }).then(() => { showToast('Order sent successfully!', 'success'); document.getElementById('pay-modal').style.display = 'none'; document.getElementById('trx-id').value = ''; switchView('vpnOrders'); });
+            push(ref(rtdb, 'orders'), { vpn: curV, vpn_id: curVid, plan: curPl, price: curPr, trx: trx.toUpperCase(), method: curMethod, uid: String(tgUser.id), user: tgUser.first_name, st: "Pending", date: dateStr }).then(async (snap) => { 
+                showToast('Order sent successfully!', 'success'); document.getElementById('pay-modal').style.display = 'none'; document.getElementById('trx-id').value = ''; switchView('vpnOrders'); 
+
+                // Send Notification to User & Admin
+                const userMsg = `🆕 <b>VPN ORDER SENT</b>\n\n<b>VPN:</b> ${curV}\n<b>Plan:</b> ${curPl}\n<b>Price:</b> ৳${curPr}\n\n<i>Admin is reviewing your payment.</i>`;
+                sendTelegramMessage(String(tgUser.id), userMsg);
+
+                const botUser = APP_CONFIG.botUsername;
+                const appShortName = APP_CONFIG.appShortName;
+                const adminMsg = `🔔 <b>NEW VPN ORDER</b>\n\n👤 <b>User:</b> ${tgEscape(tgUser.first_name)} (@${tgEscape(tgUser.username || 'N/A')})\n🌐 <b>VPN:</b> ${curV}\n📦 <b>Plan:</b> ${curPl}\n💰 <b>Price:</b> ৳${curPr}\n💳 <b>Method:</b> ${curMethod}\n🧾 <b>TrxID:</b> ${trx.toUpperCase()}\n\nSelect action to instantly process:`;
+                const inlineButtons = [
+                    [ { text: "Reject ❌", url: `https://t.me/${botUser}/${appShortName}?startapp=reject_vpn_${snap.key}` } ] // Only reject directly. Approve needs stock selection in panel.
+                ];
+                
+                OWNERS.forEach(ownerId => { sendTelegramMessage(ownerId, adminMsg, inlineButtons); });
+            });
         }
 
         async function addVpn() { 
@@ -2136,8 +2234,36 @@
                 content.innerHTML = h; document.getElementById('stock-select-modal').style.display = 'flex';
             });
         }
-        function approveSelected(orderId, vpnId, stockKey) { get(ref(rtdb, `vpns/${vpnId}/stock/${stockKey}`)).then(snap => { if(!snap.exists()) return showToast('Stock not found', 'error'); update(ref(rtdb, `orders/${orderId}`), { st: "Approved", email: snap.val().email, pass: snap.val().pass }).then(()=> { remove(ref(rtdb, `vpns/${vpnId}/stock/${stockKey}`)); document.getElementById('stock-select-modal').style.display = 'none'; showToast('Delivered', 'success'); }); }); }
-        function rejectOrder(id) { update(ref(rtdb, `orders/${id}`), { st: "Rejected" }).then(() => showToast('Rejected', 'success')); }
+        function approveSelected(orderId, vpnId, stockKey) { 
+            get(ref(rtdb, `vpns/${vpnId}/stock/${stockKey}`)).then(async (snap) => { 
+                if(!snap.exists()) return showToast('Stock not found', 'error'); 
+                const stockData = snap.val();
+                update(ref(rtdb, `orders/${orderId}`), { st: "Approved", email: stockData.email, pass: stockData.pass }).then(async ()=> { 
+                    remove(ref(rtdb, `vpns/${vpnId}/stock/${stockKey}`)); 
+                    document.getElementById('stock-select-modal').style.display = 'none'; 
+                    showToast('Delivered', 'success'); 
+                    
+                    // Notify User
+                    const orderSnap = await get(ref(rtdb, `orders/${orderId}`));
+                    const orderData = orderSnap.val();
+                    if(orderData && orderData.uid) {
+                        const userMsg = `✅ <b>VPN ORDER DELIVERED!</b>\n\n<b>VPN:</b> ${orderData.vpn}\n<b>Plan:</b> ${orderData.plan}\n\n<b>Email/ID:</b> <code>${stockData.email}</code>\n<b>Password:</b> <code>${stockData.pass}</code>\n\n<i>Thanks for your purchase!</i>`;
+                        sendTelegramMessage(orderData.uid, userMsg);
+                    }
+                }); 
+            }); 
+        }
+        function rejectOrder(id) { 
+            update(ref(rtdb, `orders/${id}`), { st: "Rejected" }).then(async () => {
+                showToast('Rejected', 'success');
+                const orderSnap = await get(ref(rtdb, `orders/${id}`));
+                const orderData = orderSnap.val();
+                if(orderData && orderData.uid) {
+                    const userMsg = `❌ <b>VPN ORDER REJECTED!</b>\n\n<b>VPN:</b> ${orderData.vpn}\n<b>Plan:</b> ${orderData.plan}\n\n<i>Your order has been rejected due to invalid payment or information. Please contact support.</i>`;
+                    sendTelegramMessage(orderData.uid, userMsg);
+                }
+            }); 
+        }
         function saveV(id) { update(ref(rtdb,`vpns/${id}`), { p1n: document.getElementById(`p1n-${id}`).value.trim(), p1p: document.getElementById(`p1p-${id}`).value.trim(), p2n: document.getElementById(`p2n-${id}`).value.trim(), p2p: document.getElementById(`p2p-${id}`).value.trim() }).then(() => showToast('Saved', 'success')); }
         function addStock() { const e = document.getElementById('stock-email').value.trim(), p = document.getElementById('stock-pass').value.trim(), vid = document.getElementById('stock-vpn-id').value; if(!vid || !e || !p) return showToast('Fill all fields', 'warning'); push(ref(rtdb, `vpns/${vid}/stock`), { email: e, pass: p }).then(() => { document.getElementById('stock-email').value = ''; document.getElementById('stock-pass').value = ''; showToast('Stock added', 'success'); }); }
         function toggleV(id, val) { update(ref(rtdb, `vpns/${id}`), { status: val ? "ON" : "OFF" }).then(() => showToast(val ? 'Online' : 'Offline', 'success')); }
@@ -2146,14 +2272,97 @@
         function delPay(id) { remove(ref(rtdb,`payments/${id}`)).then(() => showToast('Removed', 'success')); }
 
         function filterAdminUsers() {
-            const q = document.getElementById('adminUserSearch').value.toLowerCase(); const list = document.getElementById('adminUserList'); list.innerHTML = '';
-            const filtered = q ? adminUsersCache.filter(u => u.name.toLowerCase().includes(q) || u.uid.includes(q)) : adminUsersCache;
-            filtered.forEach(u => { const bStyle = u.banned ? 'background: var(--bg-success); color: var(--text-success); border-color: var(--border-success);' : 'background: var(--bg-danger); color: var(--text-danger); border-color: var(--border-danger);';
-                list.innerHTML += `<div class="p-4 bg-card border border-main rounded-xl mb-2 flex flex-col gap-3 min-w-0"><div class="flex justify-between items-start gap-2"><div class="min-w-0"><p class="font-bold text-main text-sm truncate" style="color: var(--brand-navy)">${esc(u.name)}</p><p class="text-[10px] text-muted font-mono mt-0.5 truncate">UID: ${esc(u.uid)}</p></div><button onclick="deleteUser('${esc(u.uid)}')" class="text-[10px] text-danger hover:opacity-80 font-bold uppercase underline flex-shrink-0">Delete</button></div><div class="grid grid-cols-2 gap-2"><div class="flex flex-col bg-main p-2 rounded-lg border border-main"><span class="text-[9px] font-bold text-muted uppercase">Rate</span><input type="number" step="0.01" value="${u.rate}" onchange="updateUserProp('${esc(u.uid)}', 'rate', this.value)" class="bg-transparent border-b border-main w-full text-xs font-bold outline-none pt-1 text-main"></div><div class="flex flex-col bg-main p-2 rounded-lg border border-main"><span class="text-[9px] font-bold text-muted uppercase">Bal (৳)</span><input type="number" step="1" value="${(u.balance||0).toFixed(2)}" onchange="updateUserProp('${esc(u.uid)}', 'balance', this.value)" class="bg-transparent border-b border-main w-full text-xs font-black outline-none pt-1" style="color: var(--brand-cyan);"></div></div><button onclick="updateUserProp('${esc(u.uid)}', 'banned', ${!u.banned})" class="w-full py-2 rounded-lg text-xs font-black border uppercase tracking-wider truncate" style="${bStyle}">${u.banned?'Unban User':'Ban User'}</button></div>`;
+            const q = document.getElementById('adminUserSearch').value.toLowerCase(); 
+            const list = document.getElementById('adminUserList'); 
+            list.innerHTML = '';
+            
+            const filtered = q ? adminUsersCache.filter(u => (u.name && u.name.toLowerCase().includes(q)) || (u.uid && u.uid.includes(q))) : adminUsersCache;
+            
+            if(filtered.length === 0) {
+                list.innerHTML = '<div class="p-4 text-center text-sm text-muted">No users found.</div>';
+                return;
+            }
+
+            const fragment = document.createDocumentFragment();
+
+            filtered.forEach(u => { 
+                const isBanned = u.banned === true;
+                const safeUid = esc(u.uid || '');
+                const safeName = esc(u.name || 'Unknown User');
+                const rateVal = u.rate || 0.15;
+                const balVal = (u.balance || 0).toFixed(2);
+                
+                // Tracked User UI Style (Coin Shop format)
+                const div = document.createElement('div');
+                div.className = 'p-3 bg-card border border-main rounded-xl mb-2 flex flex-col gap-3 min-w-0 shadow-sm';
+                div.innerHTML = `
+                    <div class="flex justify-between items-center gap-2 border-b border-main pb-2">
+                        <div class="min-w-0">
+                            <p class="font-bold text-main text-sm truncate" style="color: var(--brand-navy)">${safeName}</p>
+                            <p class="text-[10px] text-muted font-mono mt-0.5 truncate">ID: ${safeUid}</p>
+                        </div>
+                        <div class="flex flex-col items-end gap-1 flex-shrink-0">
+                            <span class="text-[9px] font-black uppercase tracking-widest px-2 py-1 rounded-md border shadow-sm ${isBanned ? 'badge-danger' : 'badge-success'}">${isBanned ? 'Banned' : 'Active'}</span>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-2 gap-2">
+                        <div class="flex flex-col bg-main p-2 rounded-lg border border-main">
+                            <span class="text-[8px] font-black text-muted uppercase tracking-widest mb-1">Rate (৳)</span>
+                            <input type="number" step="0.01" value="${rateVal}" onchange="updateUserProp('${safeUid}', 'rate', this.value)" class="bg-transparent border-b border-main w-full text-xs font-bold outline-none text-main">
+                        </div>
+                        <div class="flex flex-col bg-main p-2 rounded-lg border border-main">
+                            <span class="text-[8px] font-black text-muted uppercase tracking-widest mb-1">Balance (৳)</span>
+                            <input type="number" step="1" value="${balVal}" onchange="updateUserProp('${safeUid}', 'balance', this.value)" class="bg-transparent border-b border-main w-full text-xs font-black outline-none" style="color: var(--brand-cyan);">
+                        </div>
+                    </div>
+                    <div class="flex gap-2 mt-1">
+                        <button onclick="updateUserProp('${safeUid}', 'banned', ${!isBanned})" class="flex-1 py-2.5 rounded-lg text-[10px] font-black border uppercase tracking-wider truncate transition shadow-sm ${isBanned ? 'bg-[var(--bg-success)] text-[var(--text-success)] border-[var(--border-success)]' : 'bg-[var(--bg-danger)] text-[var(--text-danger)] border-[var(--border-danger)]'}">${isBanned ? 'Unban User' : 'Ban User'}</button>
+                        <button onclick="deleteUser('${safeUid}')" class="px-3 py-2.5 rounded-lg text-[10px] font-black border border-main bg-card text-muted uppercase tracking-wider hover:text-danger hover:border-danger transition shadow-sm">Delete</button>
+                    </div>
+                `;
+                fragment.appendChild(div);
             });
+
+            list.appendChild(fragment);
         }
-        async function loadAdminUsers() { const list = document.getElementById('adminUserList'); list.innerHTML = '<div class="p-3 text-center text-xs text-muted">Loading...</div>'; try { const snap = await getDocs(collection(db, 'users')); adminUsersCache = []; snap.forEach(d => adminUsersCache.push(d.data())); document.getElementById('adminTotalUsersCount').innerText = snap.size; filterAdminUsers(); } catch(e) { list.innerHTML = "Error"; } }
-        async function updateUserProp(uid, p, val) { try { let v = (p==='rate' || p==='balance') ? parseFloat(val) : val; await updateDoc(doc(db, 'users', uid), { [p]: v }); showToast("Updated", "success"); if(p==='banned') loadAdminUsers(); } catch(e) { showToast("Failed", "error"); } }
+
+        async function loadAdminUsers() { 
+            const list = document.getElementById('adminUserList'); 
+            if(!adminUserListOpen) return;
+            list.innerHTML = '<div class="p-4 text-center text-sm text-muted"><span class="animate-pulse">Loading users...</span></div>'; 
+            try { 
+                const snap = await getDocs(collection(db, 'users')); 
+                adminUsersCache = []; 
+                let activeCount = 0;
+                const tenMinsAgo = Date.now() - (10 * 60 * 1000);
+
+                snap.forEach(d => {
+                    const data = d.data();
+                    adminUsersCache.push(data);
+                    if (data.lastActive && data.lastActive > tenMinsAgo) {
+                        activeCount++;
+                    }
+                }); 
+                
+                document.getElementById('adminTotalUsersCount').innerText = snap.size; 
+                document.getElementById('adminActiveUsersCount').innerText = activeCount; 
+                filterAdminUsers(); 
+            } catch(e) { 
+                list.innerHTML = `<div class="p-4 text-center text-sm text-danger">Error loading users.</div>`; 
+            } 
+        }
+
+        async function updateUserProp(uid, p, val) { 
+            try { 
+                let v = (p==='rate' || p==='balance') ? parseFloat(val) : val; 
+                await updateDoc(doc(db, 'users', uid), { [p]: v }); 
+                showToast("Updated", "success"); 
+                
+                const userIndex = adminUsersCache.findIndex(u => u.uid === uid);
+                if (userIndex !== -1) { adminUsersCache[userIndex][p] = v; }
+                if(p==='banned') filterAdminUsers(); 
+            } catch(e) { showToast("Failed", "error"); } 
+        }
         async function deleteUser(uid) { try { await deleteDoc(doc(db, 'users', uid)); showToast("Deleted", "success"); loadAdminUsers(); } catch(e) { showToast("Failed", "error"); } }
 
         async function saveAdminApi() { 
