@@ -845,29 +845,24 @@
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-        import { getAuth, signInAnonymously, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
         import { getFirestore, doc, setDoc, getDoc, collection, onSnapshot, increment, addDoc, deleteDoc, updateDoc, getCountFromServer, getDocs } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
-        // CRITICAL FIX: Using native Artifacts DB to ensure the data is never automatically wiped.
-        let firebaseConfig;
-        if (typeof __firebase_config !== 'undefined') {
-            firebaseConfig = JSON.parse(__firebase_config);
-        } else {
-            // Default fallback
-            firebaseConfig = {
-                apiKey: "AIzaSyBTgFAMwH6cJnfn6hg29JSHS4L6OxsWBo0",
-                authDomain: "titanium-otp-web.firebaseapp.com",
-                projectId: "titanium-otp-web",
-                storageBucket: "titanium-otp-web.firebasestorage.app",
-                messagingSenderId: "688659821101",
-                appId: "1:688659821101:web:11dfceba28297a448a3ea4"
-            };
-        }
+        // PERMANENT FIREBASE CONFIG — Always uses YOUR Firebase project. Never resets.
+        const firebaseConfig = {
+            apiKey: "AIzaSyBTgFAMwH6cJnfn6hg29JSHS4L6OxsWBo0",
+            authDomain: "titanium-otp-web.firebaseapp.com",
+            projectId: "titanium-otp-web",
+            storageBucket: "titanium-otp-web.firebasestorage.app",
+            messagingSenderId: "688659821101",
+            appId: "1:688659821101:web:11dfceba28297a448a3ea4"
+        };
 
         const appInstance = initializeApp(firebaseConfig);
         const auth = getAuth(appInstance);
         const db = getFirestore(appInstance);
-        const appId = typeof __app_id !== 'undefined' ? __app_id : 'titanium-otp-app';
+        // PERMANENT APP ID — Hardcoded so Firestore path NEVER changes.
+        const appId = 'titanium-otp-app';
 
         // STRICT PATH HELPERS FOR PERMANENT DATA (No Root level wipes)
         const getPublicCollection = (collName) => collection(db, 'artifacts', appId, 'public', 'data', collName);
@@ -1426,12 +1421,8 @@
             applyHardcodedBranding();
 
             try {
-                // IMPORTANT AUTHENTICATION STEP to enforce permanent ID tracking
-                if (typeof __initial_auth_token !== 'undefined') {
-                    await signInWithCustomToken(auth, __initial_auth_token);
-                } else {
-                    await signInAnonymously(auth);
-                }
+                // PERMANENT AUTH — Always anonymous sign-in with YOUR Firebase.
+                await signInAnonymously(auth);
 
                 if (!auth.currentUser) return; // Guard clause
 
