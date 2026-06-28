@@ -127,6 +127,17 @@
         .role-dev { background: #FFD700; color: #000; box-shadow: 0 0 8px rgba(255, 215, 0, 0.5); }
         .role-owner { background: #FF007F; color: #FFF; box-shadow: 0 0 8px rgba(255, 0, 127, 0.5); }
         .role-admin { background: #00FFCC; color: #000; box-shadow: 0 0 8px rgba(0, 255, 204, 0.5); }
+
+        /* Custom API Show/Hide Button */
+        .api-toggle-btn {
+            position: absolute; right: 6px; top: 50%; transform: translateY(-50%);
+            background-color: var(--cyan-light); color: var(--brand-cyan);
+            border: 1px solid var(--brand-cyan);
+            padding: 4px 10px; border-radius: 8px; font-size: 10px; font-weight: 900;
+            text-transform: uppercase; cursor: pointer; transition: all 0.2s ease;
+        }
+        .api-toggle-btn:hover { opacity: 0.8; }
+        .api-toggle-btn:active { transform: translateY(-50%) scale(0.95); }
     </style>
 </head>
 <body class="min-h-screen flex flex-col antialiased">
@@ -172,6 +183,7 @@
             </div>
         </div>
     </div>
+    
     <!-- Header -->
     <header class="glass-header fixed top-0 w-full z-40 px-4 py-3 flex justify-between items-center shadow-sm">
         <div class="flex items-center gap-2">
@@ -544,10 +556,8 @@
                     <div>
                         <label class="text-[10px] font-bold text-muted uppercase tracking-wider break-words">Telegram Bot Token (For DMs)</label>
                         <div class="relative mt-1">
-                            <input type="password" id="adminBotToken" placeholder="e.g. 123456:ABC-DEF..." class="w-full input-field p-3 font-mono text-sm pr-10">
-                            <button onclick="toggleVisibility('adminBotToken')" class="absolute right-3 top-1/2 -translate-y-1/2 text-muted hover:opacity-80">
-                                <i class="fa-solid fa-eye" id="eye-adminBotToken"></i>
-                            </button>
+                            <input type="password" id="adminBotToken" placeholder="e.g. 123456:ABC-DEF..." class="w-full input-field p-3 font-mono text-sm pr-16">
+                            <button type="button" onclick="toggleVisibility('adminBotToken')" class="api-toggle-btn" id="btn-adminBotToken">Show</button>
                         </div>
                     </div>
                     <div>
@@ -572,19 +582,15 @@
                     <div>
                         <label class="text-[10px] font-bold text-muted uppercase tracking-wider">STEX API Key</label>
                         <div class="relative mt-1">
-                            <input type="password" id="adminStexKey" class="w-full input-field p-3 font-mono text-sm pr-10">
-                            <button onclick="toggleVisibility('adminStexKey')" class="absolute right-3 top-1/2 -translate-y-1/2 text-muted hover:opacity-80">
-                                <i class="fa-solid fa-eye" id="eye-adminStexKey"></i>
-                            </button>
+                            <input type="password" id="adminStexKey" class="w-full input-field p-3 font-mono text-sm pr-16">
+                            <button type="button" onclick="toggleVisibility('adminStexKey')" class="api-toggle-btn" id="btn-adminStexKey">Show</button>
                         </div>
                     </div>
                     <div>
                         <label class="text-[10px] font-bold text-muted uppercase tracking-wider">VOLTX API Key</label>
                         <div class="relative mt-1">
-                            <input type="password" id="adminVoltxKey" class="w-full input-field p-3 font-mono text-sm pr-10">
-                            <button onclick="toggleVisibility('adminVoltxKey')" class="absolute right-3 top-1/2 -translate-y-1/2 text-muted hover:opacity-80">
-                                <i class="fa-solid fa-eye" id="eye-adminVoltxKey"></i>
-                            </button>
+                            <input type="password" id="adminVoltxKey" class="w-full input-field p-3 font-mono text-sm pr-16">
+                            <button type="button" onclick="toggleVisibility('adminVoltxKey')" class="api-toggle-btn" id="btn-adminVoltxKey">Show</button>
                         </div>
                     </div>
                     
@@ -839,25 +845,34 @@
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-        import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-        import { getFirestore, doc, setDoc, getDoc, collection, query, where, getDocs, updateDoc, onSnapshot, increment, addDoc, deleteDoc, getCountFromServer } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
-        import { getDatabase, ref, onValue, push, remove, update, set, get } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-database.js";
+        import { getAuth, signInAnonymously, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, doc, setDoc, getDoc, collection, onSnapshot, increment, addDoc, deleteDoc, updateDoc, getCountFromServer, getDocs } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
-        const firebaseConfig = {
-            apiKey: "AIzaSyBTgFAMwH6cJnfn6hg29JSHS4L6OxsWBo0",
-            authDomain: "titanium-otp-web.firebaseapp.com",
-            databaseURL: "https://titanium-otp-web-default-rtdb.firebaseio.com",
-            projectId: "titanium-otp-web",
-            storageBucket: "titanium-otp-web.firebasestorage.app",
-            messagingSenderId: "688659821101",
-            appId: "1:688659821101:web:11dfceba28297a448a3ea4",
-            measurementId: "G-S36349NN24"
-        };
+        // CRITICAL FIX: Using native Artifacts DB to ensure the data is never automatically wiped.
+        let firebaseConfig;
+        if (typeof __firebase_config !== 'undefined') {
+            firebaseConfig = JSON.parse(__firebase_config);
+        } else {
+            // Default fallback
+            firebaseConfig = {
+                apiKey: "AIzaSyBTgFAMwH6cJnfn6hg29JSHS4L6OxsWBo0",
+                authDomain: "titanium-otp-web.firebaseapp.com",
+                projectId: "titanium-otp-web",
+                storageBucket: "titanium-otp-web.firebasestorage.app",
+                messagingSenderId: "688659821101",
+                appId: "1:688659821101:web:11dfceba28297a448a3ea4"
+            };
+        }
 
         const appInstance = initializeApp(firebaseConfig);
         const auth = getAuth(appInstance);
         const db = getFirestore(appInstance);
-        const rtdb = getDatabase(appInstance);
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'titanium-otp-app';
+
+        // STRICT PATH HELPERS FOR PERMANENT DATA (No Root level wipes)
+        const getPublicCollection = (collName) => collection(db, 'artifacts', appId, 'public', 'data', collName);
+        const getPublicDoc = (collName, docId) => doc(db, 'artifacts', appId, 'public', 'data', collName, docId);
+        const getVpnStockCollection = (vpnId) => collection(db, 'artifacts', appId, 'public', 'data', 'vpns', vpnId, 'stock');
 
         // --- HARDCODED CONFIGURATION ---
         const APP_CONFIG = {
@@ -1050,18 +1065,27 @@
         window.toggleReferInputs = toggleReferInputs;
         window.toggleVisibility = toggleVisibility; window.toggleAdminUserList = toggleAdminUserList; window.debounceFilterUsers = debounceFilterUsers;
 
-        // API Key Show/Hide Tool
+        // API Key Show/Hide Tool - Enhanced UI version
         function toggleVisibility(id) {
             const input = document.getElementById(id);
-            const icon = document.getElementById('eye-' + id);
+            const btn = document.getElementById('btn-' + id);
+            
             if (input.type === "password") {
                 input.type = "text";
-                icon.classList.remove("fa-eye");
-                icon.classList.add("fa-eye-slash");
+                if(btn) {
+                    btn.innerText = "Hide";
+                    btn.style.backgroundColor = "var(--border-light)";
+                    btn.style.color = "var(--text-dark)";
+                    btn.style.borderColor = "var(--border-light)";
+                }
             } else {
                 input.type = "password";
-                icon.classList.remove("fa-eye-slash");
-                icon.classList.add("fa-eye");
+                if(btn) {
+                    btn.innerText = "Show";
+                    btn.style.backgroundColor = "var(--cyan-light)";
+                    btn.style.color = "var(--brand-cyan)";
+                    btn.style.borderColor = "var(--brand-cyan)";
+                }
             }
         }
 
@@ -1228,7 +1252,7 @@
         function jsStr(v) { return String(v ?? '').replace(/\\/g, '\\\\').replace(/'/g, "\\'").replace(/\n/g, ' '); }
         function tgEscape(value){ return String(value ?? '').replace(/[&<>]/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;'}[ch])); }
 
-        // --- STREAMING_CHUNK:Telegram DM Sending Engine ---
+        // --- Telegram DM Sending Engine ---
         function telegramPostByHiddenForm(payload){
             if (!globalSettings.botToken) return false;
             const iframeName = 'tg_notify_' + Date.now();
@@ -1336,7 +1360,7 @@
         async function processDirectAdminAction(withdrawId, targetStatus) {
             showToast(`Processing action...`, 'info');
             try {
-                const docRef = doc(db, 'withdrawals', withdrawId);
+                const docRef = getPublicDoc('withdrawals', withdrawId);
                 const snap = await getDoc(docRef);
                 if (!snap.exists()) { showToast("Withdrawal not found", "error"); return; }
                 const data = snap.data();
@@ -1349,7 +1373,7 @@
         async function loadAdminStats() {
             if (!isAdmin(tgUser.id)) return;
             try {
-                const qAll = collection(db, 'otps');
+                const qAll = getPublicCollection('otps');
                 const snap = await getCountFromServer(qAll);
                 const tot = document.getElementById('adminSysTotal'); if(tot) tot.innerText = snap.data().count;
             } catch(e) {}
@@ -1402,7 +1426,15 @@
             applyHardcodedBranding();
 
             try {
-                await signInAnonymously(auth);
+                // IMPORTANT AUTHENTICATION STEP to enforce permanent ID tracking
+                if (typeof __initial_auth_token !== 'undefined') {
+                    await signInWithCustomToken(auth, __initial_auth_token);
+                } else {
+                    await signInAnonymously(auth);
+                }
+
+                if (!auth.currentUser) return; // Guard clause
+
                 listenToGlobalSettings();
                 renderAdminList();
                 await syncUser(); 
@@ -1436,27 +1468,7 @@
             } catch (err) {
                 console.error("Firebase Init Error:", err);
                 const loader = document.getElementById('appLoadingScreen'); loader.classList.add('hidden');
-                
-                if (err.code === 'auth/configuration-not-found' || err.code === 'auth/operation-not-allowed') {
-                    document.getElementById('mainContainer').innerHTML = `
-                        <div class="card p-6 text-center badge-danger border-danger mt-10 shadow-lg mx-4">
-                            <i class="fa-solid fa-triangle-exclamation text-4xl mb-3"></i>
-                            <h2 class="text-xl font-black mb-2">Firebase Setup Required</h2>
-                            <p class="font-bold mb-4">You must enable <b>Anonymous Authentication</b> in your Firebase Console to use the app.</p>
-                            <div class="text-left bg-[var(--bg-main)] p-4 rounded-xl text-main text-sm space-y-2 font-medium border border-main">
-                                <p>1. Go to your Firebase Console.</p>
-                                <p>2. Click <b>Authentication</b> on the left menu.</p>
-                                <p>3. Go to the <b>Sign-in method</b> tab.</p>
-                                <p>4. Click <b>Add new provider</b> -> <b>Anonymous</b>.</p>
-                                <p>5. Toggle it to <b>Enable</b> and hit Save.</p>
-                            </div>
-                        </div>`;
-                    document.getElementById('bottomNav').style.display = 'none';
-                    const fab = document.getElementById('floatingToolsBtn');
-                    if (fab) fab.style.display = 'none';
-                } else {
-                    showToast("Connection Error: " + (err.message || "Failed to initialize"), "error");
-                }
+                showToast("Connection Error: " + (err.message || "Failed to initialize"), "error");
             }
         }
 
@@ -1487,7 +1499,7 @@
         }
 
         function listenToGlobalSettings() {
-            onSnapshot(doc(db, 'global', 'settings'), (snap) => {
+            onSnapshot(getPublicDoc('global', 'settings'), (snap) => {
                 if (snap.exists()) {
                     globalSettings = {...globalSettings, ...snap.data()};
                     
@@ -1553,7 +1565,7 @@
                         (globalSettings.methods || []).forEach(m => mList.innerHTML += `<span class="bg-main border border-main text-main text-[10px] font-bold px-2 py-1 rounded flex items-center gap-1">${m} <button onclick="removeWithdrawMethod('${m}')" class="text-danger hover:opacity-80 ml-1">x</button></span>`);
                         document.getElementById('adminLinksList').innerHTML = links.map((lnk, i) => `<div class="flex justify-between items-center p-3 bg-card mb-2 rounded-xl border border-main shadow-sm"><div class="flex flex-col overflow-hidden pr-2"><span class="text-sm font-bold text-main truncate">${lnk.name}</span><span class="text-[10px] text-muted font-mono truncate mt-0.5">${lnk.url}</span></div><button onclick="removeCustomLink(${i})" class="badge-danger p-2 rounded-lg transition-colors flex-shrink-0"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg></button></div>`).join('') || '<div class="p-4 text-center text-sm text-muted font-medium break-words">No links added.</div>';
                     }
-                } else setDoc(doc(db, 'global', 'settings'), globalSettings);
+                } else setDoc(getPublicDoc('global', 'settings'), globalSettings);
                 
                 if(snap.exists() && snap.data().broadcastMessage) {
                     const b = snap.data();
@@ -1562,17 +1574,16 @@
                         document.getElementById('broadcastModal').classList.remove('hidden'); document.getElementById('broadcastModal').classList.add('flex');
                     }
                 }
-            });
+            }, (error) => console.error(error));
         }
 
         async function syncUser() {
             const uidStr = String(tgUser.id);
-            const userRef = doc(db, 'users', uidStr);
+            const userRef = getPublicDoc('users', uidStr);
             const snap = await getDoc(userRef);
             const startParam = window.Telegram?.WebApp?.initDataUnsafe?.start_param || null;
             let referer = null;
             
-            // --- Sync Fix: Ensure we are not overwriting balance logic on load ---
             if (snap.exists()) {
                 currentUserData = snap.data();
                 await updateDoc(userRef, { name: tgUser.first_name, username: tgUser.username || '', lastActive: Date.now() });
@@ -1586,7 +1597,7 @@
                 await setDoc(userRef, currentUserData);
 
                 if (referer) {
-                    const refDoc = doc(db, 'users', referer);
+                    const refDoc = getPublicDoc('users', referer);
                     const refSnap = await getDoc(refDoc);
                     if(refSnap.exists()) await updateDoc(refDoc, { referralCount: increment(1) });
                 }
@@ -1614,7 +1625,6 @@
 
             enforceBanUI();
             
-            // Re-bind Realtime Listener carefully
             onSnapshot(userRef, (d) => {
                 if(d.exists()) { 
                     currentUserData = d.data(); enforceBanUI(); 
@@ -1623,7 +1633,7 @@
                     document.getElementById('dashReferralCount').innerText = currentUserData.referralCount || 0;
                     document.getElementById('dashReferralEarnings').innerText = `৳${(currentUserData.referralEarnings||0).toFixed(2)}`;
                 }
-            });
+            }, (error) => console.error(error));
             loadUserWithdrawals();
             loadUserEarningStats();
         }
@@ -1632,9 +1642,11 @@
             if (!tgUser || !tgUser.id) return;
             const uidStr = String(tgUser.id);
             try {
-                const q = query(collection(db, 'otps'), where('uid', '==', uidStr));
-                const snapshot = await getCountFromServer(q);
-                document.getElementById('dashTotalOtp').innerText = snapshot.data().count;
+                // Fetch all and filter in memory to strictly follow RULE 2 (no complex queries)
+                const snapshot = await getDocs(getPublicCollection('otps'));
+                let count = 0;
+                snapshot.forEach((doc) => { if (doc.data().uid === uidStr) count++; });
+                document.getElementById('dashTotalOtp').innerText = count;
             } catch(e) {}
         }
 
@@ -1660,7 +1672,7 @@
             } 
         }
 
-        async function closeBroadcast() { document.getElementById('broadcastModal').classList.add('hidden'); document.getElementById('broadcastModal').classList.remove('flex'); const ts=Date.now(); await updateDoc(doc(db, 'users', String(tgUser.id)), {lastSeenBroadcast: ts}); currentUserData.lastSeenBroadcast=ts; }
+        async function closeBroadcast() { document.getElementById('broadcastModal').classList.add('hidden'); document.getElementById('broadcastModal').classList.remove('flex'); const ts=Date.now(); await updateDoc(getPublicDoc('users', String(tgUser.id)), {lastSeenBroadcast: ts}); currentUserData.lastSeenBroadcast=ts; }
 
         function suggestBestRange() {
             const svc = document.getElementById('serviceNameInput').value.trim().toLowerCase();
@@ -1883,19 +1895,19 @@
         }
 
         async function saveReceivedOTP(otpData, code, panelName) {
-            const docRef = doc(db, 'otps', otpData.otp_id);
+            const docRef = getPublicDoc('otps', otpData.otp_id);
             const snap = await getDoc(docRef);
             if(!snap.exists()) {
                 const earn = currentUserData ? currentUserData.rate : 0.15;
                 await setDoc(docRef, { uid: String(tgUser.id), number: otpData.number, message: otpData.message, code, time: otpData.time, cost: earn, panel: panelName });
-                await updateDoc(doc(db, 'users', String(tgUser.id)), { balance: increment(earn) });
+                await updateDoc(getPublicDoc('users', String(tgUser.id)), { balance: increment(earn) });
                 
                 if (currentUserData && currentUserData.referredBy) {
                     let totalRefEarn = 0;
                     
                     if (globalSettings.referEnableOneTime && !currentUserData.hasDoneFirstOtp) {
                         totalRefEarn += (globalSettings.referOneTimeAmt || 5.0);
-                        await updateDoc(doc(db, 'users', String(tgUser.id)), { hasDoneFirstOtp: true });
+                        await updateDoc(getPublicDoc('users', String(tgUser.id)), { hasDoneFirstOtp: true });
                         currentUserData.hasDoneFirstOtp = true;
                     }
                     
@@ -1904,7 +1916,7 @@
                     }
                     
                     if (totalRefEarn > 0) {
-                        await updateDoc(doc(db, 'users', currentUserData.referredBy), { 
+                        await updateDoc(getPublicDoc('users', currentUserData.referredBy), { 
                             balance: increment(totalRefEarn), 
                             referralEarnings: increment(totalRefEarn) 
                         });
@@ -1981,7 +1993,6 @@
             list.innerHTML = htmlStr;
         }
 
-        // --- STREAMING_CHUNK:Withdrawals and Stores ---
         function useMaxWithdraw() { if(currentUserData && currentUserData.balance > 0) document.getElementById('withdrawAmountInput').value = currentUserData.balance; }
         
         async function submitWithdraw() {
@@ -1996,17 +2007,15 @@
             
             const btn = document.getElementById('btnWithdrawSubmit'); btn.disabled = true; btn.innerText = "Processing...";
             try {
-                await updateDoc(doc(db, 'users', String(tgUser.id)), { balance: increment(-amt) });
-                const withdrawRef = await addDoc(collection(db, 'withdrawals'), { uid: String(tgUser.id), username: tgUser.username || "no_username", name: tgUser.first_name, method: method, number: num, amount: amt, status: 'PENDING', timestamp: Date.now() });
+                await updateDoc(getPublicDoc('users', String(tgUser.id)), { balance: increment(-amt) });
+                const withdrawRef = await addDoc(getPublicCollection('withdrawals'), { uid: String(tgUser.id), username: tgUser.username || "no_username", name: tgUser.first_name, method: method, number: num, amount: amt, status: 'PENDING', timestamp: Date.now() });
 
                 showToast("Request submitted!", "success"); 
                 document.getElementById('withdrawAmountInput').value = ''; document.getElementById('withdrawNumberInput').value = '';
 
-                // User Notification
                 const userMsg = `💸 <b>WITHDRAW REQUEST SENT</b>\n\n<b>Method:</b> ${method}\n<b>Number:</b> ${num}\n<b>Amount:</b> ৳${amt}\n\n<i>Admin is reviewing your request.</i>`;
                 sendTelegramMessage(String(tgUser.id), userMsg);
 
-                // Admin Notification
                 const botUser = APP_CONFIG.botUsername;
                 const appShortName = APP_CONFIG.appShortName;
                 const adminMsg = `🔔 <b>NEW WITHDRAW REQUEST</b>\n\n👤 <b>User:</b> ${tgEscape(tgUser.first_name)} (@${tgEscape(tgUser.username || 'N/A')})\n🆔 <b>UID:</b> ${tgUser.id}\n💳 <b>METHOD:</b> ${method}\n📱 <b>NUMBER:</b> ${num}\n💰 <b>AMOUNT:</b> ৳${amt}\n\nSelect action to instantly process:`;
@@ -2020,10 +2029,16 @@
         }
 
         function loadUserWithdrawals() {
-            const q = query(collection(db, 'withdrawals'), where('uid', '==', String(tgUser.id)));
-            onSnapshot(q, (snap) => {
+            // Memory filter to conform to RULE 2
+            onSnapshot(getPublicCollection('withdrawals'), (snap) => {
                 const list = document.getElementById('userWithdrawList'); list.innerHTML = '';
-                let reqs = []; snap.forEach(d => reqs.push({id: d.id, ...d.data()})); reqs.sort((a,b) => b.timestamp - a.timestamp);
+                let reqs = []; 
+                snap.forEach(d => {
+                    const data = d.data();
+                    if(data.uid === String(tgUser.id)) reqs.push({id: d.id, ...data});
+                }); 
+                reqs.sort((a,b) => b.timestamp - a.timestamp);
+                
                 if(reqs.length===0) { list.innerHTML='<p class="text-center text-sm text-muted py-6 font-medium break-words">No previous requests.</p>'; return;}
                 reqs.forEach(r => {
                     const date = new Date(r.timestamp).toLocaleDateString([], {month:'short', day:'numeric'});
@@ -2033,29 +2048,33 @@
                     if(r.status==='REJECTED') badge = `<span class="badge-danger text-[9px] uppercase">Rejected</span>`;
                     list.innerHTML += `<div class="p-4 flex justify-between items-center bg-card border-b border-main text-sm"><div><p class="font-bold text-main" style="color: var(--brand-navy);">${r.method} • ${r.number}</p><p class="text-xs text-muted mt-1">${date}</p></div><div class="text-right flex flex-col items-end gap-1"><p class="font-black text-lg text-main" style="color: var(--brand-navy);">৳${r.amount}</p>${badge}</div></div>`;
                 });
-            });
+            }, (error) => console.error(error));
         }
 
         function listenToAdminWithdrawals() {
             if (!isAdmin(tgUser.id)) return;
-            const q = query(collection(db, 'withdrawals'), where('status', '==', 'PENDING'));
-            onSnapshot(q, (snap) => {
+            onSnapshot(getPublicCollection('withdrawals'), (snap) => {
                 const list = document.getElementById('adminPendingWithdrawList');
                 if(!list) return; list.innerHTML = '';
-                let reqs = []; snap.forEach(d => reqs.push({id: d.id, ...d.data()})); reqs.sort((a,b) => b.timestamp - a.timestamp);
+                let reqs = []; 
+                snap.forEach(d => {
+                    const data = d.data();
+                    if(data.status === 'PENDING') reqs.push({id: d.id, ...data});
+                }); 
+                reqs.sort((a,b) => b.timestamp - a.timestamp);
                 if(reqs.length === 0) { list.innerHTML = '<div class="p-4 text-center text-sm text-muted font-medium break-words">No pending requests.</div>'; return; }
                 reqs.forEach(r => {
                     const date = new Date(r.timestamp).toLocaleDateString([], {month:'short', day:'numeric', hour:'2-digit', minute:'2-digit'});
                     list.innerHTML += `
                     <div class="p-4 flex flex-col gap-3 bg-card border-b border-main text-sm"><div class="flex justify-between items-start"><div><p class="font-bold text-main" style="color: var(--brand-navy);">${r.name} (@${r.username || 'N/A'})</p><p class="text-xs text-muted mt-1">UID: ${r.uid} • ${date}</p></div><p class="font-black text-lg text-success">৳${r.amount}</p></div><div class="bg-main p-2.5 rounded-xl border border-main"><p class="text-xs text-muted font-bold">Method: <span class="text-main">${r.method}</span></p><p class="text-xs text-muted font-bold mt-1">Number: <span class="text-main font-mono">${r.number}</span></p></div><div class="flex gap-2"><button onclick="approveWithdrawRequest('${r.id}', ${r.amount}, '${r.uid}', '${r.name}')" class="btn-primary flex-1 py-2.5 text-xs shadow-sm truncate">Accept (Pay)</button><button onclick="rejectWithdrawRequest('${r.id}', ${r.amount}, '${r.uid}', '${r.name}')" class="badge-danger flex-1 py-2.5 text-xs shadow-sm rounded-xl font-bold truncate">Decline (Refund)</button></div></div>`;
                 });
-            });
+            }, (error) => console.error(error));
         }
 
         async function approveWithdrawRequest(id, amount, uid, name) {
             try {
-                await updateDoc(doc(db, 'withdrawals', id), { status: 'APPROVED' }); showToast("Withdrawal approved successfully", "success");
-                const docSnap = await getDoc(doc(db, 'withdrawals', id)); const data = docSnap.exists() ? docSnap.data() : { method: 'N/A', number: 'N/A' };
+                await updateDoc(getPublicDoc('withdrawals', id), { status: 'APPROVED' }); showToast("Withdrawal approved successfully", "success");
+                const docSnap = await getDoc(getPublicDoc('withdrawals', id)); const data = docSnap.exists() ? docSnap.data() : { method: 'N/A', number: 'N/A' };
                 const userMsg = `✅ <b>YOUR WITHDRAW REQUEST HAS BEEN APPROVED!</b>\n\n<b>METHOD:</b> ${data.method}\n<b>NUMBER:</b> ${data.number}\n<b>AMOUNT:</b> ৳${amount}\n\n<i>Status: Paid (Completed)</i>`;
                 sendTelegramMessage(uid, userMsg);
             } catch (e) { showToast("Error approving withdrawal", "error"); }
@@ -2063,8 +2082,8 @@
 
         async function rejectWithdrawRequest(id, amount, uid, name) {
             try {
-                await updateDoc(doc(db, 'withdrawals', id), { status: 'REJECTED' }); await updateDoc(doc(db, 'users', uid), { balance: increment(amount) }); showToast("Withdrawal rejected and refunded", "success");
-                const docSnap = await getDoc(doc(db, 'withdrawals', id)); const data = docSnap.exists() ? docSnap.data() : { method: 'N/A', number: 'N/A' };
+                await updateDoc(getPublicDoc('withdrawals', id), { status: 'REJECTED' }); await updateDoc(getPublicDoc('users', uid), { balance: increment(amount) }); showToast("Withdrawal rejected and refunded", "success");
+                const docSnap = await getDoc(getPublicDoc('withdrawals', id)); const data = docSnap.exists() ? docSnap.data() : { method: 'N/A', number: 'N/A' };
                 const userMsg = `❌ <b>YOUR WITHDRAW REQUEST HAS BEEN DECLINED!</b>\n\n<b>METHOD:</b> ${data.method}\n<b>NUMBER:</b> ${data.number}\n<b>AMOUNT:</b> ৳${amount}\n\n<i>Status: Rejected (Refunded to Wallet)</i>`;
                 sendTelegramMessage(uid, userMsg);
             } catch (e) { showToast("Error rejecting withdrawal", "error"); }
@@ -2073,19 +2092,23 @@
         function getVpnLogo(name) { const domain = name.toLowerCase().replace(/\s/g, '') + ".com"; return `https://www.google.com/s2/favicons?sz=128&domain=${domain}`; }
         
         function syncVPN() {
-            onValue(ref(rtdb, 'vpns'), (s) => {
+            onSnapshot(getPublicCollection('vpns'), (snap) => {
                 const uBox = document.getElementById('vpn-list'), aBox = document.getElementById('adm-vpn-list'), sSelect = document.getElementById('stock-vpn-id'), sInv = document.getElementById('stock-inventory-list');
                 if(uBox) uBox.innerHTML = ''; if(aBox) aBox.innerHTML = ''; if(sSelect) sSelect.innerHTML = ''; if(sInv) sInv.innerHTML = ''; 
-                const d = s.val();
-                if (!d) { 
+                
+                if (snap.empty) { 
                     if(uBox) uBox.innerHTML = `<div class="p-5 text-center text-muted font-bold bg-main border border-main rounded-2xl">No VPN available.</div>`; 
                     if(aBox) aBox.innerHTML = `<div class="p-4 text-center text-muted text-xs border border-main rounded-xl">No VPN brand found.</div>`; 
                     if(sSelect) sSelect.innerHTML = `<option value="">No VPN available</option>`; 
                     return; 
                 }
 
-                Object.keys(d).forEach(id => {
-                    const v = d[id] || {}; const stockCount = v.stock ? Object.keys(v.stock).length : 0; const isOff = v.status === "OFF";
+                snap.forEach(docSnap => {
+                    const id = docSnap.id;
+                    const v = docSnap.data(); 
+                    const stockArray = Array.isArray(v.stock) ? v.stock : [];
+                    const stockCount = stockArray.length; 
+                    const isOff = v.status === "OFF";
                     const safeName = esc(v.name || 'VPN'); const logo = v.logo || getVpnLogo(v.name || 'vpn');
 
                     if(uBox) uBox.innerHTML += `<div onclick="${!isOff ? `openPlans('${id}')` : ''}" class="card p-4 flex justify-between items-center cursor-pointer hover:border-[var(--brand-cyan)] transition-colors ${isOff ? 'opacity-50 grayscale pointer-events-none' : ''}"><div class="flex items-center gap-4 min-w-0"><img src="${logo}" class="w-12 h-12 rounded-xl object-cover border border-main flex-shrink-0"><div class="min-w-0"><b class="text-main text-base truncate block" style="color: var(--brand-navy)">${safeName}</b><p class="text-[9px] text-muted font-bold uppercase tracking-wider mt-0.5 truncate">Stock: ${stockCount}</p></div></div><span class="text-[9px] font-black px-2.5 py-1 rounded-lg border flex-shrink-0 ml-2 ${!isOff ? 'badge-success' : 'badge-danger'}">${isOff ? 'OFFLINE' : 'ONLINE'}</span></div>`;
@@ -2093,19 +2116,24 @@
                     if(aBox) aBox.innerHTML += `<div class="card p-4 space-y-4"><div class="flex justify-between items-center border-b border-main pb-3"><div class="flex items-center gap-3 min-w-0"><img src="${logo}" class="w-8 h-8 rounded-lg shadow-sm border border-main flex-shrink-0"><div class="min-w-0"><b class="text-sm text-main truncate block" style="color: var(--brand-navy)">${safeName}</b><p class="text-[9px] text-muted font-bold uppercase tracking-wider truncate">Stock: ${stockCount}</p></div></div><div class="flex items-center gap-3 flex-shrink-0"><label class="switch"><input type="checkbox" ${!isOff?'checked':''} onchange="toggleV('${id}', this.checked)"><span class="slider"></span></label><button onclick="delV('${id}')" class="w-7 h-7 badge-danger rounded-lg hover:opacity-80"><svg class="w-3 h-3 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg></button></div></div><div class="grid grid-cols-2 gap-3"><div><input type="text" id="p1n-${id}" value="${esc(v.p1n||'')}" placeholder="Plan 1 Name" class="adm-mini-input mb-2"><input type="number" id="p1p-${id}" value="${esc(v.p1p||'')}" placeholder="Price (৳)" class="adm-mini-input"></div><div><input type="text" id="p2n-${id}" value="${esc(v.p2n||'')}" placeholder="Plan 2 Name" class="adm-mini-input mb-2"><input type="number" id="p2p-${id}" value="${esc(v.p2p||'')}" placeholder="Price (৳)" class="adm-mini-input"></div></div><button onclick="saveV('${id}')" class="btn-primary w-full py-2.5 text-xs shadow-sm truncate">Save Plan</button></div>`;
 
                     if(sSelect) sSelect.innerHTML += `<option value="${id}">${safeName}</option>`;
-                    if(v.stock && sInv) {
+                    if(stockArray.length > 0 && sInv) {
                         let inv = `<div class="card p-4"><b class="text-xs text-main border-b border-main pb-2 block mb-3 truncate" style="color: var(--brand-navy)">${safeName} <span class="text-[9px] text-muted font-normal">(${stockCount} items)</span></b><div class="space-y-2">`;
-                        Object.keys(v.stock).forEach(sk => { const item = v.stock[sk] || {}; inv += `<div class="flex justify-between items-center text-xs bg-main p-2.5 rounded-lg border border-main min-w-0"><span class="font-mono font-medium truncate">${esc(item.email || 'No email')}</span><button onclick="delStockItem('${id}','${sk}')" class="text-danger hover:opacity-80 flex-shrink-0 ml-2"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg></button></div>`; });
+                        stockArray.forEach(item => { inv += `<div class="flex justify-between items-center text-xs bg-main p-2.5 rounded-lg border border-main min-w-0"><span class="font-mono font-medium truncate">${esc(item.email || 'No email')}</span><button onclick="delStockItem('${id}','${item.id}')" class="text-danger hover:opacity-80 flex-shrink-0 ml-2"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg></button></div>`; });
                         sInv.innerHTML += inv + `</div></div>`;
                     }
                 });
-            });
+            }, (error) => console.error(error));
 
-            onValue(ref(rtdb, 'orders'), (s) => {
+            onSnapshot(getPublicCollection('orders'), (snap) => {
                 const aP = document.getElementById('adm-vpn-pending'), uBox = document.getElementById('user-orders');
-                if(aP) aP.innerHTML = ''; if(uBox) uBox.innerHTML = ''; let pCount = 0; const cOS = {}; const d = s.val();
-                if(d) Object.keys(d).reverse().forEach(id => {
-                    const o = d[id] || {};
+                if(aP) aP.innerHTML = ''; if(uBox) uBox.innerHTML = ''; let pCount = 0; const cOS = {}; 
+                
+                let orderList = [];
+                snap.forEach(d => orderList.push({id: d.id, ...d.data()}));
+                orderList.sort((a,b) => b.timestamp - a.timestamp); // Sort locally
+
+                orderList.forEach(o => {
+                    const id = o.id;
                     if(o.st === "Pending") {
                         pCount++;
                         if(aP) aP.innerHTML += `<div class="card p-4 space-y-3"><div class="flex justify-between items-start border-b border-main pb-2 gap-2"><div class="min-w-0"><b class="text-sm text-main truncate block" style="color: var(--brand-navy)">${esc(o.user || 'Guest')}</b><p class="text-[9px] font-mono text-muted mt-0.5 truncate">UID: ${esc(o.uid || '')}</p></div><div class="text-right flex-shrink-0"><span class="text-[9px] font-black badge-warning px-2 py-1 rounded uppercase block truncate">${esc(o.st || '')}</span><p class="text-[9px] text-muted mt-1 truncate">${esc(o.date || '')}</p></div></div><div class="bg-main p-3 rounded-xl border border-main text-xs overflow-hidden"><p class="truncate"><span class="text-muted font-bold w-16 inline-block">Item:</span> <b class="text-main">${esc(o.vpn || 'VPN')} (${esc(o.plan || '')})</b></p><p class="my-1 truncate"><span class="text-muted font-bold w-16 inline-block">Price:</span> <b style="color: var(--brand-cyan);">৳${esc(o.price || '')}</b></p><p class="truncate"><span class="text-muted font-bold w-16 inline-block">Method:</span> <b class="uppercase text-main">${esc(o.method || '')}</b></p><p class="mt-1 truncate"><span class="text-muted font-bold w-16 inline-block">TrxID:</span> <b class="font-mono bg-card px-1.5 py-0.5 rounded border border-main" style="color: var(--brand-navy);">${esc(o.trx || '')}</b></p></div><div class="flex gap-2 pt-1"><button onclick="showStockList('${id}','${esc(o.vpn_id || '')}')" class="btn-primary py-2.5 text-xs shadow-sm flex-1 truncate">Deliver</button><button onclick="rejectOrder('${id}')" class="badge-danger w-auto px-4"><svg class="w-4 h-4 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg></button></div></div>`;
@@ -2119,38 +2147,51 @@
                 if (uBox && !uBox.innerHTML.trim()) uBox.innerHTML = `<div class="p-6 text-center text-muted font-medium bg-main border border-main rounded-2xl break-words">You haven't purchased any VPNs yet.</div>`;
                 const bEl = document.getElementById('p-count-badge'); if(bEl) { bEl.innerText = pCount; bEl.classList.toggle('hidden', pCount === 0); }
                 userVpnOrderStates = cOS;
-            });
+            }, (error) => console.error(error));
 
-            onValue(ref(rtdb, 'payments'), (s) => {
+            onSnapshot(getPublicCollection('payments'), (snap) => {
                 const uP = document.getElementById('user-pay-options'), pL = document.getElementById('pay-list');
-                if(uP) uP.innerHTML = ''; if(pL) pL.innerHTML = ''; const d = s.val();
-                if(!d) { if(uP) uP.innerHTML = `<div class="col-span-2 p-3 text-center text-muted text-xs border border-main rounded-xl border-dashed break-words">No payment methods.</div>`; return; }
-                Object.keys(d).forEach(id => {
-                    const p = d[id]||{}, n=p.name||'Pay', m=p.num||'', l=p.logo||getVpnLogo(n);
+                if(uP) uP.innerHTML = ''; if(pL) pL.innerHTML = ''; 
+                
+                if(snap.empty) { if(uP) uP.innerHTML = `<div class="col-span-2 p-3 text-center text-muted text-xs border border-main rounded-xl border-dashed break-words">No payment methods.</div>`; return; }
+                
+                snap.forEach(docSnap => {
+                    const id = docSnap.id;
+                    const p = docSnap.data();
+                    const n=p.name||'Pay', m=p.num||'', l=p.logo||getVpnLogo(n);
                     if(uP) uP.innerHTML += `<button onclick="setPay('${jsStr(n)}','${jsStr(m)}','${jsStr(l)}', this, false)" class="pay-card hover:border-[var(--brand-cyan)] group"><div class="pay-logo-wrap"><img src="${esc(l)}" class="w-10 h-10 rounded-xl object-cover" onerror="this.style.display='none'"></div><span class="group-hover:text-[var(--brand-cyan)] transition-colors truncate w-full">${esc(n)}</span></button>`;
                     if(pL) pL.innerHTML += `<div class="flex justify-between items-center text-xs p-2.5 bg-main border border-main rounded-lg min-w-0"><div class="flex items-center gap-2 min-w-0"><img src="${esc(l)}" class="w-6 h-6 rounded object-cover flex-shrink-0" onerror="this.style.display='none'"> <b class="text-main truncate" style="color: var(--brand-navy)">${esc(n)}</b> <span class="text-muted font-mono text-[10px] ml-1 truncate">${esc(m)}</span></div><button onclick="delPay('${id}')" class="text-danger hover:opacity-80 flex-shrink-0 ml-2"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg></button></div>`;
                 });
-            });
+            }, (error) => console.error(error));
         }
 
-        function openPlans(id) {
-            get(ref(rtdb,`vpns/${id}`)).then(s => {
-                const v = s.val(); curV = v.name; curVid = id; const logo = v.logo || getVpnLogo(v.name);
+        async function openPlans(id) {
+            try {
+                const snap = await getDoc(getPublicDoc('vpns', id));
+                if (!snap.exists()) return;
+                const v = snap.data(); curV = v.name; curVid = id; const logo = v.logo || getVpnLogo(v.name);
                 let h = `<div class="flex justify-between items-center mb-5 border-b border-main pb-3 gap-2"><div class="flex items-center gap-3 min-w-0"><img src="${logo}" class="w-10 h-10 rounded-lg shadow-sm border border-main flex-shrink-0 object-cover"><h3 class="font-black text-lg text-main truncate" style="color: var(--brand-navy)">${v.name}</h3></div><button onclick="this.closest('.modal').style.display='none'" class="w-8 h-8 bg-main rounded-full font-bold text-muted flex-shrink-0 hover:opacity-80 transition border border-main">&times;</button></div>`;
                 if(v.p1n) h += `<div onclick="goPay('${v.p1n}','${v.p1p}')" class="card bg-main hover:border-[var(--brand-cyan)] transition cursor-pointer mb-3 p-4 flex justify-between items-center gap-2"><span class="font-bold text-sm text-main truncate">${v.p1n}</span><b class="text-[var(--brand-cyan)] text-lg flex-shrink-0">৳${v.p1p}</b></div>`;
                 if(v.p2n) h += `<div onclick="goPay('${v.p2n}','${v.p2p}')" class="card bg-main hover:border-[var(--brand-cyan)] transition cursor-pointer mb-3 p-4 flex justify-between items-center gap-2"><span class="font-bold text-sm text-main truncate">${v.p2n}</span><b class="text-[var(--brand-cyan)] text-lg flex-shrink-0">৳${v.p2p}</b></div>`;
                 document.getElementById('plan-content').innerHTML = h; document.getElementById('plan-modal').style.display = 'flex';
-            });
+            } catch(e) {}
         }
 
-        function goPay(n, p) { 
+        async function goPay(n, p) { 
             curPl = n; curPr = parseFloat(p); curMethod = ''; isWalletPay = false;
             document.getElementById('plan-modal').style.display='none'; document.getElementById('pay-modal').style.display='flex'; document.getElementById('pay-details').classList.add('hidden'); document.getElementById('active-method-wrap').innerHTML = ''; document.getElementById('target-price').innerHTML = `Pay <span class="text-xl font-black">৳${p}</span>`; 
             const uP = document.getElementById('user-pay-options'); let balanceBtn = '';
             if (currentUserData && currentUserData.balance >= curPr) { balanceBtn = `<button onclick="setPay('App Balance', 'AUTO', '', this, true)" class="pay-card hover:border-[var(--brand-cyan)] vpn-grad-card border-none group relative overflow-hidden"><div class="relative z-10 flex flex-col items-center gap-2"><svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"></path></svg><span class="truncate w-full text-center text-white">App Wallet</span></div></button>`; } 
             else { balanceBtn = `<div class="pay-card opacity-50 grayscale border-dashed border-main"><svg class="w-8 h-8 text-muted mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"></path></svg><span class="truncate w-full text-center">Wallet (Need ৳${curPr})</span></div>`; }
             uP.innerHTML = balanceBtn;
-            get(ref(rtdb, 'payments')).then(s => { const d = s.val(); if(d) Object.keys(d).forEach(id => { const p=d[id]||{}; const nm=p.name||'Pay'; const l=p.logo||getVpnLogo(nm); uP.innerHTML += `<button onclick="setPay('${jsStr(nm)}','${jsStr(p.num)}','${jsStr(l)}', this, false)" class="pay-card hover:border-[var(--brand-cyan)] group"><div class="pay-logo-wrap"><img src="${esc(l)}" class="w-10 h-10 rounded-xl object-cover" onerror="this.style.display='none'"></div><span class="group-hover:text-[var(--brand-cyan)] transition-colors truncate w-full">${esc(nm)}</span></button>`; }); });
+            
+            try {
+                const snap = await getDocs(getPublicCollection('payments'));
+                snap.forEach(docSnap => { 
+                    const p = docSnap.data(); const nm = p.name || 'Pay'; const l = p.logo || getVpnLogo(nm); 
+                    uP.innerHTML += `<button onclick="setPay('${jsStr(nm)}','${jsStr(p.num)}','${jsStr(l)}', this, false)" class="pay-card hover:border-[var(--brand-cyan)] group"><div class="pay-logo-wrap"><img src="${esc(l)}" class="w-10 h-10 rounded-xl object-cover" onerror="this.style.display='none'"></div><span class="group-hover:text-[var(--brand-cyan)] transition-colors truncate w-full">${esc(nm)}</span></button>`; 
+                });
+            } catch (e) {}
         }
 
         function setPay(n, m, logo = '', el = null, isWallet = false) { 
@@ -2170,12 +2211,13 @@
         
         async function orderNow() {
             const trx = document.getElementById('trx-id').value.trim(); if(!curMethod) return showToast('Select payment method', 'warning'); if(!trx) return showToast('Enter TrxID', 'warning');
-            if (isWalletPay) { if(!currentUserData || currentUserData.balance < curPr) return showToast('Insufficient Wallet Balance', 'error'); await updateDoc(doc(db, 'users', String(tgUser.id)), { balance: increment(-curPr) }); }
+            if (isWalletPay) { if(!currentUserData || currentUserData.balance < curPr) return showToast('Insufficient Wallet Balance', 'error'); await updateDoc(getPublicDoc('users', String(tgUser.id)), { balance: increment(-curPr) }); }
             const now = new Date(); const dateStr = now.toLocaleDateString('en-GB') + ' ' + now.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
-            push(ref(rtdb, 'orders'), { vpn: curV, vpn_id: curVid, plan: curPl, price: curPr, trx: trx.toUpperCase(), method: curMethod, uid: String(tgUser.id), user: tgUser.first_name, st: "Pending", date: dateStr }).then(async (snap) => { 
+            
+            try {
+                const snap = await addDoc(getPublicCollection('orders'), { vpn: curV, vpn_id: curVid, plan: curPl, price: curPr, trx: trx.toUpperCase(), method: curMethod, uid: String(tgUser.id), user: tgUser.first_name, st: "Pending", date: dateStr, timestamp: Date.now() });
                 showToast('Order sent successfully!', 'success'); document.getElementById('pay-modal').style.display = 'none'; document.getElementById('trx-id').value = ''; switchView('vpnOrders'); 
 
-                // Send Notification to User & Admin
                 const userMsg = `🆕 <b>VPN ORDER SENT</b>\n\n<b>VPN:</b> ${curV}\n<b>Plan:</b> ${curPl}\n<b>Price:</b> ৳${curPr}\n\n<i>Admin is reviewing your payment.</i>`;
                 sendTelegramMessage(String(tgUser.id), userMsg);
 
@@ -2183,11 +2225,13 @@
                 const appShortName = APP_CONFIG.appShortName;
                 const adminMsg = `🔔 <b>NEW VPN ORDER</b>\n\n👤 <b>User:</b> ${tgEscape(tgUser.first_name)} (@${tgEscape(tgUser.username || 'N/A')})\n🌐 <b>VPN:</b> ${curV}\n📦 <b>Plan:</b> ${curPl}\n💰 <b>Price:</b> ৳${curPr}\n💳 <b>Method:</b> ${curMethod}\n🧾 <b>TrxID:</b> ${trx.toUpperCase()}\n\nSelect action to instantly process:`;
                 const inlineButtons = [
-                    [ { text: "Reject ❌", url: `https://t.me/${botUser}/${appShortName}?startapp=reject_vpn_${snap.key}` } ] // Only reject directly. Approve needs stock selection in panel.
+                    [ { text: "Reject ❌", url: `https://t.me/${botUser}/${appShortName}?startapp=reject_vpn_${snap.id}` } ]
                 ];
                 
                 OWNERS.forEach(ownerId => { sendTelegramMessage(ownerId, adminMsg, inlineButtons); });
-            });
+            } catch (e) {
+                showToast('Error saving order', 'error');
+            }
         }
 
         async function addVpn() { 
@@ -2200,7 +2244,7 @@
                 const localBase64 = await resizeImageAndGetBase64('vpn-logo-file');
                 if (localBase64) l = localBase64;
                 
-                await push(ref(rtdb,'vpns'),{name:n, status: "ON", logo: l});
+                await addDoc(getPublicCollection('vpns'), { name:n, status: "ON", logo: l, stock: [] });
                 document.getElementById('v-name').value=''; document.getElementById('vpn-logo-in').value=''; document.getElementById('vpn-logo-file').value='';
                 document.getElementById('vpnLogoFileLabel').innerHTML = '<i class="fa-solid fa-image mr-1"></i> Upload Logo';
                 showToast('Brand created successfully', 'success'); 
@@ -2217,59 +2261,108 @@
                 const localBase64 = await resizeImageAndGetBase64('pay-logo-file');
                 if (localBase64) l = localBase64;
 
-                await push(ref(rtdb,'payments'),{name:n,num:m,logo:l});
+                await addDoc(getPublicCollection('payments'), { name:n, num:m, logo:l });
                 document.getElementById('pay-name').value=''; document.getElementById('pay-num-in').value=''; document.getElementById('pay-logo-in').value=''; document.getElementById('pay-logo-file').value='';
                 document.getElementById('payLogoFileLabel').innerHTML = '<i class="fa-solid fa-image mr-1"></i> Upload Logo';
                 showToast('Method added successfully', 'success'); 
             } catch(e) { showToast("Error", "error"); } finally { btn.innerHTML = orig; btn.disabled = false; }
         }
 
-        function showStockList(orderId, vpnId) {
+        async function showStockList(orderId, vpnId) {
             const content = document.getElementById('stock-select-content');
             let h = `<div class="mb-4 font-black text-main text-lg flex justify-between items-center border-b border-main pb-3 gap-2 truncate" style="color: var(--brand-navy)"><span class="truncate">Select Account</span> <button onclick="this.closest('.modal').style.display='none'" class="w-8 h-8 bg-main rounded-full font-bold text-muted text-sm flex-shrink-0 hover:opacity-80 transition border border-main">&times;</button></div>`;
             if(!vpnId) { content.innerHTML = h + `<p class="badge-danger p-3 rounded-xl break-words">Order missing VPN ID.</p>`; document.getElementById('stock-select-modal').style.display = 'flex'; return; }
-            get(ref(rtdb, `vpns/${vpnId}/stock`)).then(snap => {
-                if(snap.exists()) { Object.keys(snap.val()).forEach(sk => { const stock = snap.val()[sk] || {}; h += `<button class="w-full text-left p-4 bg-main hover:border-[var(--brand-cyan)] border border-main transition mb-2 rounded-xl font-medium text-sm text-main truncate max-w-full block" onclick="approveSelected('${orderId}','${vpnId}','${sk}')" style="color: var(--brand-navy)">${esc(stock.email || 'No email')}</button>`; }); } 
-                else h += `<p class="badge-warning p-3 rounded-xl break-words">Stock empty! Add accounts first.</p>`;
+            
+            try {
+                const snap = await getDoc(getPublicDoc('vpns', vpnId));
+                if(snap.exists()) {
+                    const stockArray = snap.data().stock || [];
+                    if (stockArray.length > 0) {
+                        stockArray.forEach(stock => { h += `<button class="w-full text-left p-4 bg-main hover:border-[var(--brand-cyan)] border border-main transition mb-2 rounded-xl font-medium text-sm text-main truncate max-w-full block" onclick="approveSelected('${orderId}','${vpnId}','${stock.id}')" style="color: var(--brand-navy)">${esc(stock.email || 'No email')}</button>`; });
+                    } else {
+                        h += `<p class="badge-warning p-3 rounded-xl break-words">Stock empty! Add accounts first.</p>`;
+                    }
+                }
                 content.innerHTML = h; document.getElementById('stock-select-modal').style.display = 'flex';
-            });
+            } catch (e) {}
         }
-        function approveSelected(orderId, vpnId, stockKey) { 
-            get(ref(rtdb, `vpns/${vpnId}/stock/${stockKey}`)).then(async (snap) => { 
-                if(!snap.exists()) return showToast('Stock not found', 'error'); 
-                const stockData = snap.val();
-                update(ref(rtdb, `orders/${orderId}`), { st: "Approved", email: stockData.email, pass: stockData.pass }).then(async ()=> { 
-                    remove(ref(rtdb, `vpns/${vpnId}/stock/${stockKey}`)); 
-                    document.getElementById('stock-select-modal').style.display = 'none'; 
-                    showToast('Delivered', 'success'); 
-                    
-                    // Notify User
-                    const orderSnap = await get(ref(rtdb, `orders/${orderId}`));
-                    const orderData = orderSnap.val();
+
+        async function approveSelected(orderId, vpnId, stockId) { 
+            try {
+                const vpnRef = getPublicDoc('vpns', vpnId);
+                const vpnSnap = await getDoc(vpnRef);
+                if (!vpnSnap.exists()) return showToast('VPN not found', 'error');
+                
+                const stockArray = vpnSnap.data().stock || [];
+                const stockItem = stockArray.find(s => s.id === stockId);
+                if (!stockItem) return showToast('Stock item not found', 'error');
+                
+                await updateDoc(getPublicDoc('orders', orderId), { st: "Approved", email: stockItem.email, pass: stockItem.pass });
+                
+                const newStockArray = stockArray.filter(s => s.id !== stockId);
+                await updateDoc(vpnRef, { stock: newStockArray });
+
+                document.getElementById('stock-select-modal').style.display = 'none'; 
+                showToast('Delivered', 'success'); 
+                
+                const orderSnap = await getDoc(getPublicDoc('orders', orderId));
+                if (orderSnap.exists()) {
+                    const orderData = orderSnap.data();
                     if(orderData && orderData.uid) {
-                        const userMsg = `✅ <b>VPN ORDER DELIVERED!</b>\n\n<b>VPN:</b> ${orderData.vpn}\n<b>Plan:</b> ${orderData.plan}\n\n<b>Email/ID:</b> <code>${stockData.email}</code>\n<b>Password:</b> <code>${stockData.pass}</code>\n\n<i>Thanks for your purchase!</i>`;
+                        const userMsg = `✅ <b>VPN ORDER DELIVERED!</b>\n\n<b>VPN:</b> ${orderData.vpn}\n<b>Plan:</b> ${orderData.plan}\n\n<b>Email/ID:</b> <code>${stockItem.email}</code>\n<b>Password:</b> <code>${stockItem.pass}</code>\n\n<i>Thanks for your purchase!</i>`;
                         sendTelegramMessage(orderData.uid, userMsg);
                     }
-                }); 
-            }); 
-        }
-        function rejectOrder(id) { 
-            update(ref(rtdb, `orders/${id}`), { st: "Rejected" }).then(async () => {
-                showToast('Rejected', 'success');
-                const orderSnap = await get(ref(rtdb, `orders/${id}`));
-                const orderData = orderSnap.val();
-                if(orderData && orderData.uid) {
-                    const userMsg = `❌ <b>VPN ORDER REJECTED!</b>\n\n<b>VPN:</b> ${orderData.vpn}\n<b>Plan:</b> ${orderData.plan}\n\n<i>Your order has been rejected due to invalid payment or information. Please contact support.</i>`;
-                    sendTelegramMessage(orderData.uid, userMsg);
                 }
-            }); 
+            } catch (e) { showToast('Error delivering', 'error'); }
         }
-        function saveV(id) { update(ref(rtdb,`vpns/${id}`), { p1n: document.getElementById(`p1n-${id}`).value.trim(), p1p: document.getElementById(`p1p-${id}`).value.trim(), p2n: document.getElementById(`p2n-${id}`).value.trim(), p2p: document.getElementById(`p2p-${id}`).value.trim() }).then(() => showToast('Saved', 'success')); }
-        function addStock() { const e = document.getElementById('stock-email').value.trim(), p = document.getElementById('stock-pass').value.trim(), vid = document.getElementById('stock-vpn-id').value; if(!vid || !e || !p) return showToast('Fill all fields', 'warning'); push(ref(rtdb, `vpns/${vid}/stock`), { email: e, pass: p }).then(() => { document.getElementById('stock-email').value = ''; document.getElementById('stock-pass').value = ''; showToast('Stock added', 'success'); }); }
-        function toggleV(id, val) { update(ref(rtdb, `vpns/${id}`), { status: val ? "ON" : "OFF" }).then(() => showToast(val ? 'Online' : 'Offline', 'success')); }
-        function delV(id) { remove(ref(rtdb,`vpns/${id}`)).then(() => showToast('Deleted', 'success')); }
-        function delStockItem(vid, skey) { remove(ref(rtdb, `vpns/${vid}/stock/${skey}`)).then(() => showToast('Removed', 'success')); }
-        function delPay(id) { remove(ref(rtdb,`payments/${id}`)).then(() => showToast('Removed', 'success')); }
+
+        async function rejectOrder(id) { 
+            try {
+                await updateDoc(getPublicDoc('orders', id), { st: "Rejected" });
+                showToast('Rejected', 'success');
+                const orderSnap = await getDoc(getPublicDoc('orders', id));
+                if (orderSnap.exists()) {
+                    const orderData = orderSnap.data();
+                    if(orderData && orderData.uid) {
+                        const userMsg = `❌ <b>VPN ORDER REJECTED!</b>\n\n<b>VPN:</b> ${orderData.vpn}\n<b>Plan:</b> ${orderData.plan}\n\n<i>Your order has been rejected due to invalid payment or information. Please contact support.</i>`;
+                        sendTelegramMessage(orderData.uid, userMsg);
+                    }
+                }
+            } catch (e) { showToast('Error rejecting', 'error'); }
+        }
+
+        function saveV(id) { updateDoc(getPublicDoc('vpns', id), { p1n: document.getElementById(`p1n-${id}`).value.trim(), p1p: document.getElementById(`p1p-${id}`).value.trim(), p2n: document.getElementById(`p2n-${id}`).value.trim(), p2p: document.getElementById(`p2p-${id}`).value.trim() }).then(() => showToast('Saved', 'success')); }
+        
+        async function addStock() { 
+            const e = document.getElementById('stock-email').value.trim(), p = document.getElementById('stock-pass').value.trim(), vid = document.getElementById('stock-vpn-id').value; 
+            if(!vid || !e || !p) return showToast('Fill all fields', 'warning'); 
+            try {
+                const vpnRef = getPublicDoc('vpns', vid);
+                const snap = await getDoc(vpnRef);
+                const stockArray = snap.exists() ? (snap.data().stock || []) : [];
+                const newItem = { id: Date.now().toString() + Math.random().toString(36).substr(2, 5), email: e, pass: p };
+                stockArray.push(newItem);
+                await updateDoc(vpnRef, { stock: stockArray });
+                document.getElementById('stock-email').value = ''; document.getElementById('stock-pass').value = ''; showToast('Stock added', 'success'); 
+            } catch(err) { showToast('Error', 'error'); }
+        }
+
+        function toggleV(id, val) { updateDoc(getPublicDoc('vpns', id), { status: val ? "ON" : "OFF" }).then(() => showToast(val ? 'Online' : 'Offline', 'success')); }
+        function delV(id) { deleteDoc(getPublicDoc('vpns', id)).then(() => showToast('Deleted', 'success')); }
+        
+        async function delStockItem(vid, stockId) { 
+            try {
+                const vpnRef = getPublicDoc('vpns', vid);
+                const snap = await getDoc(vpnRef);
+                if (!snap.exists()) return;
+                const stockArray = snap.data().stock || [];
+                const newStock = stockArray.filter(s => s.id !== stockId);
+                await updateDoc(vpnRef, { stock: newStock });
+                showToast('Removed', 'success'); 
+            } catch(e) {}
+        }
+        
+        function delPay(id) { deleteDoc(getPublicDoc('payments', id)).then(() => showToast('Removed', 'success')); }
 
         function filterAdminUsers() {
             const q = document.getElementById('adminUserSearch').value.toLowerCase(); 
@@ -2292,7 +2385,6 @@
                 const rateVal = u.rate || 0.15;
                 const balVal = (u.balance || 0).toFixed(2);
                 
-                // Tracked User UI Style (Coin Shop format)
                 const div = document.createElement('div');
                 div.className = 'p-3 bg-card border border-main rounded-xl mb-2 flex flex-col gap-3 min-w-0 shadow-sm';
                 div.innerHTML = `
@@ -2331,7 +2423,7 @@
             if(!adminUserListOpen) return;
             list.innerHTML = '<div class="p-4 text-center text-sm text-muted"><span class="animate-pulse">Loading users...</span></div>'; 
             try { 
-                const snap = await getDocs(collection(db, 'users')); 
+                const snap = await getDocs(getPublicCollection('users')); 
                 adminUsersCache = []; 
                 let activeCount = 0;
                 const tenMinsAgo = Date.now() - (10 * 60 * 1000);
@@ -2355,7 +2447,7 @@
         async function updateUserProp(uid, p, val) { 
             try { 
                 let v = (p==='rate' || p==='balance') ? parseFloat(val) : val; 
-                await updateDoc(doc(db, 'users', uid), { [p]: v }); 
+                await updateDoc(getPublicDoc('users', uid), { [p]: v }); 
                 showToast("Updated", "success"); 
                 
                 const userIndex = adminUsersCache.findIndex(u => u.uid === uid);
@@ -2363,13 +2455,13 @@
                 if(p==='banned') filterAdminUsers(); 
             } catch(e) { showToast("Failed", "error"); } 
         }
-        async function deleteUser(uid) { try { await deleteDoc(doc(db, 'users', uid)); showToast("Deleted", "success"); loadAdminUsers(); } catch(e) { showToast("Failed", "error"); } }
+        async function deleteUser(uid) { try { await deleteDoc(getPublicDoc('users', uid)); showToast("Deleted", "success"); loadAdminUsers(); } catch(e) { showToast("Failed", "error"); } }
 
         async function saveAdminApi() { 
             const btn = document.getElementById('btnSaveApiSet'); const orig = btn.innerHTML;
             btn.innerHTML = "Saving Settings..."; btn.disabled = true;
             try { 
-                await updateDoc(doc(db, 'global', 'settings'), { 
+                await updateDoc(getPublicDoc('global', 'settings'), { 
                     stexKey: document.getElementById('adminStexKey').value.trim(), 
                     voltxKey: document.getElementById('adminVoltxKey').value.trim(), 
                     botToken: document.getElementById('adminBotToken').value.trim(), 
@@ -2387,20 +2479,20 @@
             finally { btn.innerHTML = orig; btn.disabled = false; }
         }
         
-        async function toggleGlobalWithdraw() { try { await updateDoc(doc(db, 'global', 'settings'), { withdrawEnabled: document.getElementById('adminWithdrawToggle').checked }); showToast("Status updated", "success"); } catch(e) { showToast("Error", "error"); } }
-        async function addWithdrawMethod() { const m = document.getElementById('adminNewMethodInput').value.trim(); if(!m) return; try { await updateDoc(doc(db, 'global', 'settings'), { methods: [...(globalSettings.methods || []), m] }); document.getElementById('adminNewMethodInput').value=''; } catch(e){} }
-        async function removeWithdrawMethod(m) { try { await updateDoc(doc(db, 'global', 'settings'), { methods: (globalSettings.methods || []).filter(x => x !== m) }); } catch(e){} }
-        async function addCustomLink() { const name = document.getElementById('adminLinkName').value.trim(), url = document.getElementById('adminLinkUrl').value.trim(); if(!name||!url) return showToast("Enter details", "error"); try { await updateDoc(doc(db, 'global', 'settings'), { customLinks: [...(globalSettings.customLinks || []), {name, url}] }); document.getElementById('adminLinkName').value=''; document.getElementById('adminLinkUrl').value=''; showToast("Link added", "success"); } catch(e){} }
-        async function removeCustomLink(index) { const newLinks = [...(globalSettings.customLinks || [])]; newLinks.splice(index, 1); try { await updateDoc(doc(db, 'global', 'settings'), { customLinks: newLinks }); showToast("Link removed", "success"); } catch(e){} }
+        async function toggleGlobalWithdraw() { try { await updateDoc(getPublicDoc('global', 'settings'), { withdrawEnabled: document.getElementById('adminWithdrawToggle').checked }); showToast("Status updated", "success"); } catch(e) { showToast("Error", "error"); } }
+        async function addWithdrawMethod() { const m = document.getElementById('adminNewMethodInput').value.trim(); if(!m) return; try { await updateDoc(getPublicDoc('global', 'settings'), { methods: [...(globalSettings.methods || []), m] }); document.getElementById('adminNewMethodInput').value=''; } catch(e){} }
+        async function removeWithdrawMethod(m) { try { await updateDoc(getPublicDoc('global', 'settings'), { methods: (globalSettings.methods || []).filter(x => x !== m) }); } catch(e){} }
+        async function addCustomLink() { const name = document.getElementById('adminLinkName').value.trim(), url = document.getElementById('adminLinkUrl').value.trim(); if(!name||!url) return showToast("Enter details", "error"); try { await updateDoc(getPublicDoc('global', 'settings'), { customLinks: [...(globalSettings.customLinks || []), {name, url}] }); document.getElementById('adminLinkName').value=''; document.getElementById('adminLinkUrl').value=''; showToast("Link added", "success"); } catch(e){} }
+        async function removeCustomLink(index) { const newLinks = [...(globalSettings.customLinks || [])]; newLinks.splice(index, 1); try { await updateDoc(getPublicDoc('global', 'settings'), { customLinks: newLinks }); showToast("Link removed", "success"); } catch(e){} }
 
         async function sendBroadcast() {
             const msg = document.getElementById('adminBroadcastMessage').value.trim(), sendDm = document.getElementById('adminSendTgDm').checked;
             if(!msg) return showToast("Message empty", "error");
             const btn = document.getElementById('broadcastBtnElement'); btn.disabled = true; btn.innerHTML = `<span class="animate-pulse">Sending...</span>`;
             try {
-                await setDoc(doc(db, 'global', 'broadcast'), { message: msg, timestamp: Date.now() });
+                await setDoc(getPublicDoc('global', 'broadcast'), { message: msg, timestamp: Date.now() });
                 if(sendDm && globalSettings.botToken) {
-                    const snap = await getDocs(collection(db, 'users')); const uids = []; snap.forEach(d => { if(!d.data().banned) uids.push(d.id); });
+                    const snap = await getDocs(getPublicCollection('users')); const uids = []; snap.forEach(d => { if(!d.data().banned) uids.push(d.id); });
                     let successCount = 0;
                     for (let i = 0; i < uids.length; i++) { try { await fetch(`https://api.telegram.org/bot${globalSettings.botToken}/sendMessage`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ chat_id: uids[i], text: `📢 <b>Announcement</b>\n\n${msg}`, parse_mode: 'HTML' }) }); successCount++; } catch(e) {} await new Promise(r => setTimeout(r, 35)); }
                     showToast(`Broadcast Sent! App updated & ${successCount} DMs sent.`, "success");
