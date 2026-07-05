@@ -128,16 +128,19 @@
         .role-owner { background: #FF007F; color: #FFF; box-shadow: 0 0 8px rgba(255, 0, 127, 0.5); }
         .role-admin { background: #00FFCC; color: #000; box-shadow: 0 0 8px rgba(0, 255, 204, 0.5); }
 
-        /* Custom API Show/Hide Button */
+        /* API Key Show/Hide Eye Button */
         .api-toggle-btn {
-            position: absolute; right: 6px; top: 50%; transform: translateY(-50%);
-            background-color: var(--cyan-light); color: var(--brand-cyan);
-            border: 1px solid var(--brand-cyan);
-            padding: 4px 10px; border-radius: 8px; font-size: 10px; font-weight: 900;
-            text-transform: uppercase; cursor: pointer; transition: all 0.2s ease;
+            position: absolute; right: 8px; top: 50%; transform: translateY(-50%);
+            background: transparent; color: var(--text-muted);
+            border: none; padding: 6px; border-radius: 8px;
+            cursor: pointer; transition: all 0.18s ease;
+            display: flex; align-items: center; justify-content: center;
+            line-height: 0;
         }
-        .api-toggle-btn:hover { opacity: 0.8; }
-        .api-toggle-btn:active { transform: translateY(-50%) scale(0.95); }
+        .api-toggle-btn:hover { color: var(--brand-cyan); background: var(--cyan-light); }
+        .api-toggle-btn:active { transform: translateY(-50%) scale(0.9); }
+        .api-toggle-btn svg { width: 17px; height: 17px; stroke-width: 2; }
+        .api-toggle-btn.visible { color: var(--brand-cyan); }
     </style>
 </head>
 <body class="min-h-screen flex flex-col antialiased">
@@ -557,7 +560,7 @@
                         <label class="text-[10px] font-bold text-muted uppercase tracking-wider break-words">Telegram Bot Token (For DMs)</label>
                         <div class="relative mt-1">
                             <input type="password" id="adminBotToken" placeholder="e.g. 123456:ABC-DEF..." class="w-full input-field p-3 font-mono text-sm pr-16">
-                            <button type="button" onclick="toggleVisibility('adminBotToken')" class="api-toggle-btn" id="btn-adminBotToken">Show</button>
+                            <button type="button" onclick="toggleVisibility('adminBotToken')" class="api-toggle-btn" id="btn-adminBotToken" title="Show"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg></button>
                         </div>
                     </div>
                     <div>
@@ -583,14 +586,14 @@
                         <label class="text-[10px] font-bold text-muted uppercase tracking-wider">STEX API Key</label>
                         <div class="relative mt-1">
                             <input type="password" id="adminStexKey" class="w-full input-field p-3 font-mono text-sm pr-16">
-                            <button type="button" onclick="toggleVisibility('adminStexKey')" class="api-toggle-btn" id="btn-adminStexKey">Show</button>
+                            <button type="button" onclick="toggleVisibility('adminStexKey')" class="api-toggle-btn" id="btn-adminStexKey" title="Show"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg></button>
                         </div>
                     </div>
                     <div>
                         <label class="text-[10px] font-bold text-muted uppercase tracking-wider">VOLTX API Key</label>
                         <div class="relative mt-1">
                             <input type="password" id="adminVoltxKey" class="w-full input-field p-3 font-mono text-sm pr-16">
-                            <button type="button" onclick="toggleVisibility('adminVoltxKey')" class="api-toggle-btn" id="btn-adminVoltxKey">Show</button>
+                            <button type="button" onclick="toggleVisibility('adminVoltxKey')" class="api-toggle-btn" id="btn-adminVoltxKey" title="Show"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg></button>
                         </div>
                     </div>
                     
@@ -846,7 +849,7 @@
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
         import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-        import { getFirestore, doc, setDoc, getDoc, collection, onSnapshot, increment, addDoc, deleteDoc, updateDoc, getCountFromServer, getDocs } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+        import { getFirestore, doc, setDoc, getDoc, collection, onSnapshot, increment, addDoc, deleteDoc, updateDoc, getCountFromServer, getDocs, arrayUnion, arrayRemove } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
         // PERMANENT FIREBASE CONFIG — Always uses YOUR Firebase project. Never resets.
         const firebaseConfig = {
@@ -1060,27 +1063,30 @@
         window.toggleReferInputs = toggleReferInputs;
         window.toggleVisibility = toggleVisibility; window.toggleAdminUserList = toggleAdminUserList; window.debounceFilterUsers = debounceFilterUsers;
 
-        // API Key Show/Hide Tool - Enhanced UI version
+        // API Key Show/Hide — eye icon toggle
+        const EYE_SHOW_SVG = `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>`;
+        const EYE_HIDE_SVG = `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21"/></svg>`;
+
         function toggleVisibility(id) {
             const input = document.getElementById(id);
-            const btn = document.getElementById('btn-' + id);
-            
-            if (input.type === "password") {
-                input.type = "text";
-                if(btn) {
-                    btn.innerText = "Hide";
-                    btn.style.backgroundColor = "var(--border-light)";
-                    btn.style.color = "var(--text-dark)";
-                    btn.style.borderColor = "var(--border-light)";
-                }
+            const btn   = document.getElementById('btn-' + id);
+            if (!input || !btn) return;
+
+            const isHidden = input.type === 'password';
+            input.type = isHidden ? 'text' : 'password';
+
+            btn.innerHTML = isHidden ? EYE_HIDE_SVG : EYE_SHOW_SVG;
+            btn.title     = isHidden ? 'Hide' : 'Show';
+            btn.classList.toggle('visible', isHidden);
+
+            // Auto-hide after 15s for security
+            if (isHidden) {
+                clearTimeout(btn._hideTimer);
+                btn._hideTimer = setTimeout(() => {
+                    if (input.type === 'text') toggleVisibility(id);
+                }, 15000);
             } else {
-                input.type = "password";
-                if(btn) {
-                    btn.innerText = "Show";
-                    btn.style.backgroundColor = "var(--cyan-light)";
-                    btn.style.color = "var(--brand-cyan)";
-                    btn.style.borderColor = "var(--brand-cyan)";
-                }
+                clearTimeout(btn._hideTimer);
             }
         }
 
@@ -1556,7 +1562,24 @@
                         (globalSettings.methods || []).forEach(m => mList.innerHTML += `<span class="bg-main border border-main text-main text-[10px] font-bold px-2 py-1 rounded flex items-center gap-1">${m} <button onclick="removeWithdrawMethod('${m}')" class="text-danger hover:opacity-80 ml-1">x</button></span>`);
                         document.getElementById('adminLinksList').innerHTML = links.map((lnk, i) => `<div class="flex justify-between items-center p-3 bg-card mb-2 rounded-xl border border-main shadow-sm"><div class="flex flex-col overflow-hidden pr-2"><span class="text-sm font-bold text-main truncate">${lnk.name}</span><span class="text-[10px] text-muted font-mono truncate mt-0.5">${lnk.url}</span></div><button onclick="removeCustomLink(${i})" class="badge-danger p-2 rounded-lg transition-colors flex-shrink-0"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg></button></div>`).join('') || '<div class="p-4 text-center text-sm text-muted font-medium break-words">No links added.</div>';
                     }
-                } else setDoc(getPublicDoc('global', 'settings'), globalSettings);
+                } else {
+                    // Document doesn't exist — write MINIMAL safe defaults with merge:true
+                    // NEVER dump full globalSettings here: it would overwrite real Firestore
+                    // data on cache-miss or reconnect and ERASE admin-added methods/links/cards.
+                    setDoc(getPublicDoc('global', 'settings'), {
+                        withdrawEnabled: true,
+                        methods: [],
+                        customLinks: [],
+                        minWithdraw: globalSettings.minWithdraw || 10,
+                        refComm: globalSettings.refComm || 0.05,
+                        referOneTimeAmt: globalSettings.referOneTimeAmt || 5,
+                        referEnableLifetime: true,
+                        referEnableOneTime: false,
+                        welcomeMsg: globalSettings.welcomeMsg || 'Welcome!',
+                        enableStex: true,
+                        enableVoltx: true
+                    }, { merge: true });
+                }
                 
                 if(snap.exists() && snap.data().broadcastMessage) {
                     const b = snap.data();
@@ -2471,10 +2494,46 @@
         }
         
         async function toggleGlobalWithdraw() { try { await updateDoc(getPublicDoc('global', 'settings'), { withdrawEnabled: document.getElementById('adminWithdrawToggle').checked }); showToast("Status updated", "success"); } catch(e) { showToast("Error", "error"); } }
-        async function addWithdrawMethod() { const m = document.getElementById('adminNewMethodInput').value.trim(); if(!m) return; try { await updateDoc(getPublicDoc('global', 'settings'), { methods: [...(globalSettings.methods || []), m] }); document.getElementById('adminNewMethodInput').value=''; } catch(e){} }
-        async function removeWithdrawMethod(m) { try { await updateDoc(getPublicDoc('global', 'settings'), { methods: (globalSettings.methods || []).filter(x => x !== m) }); } catch(e){} }
-        async function addCustomLink() { const name = document.getElementById('adminLinkName').value.trim(), url = document.getElementById('adminLinkUrl').value.trim(); if(!name||!url) return showToast("Enter details", "error"); try { await updateDoc(getPublicDoc('global', 'settings'), { customLinks: [...(globalSettings.customLinks || []), {name, url}] }); document.getElementById('adminLinkName').value=''; document.getElementById('adminLinkUrl').value=''; showToast("Link added", "success"); } catch(e){} }
-        async function removeCustomLink(index) { const newLinks = [...(globalSettings.customLinks || [])]; newLinks.splice(index, 1); try { await updateDoc(getPublicDoc('global', 'settings'), { customLinks: newLinks }); showToast("Link removed", "success"); } catch(e){} }
+        async function addWithdrawMethod() {
+            const m = document.getElementById('adminNewMethodInput').value.trim();
+            if (!m) return showToast("Method name cannot be empty", "warning");
+            if ((globalSettings.methods || []).includes(m)) return showToast(`"${m}" already exists`, "warning");
+            try {
+                // arrayUnion is atomic — no stale-read race condition possible
+                await updateDoc(getPublicDoc('global', 'settings'), { methods: arrayUnion(m) });
+                document.getElementById('adminNewMethodInput').value = '';
+                showToast(`"${m}" added successfully`, "success");
+            } catch(e) { showToast("Failed to add method. Try again.", "error"); console.error(e); }
+        }
+        async function removeWithdrawMethod(m) {
+            try {
+                // arrayRemove is atomic — no stale-read race condition possible
+                await updateDoc(getPublicDoc('global', 'settings'), { methods: arrayRemove(m) });
+                showToast(`"${m}" removed`, "success");
+            } catch(e) { showToast("Failed to remove method. Try again.", "error"); console.error(e); }
+        }
+        async function addCustomLink() {
+            const name = document.getElementById('adminLinkName').value.trim();
+            const url  = document.getElementById('adminLinkUrl').value.trim();
+            if (!name || !url) return showToast("Enter both name and URL", "error");
+            try {
+                // arrayUnion is atomic — no race condition
+                await updateDoc(getPublicDoc('global', 'settings'), { customLinks: arrayUnion({name, url}) });
+                document.getElementById('adminLinkName').value = '';
+                document.getElementById('adminLinkUrl').value  = '';
+                showToast("Link added successfully", "success");
+            } catch(e) { showToast("Failed to add link. Try again.", "error"); console.error(e); }
+        }
+        async function removeCustomLink(index) {
+            const links = globalSettings.customLinks || [];
+            const target = links[index];
+            if (!target) return showToast("Link not found", "error");
+            try {
+                // arrayRemove matches by value — atomic, no stale-index bug
+                await updateDoc(getPublicDoc('global', 'settings'), { customLinks: arrayRemove(target) });
+                showToast("Link removed", "success");
+            } catch(e) { showToast("Failed to remove link. Try again.", "error"); console.error(e); }
+        }
 
         async function sendBroadcast() {
             const msg = document.getElementById('adminBroadcastMessage').value.trim(), sendDm = document.getElementById('adminSendTgDm').checked;
